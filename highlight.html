@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <title>Highlight.js テーマ比較</title>
@@ -10,8 +11,10 @@
       color: #fff;
       padding: 20px;
     }
+
     .controls {
       display: flex;
+      flex-wrap: wrap;
       gap: 20px;
       margin-bottom: 15px;
       padding: 10px;
@@ -19,28 +22,41 @@
       border-radius: 4px;
       align-items: center;
     }
-    .theme-selector {
+
+    .selector-group {
       display: flex;
       gap: 15px;
+      align-items: center;
     }
-    .theme-checkbox {
+
+    .checkbox-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .theme-checkbox,
+    .language-checkbox {
       display: flex;
       align-items: center;
       gap: 5px;
     }
+
     #toggle-layout {
       padding: 5px 10px;
       background: #01571e;
-      color: rgb(255, 255, 255);
+      color: white;
       border: none;
       border-radius: 4px;
       cursor: pointer;
     }
+
     .matrix-container {
       display: grid;
       gap: 1px;
       background: #444;
     }
+
     .language-label, .theme-label {
       padding: 8px 12px;
       font-size: 0.9em;
@@ -48,50 +64,77 @@
       color: #ddd;
       min-width: 100px;
     }
+
     .language-label {
       text-align: right;
       border-right: 1px solid #444;
     }
+
     .theme-label {
       text-align: center;
       border-bottom: 1px solid #444;
     }
+
     .code-block {
       background: #222;
       margin: 0;
       padding: 0;
       min-width: 150px;
     }
+
     pre {
       margin: 0;
     }
+
     code {
       display: block;
       padding: 10px;
     }
   </style>
 </head>
+
 <body>
   <h1>Highlight.js テーマ比較</h1>
-  
+
   <!-- 操作パネル -->
   <div class="controls">
-    <div>
+    <div class="selector-group">
       <button id="toggle-layout">表示方向: テーマ横軸</button>
     </div>
-    <div class="theme-selector">
+
+    <div class="selector-group">
       <div>表示テーマ:</div>
-      <div class="theme-checkbox">
-        <input type="checkbox" id="toggle-vs2015" checked>
-        <label for="toggle-vs2015">vs2015</label>
+      <div class="checkbox-group">
+        <div class="theme-checkbox">
+          <input type="checkbox" id="toggle-vs2015" checked>
+          <label for="toggle-vs2015">vs2015</label>
+        </div>
+        <div class="theme-checkbox">
+          <input type="checkbox" id="toggle-github-dark" checked>
+          <label for="toggle-github-dark">github-dark</label>
+        </div>
+        <div class="theme-checkbox">
+          <input type="checkbox" id="toggle-monokai" checked>
+          <label for="toggle-monokai">monokai</label>
+        </div>
       </div>
-      <div class="theme-checkbox">
-        <input type="checkbox" id="toggle-github-dark" checked>
-        <label for="toggle-github-dark">github-dark</label>
-      </div>
-      <div class="theme-checkbox">
-        <input type="checkbox" id="toggle-monokai" checked>
-        <label for="toggle-monokai">monokai</label>
+    </div>
+
+    <div class="selector-group">
+      <div>表示言語:</div>
+      <div class="checkbox-group">
+        <div class="language-checkbox">
+          <input type="checkbox" id="toggle-javascript" checked>
+          <label for="toggle-javascript">JavaScript</label>
+        </div>
+        <div class="language-checkbox">
+          <input type="checkbox" id="toggle-python" checked>
+          <label for="toggle-python">Python</label>
+        </div>
+        <div class="language-checkbox">
+          <input type="checkbox" id="toggle-html" checked>
+          <label for="toggle-html">HTML</label>
+        </div>
       </div>
     </div>
   </div>
@@ -112,9 +155,9 @@
     ];
 
     const languages = [
-      { name: "JavaScript", lang: "javascript", code: `function hello() {\n  console.log("Hello");\n}` },
-      { name: "Python", lang: "python", code: `def hello():\n    print("Hello")` },
-      { name: "HTML", lang: "xml", code: `<div>\n  <p>Hello</p>\n</div>` }
+      { id: "javascript", name: "JavaScript", lang: "javascript", code: `function hello() {\n  console.log("Hello");\n}` },
+      { id: "python", name: "Python", lang: "python", code: `def hello():\n    print("Hello")` },
+      { id: "html", name: "HTML", lang: "xml", code: `<div>\n  <p>Hello</p>\n</div>` }
     ];
 
     // DOM要素
@@ -126,11 +169,21 @@
 
     // 初期化
     document.addEventListener('DOMContentLoaded', () => {
+      // テーマチェックボックスイベント
       themes.forEach(theme => {
         document.getElementById(`toggle-${theme.id}`)
           .addEventListener('change', buildMatrix);
       });
+
+      // 言語チェックボックスイベント
+      languages.forEach(lang => {
+        document.getElementById(`toggle-${lang.id}`)
+          .addEventListener('change', buildMatrix);
+      });
+
+      // レイアウトボタンイベント
       layoutButton.addEventListener('click', toggleLayout);
+
       buildMatrix();
     });
 
@@ -144,14 +197,22 @@
     // マトリックス構築
     function buildMatrix() {
       matrixContainer.innerHTML = '';
-      const activeThemes = themes.filter(theme => 
+      const activeThemes = themes.filter(theme =>
         document.getElementById(`toggle-${theme.id}`).checked
       );
+      const activeLangs = languages.filter(lang =>
+        document.getElementById(`toggle-${lang.id}`).checked
+      );
+
+      if (activeThemes.length === 0 || activeLangs.length === 0) {
+        matrixContainer.innerHTML = '<div style="grid-column:1/-1;padding:20px;text-align:center;">表示するテーマと言語を選択してください</div>';
+        return;
+      }
 
       if (isHorizontal) {
         // テーマ横 × 言語縦
         matrixContainer.style.gridTemplateColumns = `auto repeat(${activeThemes.length}, 1fr)`;
-        
+
         // ヘッダー行 (テーマ名)
         matrixContainer.appendChild(createCell("language-label", ""));
         activeThemes.forEach(theme => {
@@ -159,7 +220,7 @@
         });
 
         // 本体
-        languages.forEach(lang => {
+        activeLangs.forEach(lang => {
           matrixContainer.appendChild(createCell("language-label", lang.name));
           activeThemes.forEach(theme => {
             appendCodeCell(theme, lang);
@@ -167,18 +228,18 @@
         });
       } else {
         // 言語横 × テーマ縦
-        matrixContainer.style.gridTemplateColumns = `auto repeat(${languages.length}, 1fr)`;
-        
+        matrixContainer.style.gridTemplateColumns = `auto repeat(${activeLangs.length}, 1fr)`;
+
         // ヘッダー行 (言語名)
         matrixContainer.appendChild(createCell("theme-label", ""));
-        languages.forEach(lang => {
+        activeLangs.forEach(lang => {
           matrixContainer.appendChild(createCell("language-label", lang.name));
         });
 
         // 本体
         activeThemes.forEach(theme => {
           matrixContainer.appendChild(createCell("theme-label", theme.name));
-          languages.forEach(lang => {
+          activeLangs.forEach(lang => {
             appendCodeCell(theme, lang);
           });
         });
@@ -216,4 +277,5 @@
     }
   </script>
 </body>
+
 </html>
