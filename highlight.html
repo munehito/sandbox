@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <title>Highlight.js 言語 × テーマ マトリックス</title>
@@ -10,12 +11,28 @@
       color: #fff;
       padding: 20px;
     }
+
+    .theme-selector {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      padding: 10px;
+      background: #222;
+      border-radius: 4px;
+    }
+
+    .theme-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
     .matrix-container {
       display: grid;
-      grid-template-columns: auto repeat(3, 1fr);
       gap: 1px;
-      background: #444; /* グリッド線の色を変更 */
+      background: #444;
     }
+
     .language-label {
       background: #252525;
       color: #ddd;
@@ -23,7 +40,10 @@
       text-align: right;
       font-size: 0.9em;
       border-right: 1px solid #444;
+      min-width: 100px;
+      /* 言語ラベルの最小幅 */
     }
+
     .theme-label {
       background: #252525;
       color: #ddd;
@@ -31,23 +51,48 @@
       text-align: center;
       font-size: 0.9em;
       border-bottom: 1px solid #444;
+      min-width: 150px;
+      /* テーマラベルの最小幅 */
     }
+
     .code-block {
       background: #222;
       margin: 0;
       padding: 0;
+      min-width: 150px;
+      /* コードブロックの最小幅 */
     }
+
     pre {
       margin: 0;
     }
+
     code {
       display: block;
       padding: 10px;
     }
   </style>
 </head>
+
 <body>
   <h1>Highlight.js 言語 × テーマ比較</h1>
+
+  <div class="theme-selector">
+    <div>表示するテーマ:</div>
+    <div class="theme-checkbox">
+      <input type="checkbox" id="toggle-vs2015" checked>
+      <label for="toggle-vs2015">vs2015</label>
+    </div>
+    <div class="theme-checkbox">
+      <input type="checkbox" id="toggle-github-dark" checked>
+      <label for="toggle-github-dark">github-dark</label>
+    </div>
+    <div class="theme-checkbox">
+      <input type="checkbox" id="toggle-monokai" checked>
+      <label for="toggle-monokai">monokai-sublime</label>
+    </div>
+  </div>
+
   <div class="matrix-container" id="matrix"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
@@ -58,9 +103,21 @@
   <script>
     // テーマ一覧
     const themes = [
-      { name: "vs2015", css: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css" },
-      { name: "github-dark", css: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" },
-      { name: "monokai-sublime", css: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai-sublime.min.css" }
+      {
+        name: "vs2015",
+        css: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css",
+        id: "vs2015"
+      },
+      {
+        name: "github-dark",
+        css: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css",
+        id: "github-dark"
+      },
+      {
+        name: "monokai-sublime",
+        css: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai-sublime.min.css",
+        id: "monokai"
+      }
     ];
 
     // 言語とサンプルコード
@@ -84,26 +141,49 @@
 
     const matrixContainer = document.getElementById("matrix");
 
-    // ヘッダー行（テーマ名）
-    matrixContainer.appendChild(createCell("language-label", ""));
-    themes.forEach(theme => {
-      matrixContainer.appendChild(createCell("theme-label", theme.name));
-    });
+    // マトリックス構築関数
+    function buildMatrix() {
+      matrixContainer.innerHTML = '';
 
-    // マトリックス本体
-    languages.forEach(language => {
-      matrixContainer.appendChild(createCell("language-label", language.name));
-      themes.forEach(theme => {
-        const cell = document.createElement("div");
-        cell.className = "code-block";
-        const shadow = cell.attachShadow({ mode: "open" });
-        shadow.innerHTML = `
-          <link rel="stylesheet" href="${theme.css}">
-          <pre><code class="language-${language.lang}">${escapeHtml(language.code)}</code></pre>
-        `;
-        matrixContainer.appendChild(cell);
-        hljs.highlightElement(shadow.querySelector("code"));
+      // 有効なテーマを取得
+      const activeThemes = themes.filter(theme => {
+        return document.getElementById(`toggle-${theme.id}`).checked;
       });
+
+      // グリッド列定義を動的に更新
+      matrixContainer.style.gridTemplateColumns = `auto repeat(${activeThemes.length}, 1fr)`;
+
+      // ヘッダー行（テーマ名）
+      matrixContainer.appendChild(createCell("language-label", ""));
+      activeThemes.forEach(theme => {
+        matrixContainer.appendChild(createCell("theme-label", theme.name));
+      });
+
+      // マトリックス本体
+      languages.forEach(language => {
+        matrixContainer.appendChild(createCell("language-label", language.name));
+        activeThemes.forEach(theme => {
+          const cell = document.createElement("div");
+          cell.className = "code-block";
+          const shadow = cell.attachShadow({ mode: "open" });
+          shadow.innerHTML = `
+            <link rel="stylesheet" href="${theme.css}">
+            <pre><code class="language-${language.lang}">${escapeHtml(language.code)}</code></pre>
+          `;
+          matrixContainer.appendChild(cell);
+          hljs.highlightElement(shadow.querySelector("code"));
+        });
+      });
+    }
+
+    // DOM読み込み完了後に初期化
+    document.addEventListener('DOMContentLoaded', () => {
+      // チェックボックスイベント登録
+      themes.forEach(theme => {
+        const checkbox = document.getElementById(`toggle-${theme.id}`);
+        checkbox.addEventListener('change', buildMatrix);
+      });
+      buildMatrix(); // 初期表示
     });
 
     function createCell(className, text) {
@@ -123,4 +203,5 @@
     }
   </script>
 </body>
+
 </html>
