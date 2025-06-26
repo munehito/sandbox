@@ -119,12 +119,12 @@
     </div>
 
     <div class="control-group">
-      <div class="control-title">表示テーマ (最大5つ)</div>
+      <div class="control-title">表示テーマ</div>
       <div class="checkbox-grid" id="theme-checkboxes"></div>
     </div>
 
     <div class="control-group">
-      <div class="control-title">表示言語 (最大5つ)</div>
+      <div class="control-title">表示言語</div>
       <div class="checkbox-grid" id="language-checkboxes"></div>
     </div>
   </div>
@@ -222,11 +222,6 @@
     function updateThemeSelection(e) {
       const themeId = e.target.id.replace('theme-', '');
       if (e.target.checked) {
-        if (selectedThemes.length >= 5) {
-          e.target.checked = false;
-          alert("テーマは最大5つまで選択できます");
-          return;
-        }
         selectedThemes.push(themeId);
       } else {
         selectedThemes = selectedThemes.filter(id => id !== themeId);
@@ -238,11 +233,6 @@
     function updateLanguageSelection(e) {
       const langId = e.target.id.replace('lang-', '');
       if (e.target.checked) {
-        if (selectedLanguages.length >= 5) {
-          e.target.checked = false;
-          alert("言語は最大5つまで選択できます");
-          return;
-        }
         selectedLanguages.push(langId);
       } else {
         selectedLanguages = selectedLanguages.filter(id => id !== langId);
