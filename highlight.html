@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Highlight.js テーマ比較</title>
+  <title>Highlight.js 動的比較ツール</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -17,57 +17,66 @@
       flex-wrap: wrap;
       gap: 20px;
       margin-bottom: 15px;
-      padding: 10px;
+      padding: 15px;
       background: #222;
       border-radius: 4px;
-      align-items: center;
     }
 
-    .selector-group {
-      display: flex;
-      gap: 15px;
-      align-items: center;
+    .control-group {
+      flex: 1;
+      min-width: 300px;
     }
 
-    .checkbox-group {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+    .control-title {
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #ddd;
     }
 
-    .theme-checkbox,
-    .language-checkbox {
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 8px;
+      max-height: 200px;
+      overflow-y: auto;
+      padding: 5px;
+    }
+
+    .checkbox-item {
       display: flex;
       align-items: center;
       gap: 5px;
     }
 
     #toggle-layout {
-      padding: 5px 10px;
+      padding: 8px 15px;
       background: #01571e;
       color: white;
       border: none;
       border-radius: 4px;
       cursor: pointer;
+      font-weight: bold;
     }
 
     .matrix-container {
       display: grid;
       gap: 1px;
       background: #444;
+      margin-top: 20px;
     }
 
-    .language-label, .theme-label {
-      padding: 8px 12px;
-      font-size: 0.9em;
+    .language-label,
+    .theme-label {
+      padding: 10px;
       background: #252525;
       color: #ddd;
-      min-width: 100px;
+      font-size: 0.9em;
     }
 
     .language-label {
-      text-align: center;
+      text-align: left;
       border-right: 1px solid #444;
+      min-width: 120px;
     }
 
     .theme-label {
@@ -79,7 +88,6 @@
       background: #222;
       margin: 0;
       padding: 0;
-      min-width: 150px;
     }
 
     pre {
@@ -88,104 +96,159 @@
 
     code {
       display: block;
-      padding: 10px;
+      padding: 12px;
+      font-size: 0.9em;
+    }
+
+    .empty-message {
+      grid-column: 1 / -1;
+      padding: 20px;
+      text-align: center;
+      color: #aaa;
     }
   </style>
 </head>
 
 <body>
-  <h1>Highlight.js テーマ比較</h1>
+  <h1>Highlight.js 動的比較ツール</h1>
 
-  <!-- 操作パネル -->
   <div class="controls">
-    <div class="selector-group">
+    <div class="control-group">
+      <div class="control-title">表示方向</div>
       <button id="toggle-layout">表示方向: テーマ横軸</button>
     </div>
 
-    <div class="selector-group">
-      <div>表示テーマ:</div>
-      <div class="checkbox-group">
-        <div class="theme-checkbox">
-          <input type="checkbox" id="toggle-vs2015" checked>
-          <label for="toggle-vs2015">vs2015</label>
-        </div>
-        <div class="theme-checkbox">
-          <input type="checkbox" id="toggle-github-dark" checked>
-          <label for="toggle-github-dark">github-dark</label>
-        </div>
-        <div class="theme-checkbox">
-          <input type="checkbox" id="toggle-monokai" checked>
-          <label for="toggle-monokai">monokai</label>
-        </div>
-      </div>
+    <div class="control-group">
+      <div class="control-title">表示テーマ (最大5つ)</div>
+      <div class="checkbox-grid" id="theme-checkboxes"></div>
     </div>
 
-    <div class="selector-group">
-      <div>表示言語:</div>
-      <div class="checkbox-group">
-        <div class="language-checkbox">
-          <input type="checkbox" id="toggle-javascript" checked>
-          <label for="toggle-javascript">JavaScript</label>
-        </div>
-        <div class="language-checkbox">
-          <input type="checkbox" id="toggle-python" checked>
-          <label for="toggle-python">Python</label>
-        </div>
-        <div class="language-checkbox">
-          <input type="checkbox" id="toggle-html" checked>
-          <label for="toggle-html">HTML</label>
-        </div>
-      </div>
+    <div class="control-group">
+      <div class="control-title">表示言語 (最大5つ)</div>
+      <div class="checkbox-grid" id="language-checkboxes"></div>
     </div>
   </div>
 
   <div class="matrix-container" id="matrix"></div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
   <script>
-    // データ定義
+    // テーマデータ (CDNリストから主要なものを抽出)
     const themes = [
-      { id: "vs2015", name: "vs2015", css: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css" },
-      { id: "github-dark", name: "github-dark", css: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" },
-      { id: "monokai", name: "monokai-sublime", css: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai-sublime.min.css" }
+      { id: "github-dark", name: "GitHub Dark", css: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css" },
+      { id: "vs2015", name: "VS2015", css: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/vs2015.min.css" },
+      { id: "atom-one-dark", name: "Atom Dark", css: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/atom-one-dark.min.css" },
+      { id: "monokai-sublime", name: "Monokai", css: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/monokai-sublime.min.css" },
+      { id: "dracula", name: "Dracula", css: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/dracula.min.css" },
+      { id: "nord", name: "Nord", css: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/nord.min.css" },
+      { id: "solarized-dark", name: "Solarized Dark", css: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/solarized-dark.min.css" },
+      { id: "tomorrow-night-blue", name: "Tomorrow Night", css: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/tomorrow-night-blue.min.css" }
     ];
 
+    // 言語データ (CDNリストから主要なものを抽出)
     const languages = [
-      { id: "javascript", name: "JavaScript", lang: "javascript", code: `function hello() {\n  console.log("Hello");\n}` },
-      { id: "python", name: "Python", lang: "python", code: `def hello():\n    print("Hello")` },
-      { id: "html", name: "HTML", lang: "xml", code: `<div>\n  <p>Hello</p>\n</div>` }
+      { id: "javascript", name: "JavaScript", lang: "javascript", code: `function greet(name) {\n  return "Hello, " + name;\n}\nconsole.log(greet("World"));` },
+      { id: "python", name: "Python", lang: "python", code: `def greet(name):\n    return f"Hello, {name}"\n\nprint(greet("World"))` },
+      { id: "html", name: "HTML", lang: "xml", code: `<div class="greeting">\n  <h1>Hello, World!</h1>\n  <button onclick="alert('Hi')">Click</button>\n</div>` },
+      { id: "css", name: "CSS", lang: "css", code: `.greeting {\n  color: #61dafb;\n  font-family: sans-serif;\n  padding: 20px;\n}` },
+      { id: "java", name: "Java", lang: "java", code: `public class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello, World!");\n  }\n}` },
+      { id: "cpp", name: "C++", lang: "cpp", code: `#include <iostream>\n\nint main() {\n  std::cout << "Hello, World!";\n  return 0;\n}` },
+      { id: "ruby", name: "Ruby", lang: "ruby", code: `def greet(name)\n  puts "Hello, #{name}"\nend\n\ngreet("World")` },
+      { id: "php", name: "PHP", lang: "php", code: `<?php\nfunction greet($name) {\n  echo "Hello, $name";\n}\n\ngreet("World");\n?>` }
     ];
 
     // DOM要素
     const matrixContainer = document.getElementById("matrix");
     const layoutButton = document.getElementById("toggle-layout");
+    const themeCheckboxes = document.getElementById("theme-checkboxes");
+    const languageCheckboxes = document.getElementById("language-checkboxes");
 
     // 状態管理
     let isHorizontal = true;
+    let selectedThemes = ["github-dark", "vs2015", "atom-one-dark"];
+    let selectedLanguages = ["javascript", "python", "html"];
 
     // 初期化
     document.addEventListener('DOMContentLoaded', () => {
-      // テーマチェックボックスイベント
-      themes.forEach(theme => {
-        document.getElementById(`toggle-${theme.id}`)
-          .addEventListener('change', buildMatrix);
-      });
-
-      // 言語チェックボックスイベント
-      languages.forEach(lang => {
-        document.getElementById(`toggle-${lang.id}`)
-          .addEventListener('change', buildMatrix);
-      });
-
-      // レイアウトボタンイベント
+      initCheckboxes();
       layoutButton.addEventListener('click', toggleLayout);
-
       buildMatrix();
     });
+
+    // チェックボックス初期化
+    function initCheckboxes() {
+      // テーマチェックボックス
+      themes.forEach(theme => {
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.id = `theme-${theme.id}`;
+        checkbox.checked = selectedThemes.includes(theme.id);
+        checkbox.addEventListener('change', updateThemeSelection);
+
+        const label = document.createElement("label");
+        label.htmlFor = `theme-${theme.id}`;
+        label.textContent = theme.name;
+
+        const div = document.createElement("div");
+        div.className = "checkbox-item";
+        div.appendChild(checkbox);
+        div.appendChild(label);
+
+        themeCheckboxes.appendChild(div);
+      });
+
+      // 言語チェックボックス
+      languages.forEach(lang => {
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.id = `lang-${lang.id}`;
+        checkbox.checked = selectedLanguages.includes(lang.id);
+        checkbox.addEventListener('change', updateLanguageSelection);
+
+        const label = document.createElement("label");
+        label.htmlFor = `lang-${lang.id}`;
+        label.textContent = lang.name;
+
+        const div = document.createElement("div");
+        div.className = "checkbox-item";
+        div.appendChild(checkbox);
+        div.appendChild(label);
+
+        languageCheckboxes.appendChild(div);
+      });
+    }
+
+    // テーマ選択更新
+    function updateThemeSelection(e) {
+      const themeId = e.target.id.replace('theme-', '');
+      if (e.target.checked) {
+        if (selectedThemes.length >= 5) {
+          e.target.checked = false;
+          alert("テーマは最大5つまで選択できます");
+          return;
+        }
+        selectedThemes.push(themeId);
+      } else {
+        selectedThemes = selectedThemes.filter(id => id !== themeId);
+      }
+      buildMatrix();
+    }
+
+    // 言語選択更新
+    function updateLanguageSelection(e) {
+      const langId = e.target.id.replace('lang-', '');
+      if (e.target.checked) {
+        if (selectedLanguages.length >= 5) {
+          e.target.checked = false;
+          alert("言語は最大5つまで選択できます");
+          return;
+        }
+        selectedLanguages.push(langId);
+      } else {
+        selectedLanguages = selectedLanguages.filter(id => id !== langId);
+      }
+      buildMatrix();
+    }
 
     // レイアウト切り替え
     function toggleLayout() {
@@ -197,15 +260,24 @@
     // マトリックス構築
     function buildMatrix() {
       matrixContainer.innerHTML = '';
+
       const activeThemes = themes.filter(theme =>
-        document.getElementById(`toggle-${theme.id}`).checked
-      );
-      const activeLangs = languages.filter(lang =>
-        document.getElementById(`toggle-${lang.id}`).checked
+        selectedThemes.includes(theme.id)
       );
 
+      const activeLangs = languages.filter(lang =>
+        selectedLanguages.includes(lang.id)
+      );
+
+      // 言語とテーマのスクリプトを動的に読み込み
+      loadRequiredScripts(activeLangs);
+
       if (activeThemes.length === 0 || activeLangs.length === 0) {
-        matrixContainer.innerHTML = '<div style="grid-column:1/-1;padding:20px;text-align:center;">表示するテーマと言語を選択してください</div>';
+        matrixContainer.innerHTML = `
+          <div class="empty-message">
+            表示するテーマと言語を選択してください
+          </div>
+        `;
         return;
       }
 
@@ -246,6 +318,17 @@
       }
     }
 
+    // 必要な言語スクリプトを動的に読み込み
+    function loadRequiredScripts(activeLangs) {
+      activeLangs.forEach(lang => {
+        if (!hljs.getLanguage(lang.lang)) {
+          const script = document.createElement("script");
+          script.src = `https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/${lang.lang}.min.js`;
+          document.head.appendChild(script);
+        }
+      });
+    }
+
     // コードセル追加
     function appendCodeCell(theme, lang) {
       const cell = document.createElement("div");
@@ -256,7 +339,12 @@
         <pre><code class="language-${lang.lang}">${escapeHtml(lang.code)}</code></pre>
       `;
       matrixContainer.appendChild(cell);
-      hljs.highlightElement(shadow.querySelector("code"));
+
+      // ハイライト適用 (少し遅延させて確実に処理)
+      setTimeout(() => {
+        const codeEl = shadow.querySelector("code");
+        if (codeEl) hljs.highlightElement(codeEl);
+      }, 50);
     }
 
     // ユーティリティ関数
