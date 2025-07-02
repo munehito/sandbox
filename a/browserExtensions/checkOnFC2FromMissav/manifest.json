@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "FC2で、かくにんする",
+  "version": "1.0",
+  "description": "missav.aiに「FC2で、かくにんする」コンテキストメニューを追加します",
+  "permissions": [
+    "contextMenus",
+    "activeTab",
+    "scripting"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "icons": {
+    "128": "icons/fc2_128.png"
+  },
+  "action": {
+    "default_icon": "icons/fc2_128.png",
+    "default_popup": "popup.html"
+  }
+}

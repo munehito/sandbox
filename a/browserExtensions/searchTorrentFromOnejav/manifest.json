@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "onejavからtorrentを、さがす",
+  "version": "1.0",
+  "description": "onejav.comのリンクに「torrentを、さがす」コンテキストメニューを追加します",
+  "permissions": [
+    "contextMenus",
+    "activeTab",
+    "scripting"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "icons": {
+    "16": "icons/nyaa_16.png",
+    "32": "icons/nyaa_32.png",
+    "48": "icons/nyaa_48.png",
+    "128": "icons/nyaa_128.png"
+  },
+  "action": {
+    "default_icon": "icons/nyaa_16.png",
+    "default_popup": "popup.html"
+  }
+}

@@ -1,0 +1,38 @@
+
+@startuml
+scale 800 width
+
+' onejav: さがす
+' missav: みる
+' nyaa: おとす
+' fc2: シリーズさがす
+state onejav {
+  state "カテゴリ" as onejav_category
+  ' state "動画個別" as onejav_individual
+
+  ' onejav_category --> onejav_individual
+}
+
+state missav {
+  state "動画個別" as missav_individual
+
+  onejav_category -[#red]-> missav_individual : 済\nwatchOnMissavFromOnejav
+  ' onejav_individual --> missav_individual
+}
+
+state nyaa {
+  state "検索結果" as nyaa_results
+  missav_individual -[#red]-> nyaa_results : 済\nsearchTorrentFromMissav
+  ' onejav_category --> nyaa_results
+}
+
+state fc2 {
+  state "動画個別" as fc2_individual
+  state "チャンネル" as fc2_channel
+
+  missav_individual -[#red]-> fc2_individual : 済\ncheckOnFC2FromMissav
+  fc2_individual -[#red]-> fc2_channel
+}
+
+fc2_channel -[#red]-> missav_individual : 済\nwatchOnMissavFromFC2
+@enduml
