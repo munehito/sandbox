@@ -1,0 +1,70 @@
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+  <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.151.3/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.151.3/examples/jsm/"
+        }
+      }
+  </script>
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    // Wait for page to load
+    window.addEventListener('DOMContentLoaded', () => {
+      // Three.jsの初期化
+      var scene = new THREE.Scene();
+      var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      var renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      // OrbitControlsの初期化
+      var controls = new OrbitControls(camera, renderer.domElement);
+      controls.enableZoom = false;
+
+      // RGBカラーキューブの作成
+      var geometry = new THREE.BoxGeometry(1, 1, 1);
+      var material = new THREE.MeshBasicMaterial({ vertexColors: THREE.VertexColors });
+      var cube = new THREE.Mesh(geometry, material);
+
+      // カラーキューブの各面の色を設定する
+      var colors = [
+        new THREE.Color(1, 0, 0),
+        new THREE.Color(0, 1, 0),
+        new THREE.Color(0, 0, 1),
+        new THREE.Color(1, 1, 0),
+        new THREE.Color(0, 1, 1),
+        new THREE.Color(1, 0, 1)
+      ];
+      var faces = cube.geometry.faces;
+      for (var i = 0; i < faces.length; i++) {
+        faces[i].vertexColors[0] = colors[i % 6];
+        faces[i].vertexColors[1] = colors[i % 6];
+        faces[i].vertexColors[2] = colors[i % 6];
+      }
+
+      scene.add(cube);
+
+      camera.position.z = 5;
+
+      // 描画関数
+      function render() {
+        requestAnimationFrame(render);
+        renderer.render(scene, camera);
+      }
+
+      // 描画を開始
+      render();
+    });
+  </script>
+</head>
+
+<body></body>
+
+</html>

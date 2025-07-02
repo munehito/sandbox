@@ -1,0 +1,745 @@
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <script>
+    // Wait for page to load
+    window.addEventListener('DOMContentLoaded', () => {
+      const elementHandle = {
+        get _colorPickerId() {return '#color-picker';},
+        get colorPicker() {return document.querySelector(this._colorPickerId).value;},
+        set colorPicker(value) {document.querySelector(this._colorPickerId).value = value;},
+
+        get _colorCodeId() {return '#color-code';},
+        get colorCode() {return document.querySelector(this._colorCodeId).style;},
+        set colorCode(value) {document.querySelector(this._colorCodeId).value = value.toLocaleUpperCase();},
+
+        rgb: {
+          get _rId() {return '#rgb-r';},
+          get _gId() {return '#rgb-g';},
+          get _bId() {return '#rgb-b';},
+
+          get color() {return this.r * 0x10000 + this.g * 0x100 + this.b;},
+          get colorCode() {return '#' + ('000000' + this.color.toString(16).toLocaleUpperCase()).substr(-6);},
+          set colorCode(value) {
+            if (!(value instanceof String)) {
+              value = value.toString();
+            }
+            this.r = parseInt(value.substr(1, 2), 16);
+            this.g = parseInt(value.substr(3, 2), 16);
+            this.b = parseInt(value.substr(5, 2), 16);
+          },
+          set(value) {
+            this.r = value.r;
+            this.g = value.g;
+            this.b = value.b;
+          },
+        },
+
+        hsv: {
+          get _hId() {return '#hsv-h';},
+          get _sId() {return '#hsv-s';},
+          get _vId() {return '#hsv-v';},
+
+          get rgb() {
+            const rgb = hsv2rgb(this);
+            console.log({h: this.h, s: this.s, v: this.v}),
+            console.log(
+              rgb,
+              HSVtoRGB(this.h, this.s, this.v),
+            );
+            return rgb;
+          },
+          set rgb(value) {
+            const hsv = rgb2hsv(value);
+            this.h = hsv.h;
+            this.s = hsv.s;
+            this.v = hsv.v;
+            console.log({r: value.r, g: value.g, b: value.b});
+            console.log(
+              hsv,
+              RGBtoHSV(value.r, value.g, value.b, false),
+            );
+          },
+        },
+
+        hsl: {
+          get _hId() {return '#hsL-h';},
+          get _sId() {return '#hsl-s';},
+          get _lId() {return '#hsl-l';},
+        }
+      }
+      Object.defineProperties(elementHandle.rgb, {
+        r: _makeIntDiscripter(elementHandle.rgb._rId),
+        g: _makeIntDiscripter(elementHandle.rgb._gId),
+        b: _makeIntDiscripter(elementHandle.rgb._bId),
+      });
+      Object.defineProperties(elementHandle.hsv, {
+        h: _makeIntDiscripter(elementHandle.hsv._hId),
+        s: _makeIntDiscripter(elementHandle.hsv._sId),
+        v: _makeIntDiscripter(elementHandle.hsv._vId),
+      });
+
+      // addEventListener
+      document.querySelector('#color-picker').addEventListener('input', (inputEvent) => {
+        // elementHandle.colorPicker
+        elementHandle.colorCode = elementHandle.colorPicker
+        elementHandle.rgb.colorCode = elementHandle.colorPicker
+        elementHandle.hsv.rgb = elementHandle.rgb;
+        // elementHandle.hsl.rgb = elementHandle.rgb;
+      });
+
+      document.querySelector('#color-code').addEventListener('input', (inputEvent) => {
+        elementHandle.colorPicker = elementHandle.colorCode;
+        elementHandle.rgb.colorCode = elementHandle.colorCode;
+        elementHandle.hsv.rgb = elementHandle.rgb;
+        // elementHandle.hsl.rgb = elementHandle.rgb;
+      });
+
+      for (const target of [
+        '#rgb-r',
+        '#rgb-g',
+        '#rgb-b',
+      ]) {
+        document.querySelector(target).addEventListener('input', (inputEvent) => {
+          elementHandle.colorPicker = elementHandle.rgb.colorCode;
+          elementHandle.colorCode = elementHandle.rgb.colorCode;
+          elementHandle.hsv.rgb = elementHandle.rgb;
+          // elementHandle.hsl.rgb = elementHandle.rgb;
+        });
+      }
+
+      for (const target of [
+        '#hsv-h',
+        '#hsv-s',
+        '#hsv-v',
+      ]) {
+        document.querySelector(target).addEventListener('input', (inputEvent) => {
+          elementHandle.rgb.set(elementHandle.hsv.rgb);
+          elementHandle.colorPicker = elementHandle.rgb.colorCode;
+          elementHandle.colorCode = elementHandle.rgb.colorCode;
+          // elementHandle.hsl.rgb = elementHandle.rgb;
+        });
+      }
+
+      for (const target of [
+        '#hsl-h',
+        '#hsl-s',
+        '#hsl-l',
+      ]) {
+        document.querySelector(target).addEventListener('input', (inputEvent) => {
+          elementHandle.rgb.set(elementHandle.hsl.rgb);
+          elementHandle.colorPicker = elementHandle.rgb.colorCode;
+          elementHandle.colorCode = elementHandle.rgb.colorCode;
+          elementHandle.hsv.rgb = elementHandle.rgb
+        });
+      }
+
+      document.querySelector('#rgb').addEventListener('click', (clickEvent) => {
+        elementHandle.hsv.rgb = elementHandle.rgb;
+          // elementHandle.hsl.rgb = elementHandle.rgb;
+      });
+
+      document.querySelector('#hsv').addEventListener('click', (clickEvent) => {
+        elementHandle.rgb.set(elementHandle.hsv.rgb);
+        elementHandle.colorPicker = elementHandle.rgb.colorCode;
+        elementHandle.colorCode = elementHandle.rgb.colorCode;
+        // elementHandle.hsl.rgb = elementHandle.rgb;
+        });
+
+      document.querySelector('#hsl').addEventListener('click', (clickEvent) => {
+        elementHandle.rgb.set(elementHandle.hsl.rgb);
+        elementHandle.colorPicker = elementHandle.rgb.colorCode;
+        elementHandle.colorCode = elementHandle.rgb.colorCode;
+        elementHandle.hsv.rgb = elementHandle.rgb;
+      });
+
+      // function for eventListener
+      function _makeIntDiscripter(elementId) {
+        return {
+          get() {
+            return parseInt(document.querySelector(elementId).value);
+          },
+          set(value) {
+            if ((typeof value) !== 'number') value = parseInt(value);
+            const _element = document.querySelector(elementId);
+            if (_element.min) {
+              const _min = parseInt(_element.min);
+              if (value < _min) value = _min;
+            }
+            if (_element.max) {
+              const _max = parseInt(_element.max);
+              if (_max < value) value = _max;
+            }
+            _element.value = value;
+          }
+        };
+      }
+
+      function hsv2rgb(hsv, isInt=true) {
+        let r, g, b;
+
+        if (hsv.s == 0) {
+          r = hsv.v;
+          g = hsv.v;
+          b = hsv.v;
+        }
+        else {
+          const saturation = hsv.s / 255;
+          const hueDivid60 = hsv.h / 60;
+          const hueInt = Math.floor(hueDivid60);
+          const hueFraction = hueDivid60 - hueInt;
+
+          const max = hsv.v;
+          const min = hsv.v * (1 - saturation);
+          const odd = hsv.v * (1 - saturation * hueFraction);
+          const even = hsv.v * (1 - saturation * (1 - hueFraction));
+          switch (hueInt) {
+            case 0:
+            case 6:
+              r = max;
+              g = even;
+              b = min;
+              break;
+            case 1:
+              r = odd;
+              g = max;
+              b = min;
+              break;
+            case 2:
+              r = min;
+              g = max;
+              b = even;
+              break;
+            case 3:
+              r = min;
+              g = odd;
+              b = max;
+              break;
+            case 4:
+              r = even;
+              g = min;
+              b = max;
+              break;
+            case 5:
+              r = max;
+              g = min;
+              b = odd;
+              break;
+          }
+        }
+
+        return (isInt)
+            ? {r: Math.round(r), g: Math.round(g), b: Math.round(b)}
+            : {r: r, g: g, b: b};
+      }
+
+      function rgb2hsv (rgb, isInt=true, isConeModel=false) {
+        let h, s, v;
+        const max = Math.max(Math.max(rgb.r, rgb.g), rgb.b);
+        const min = Math.min(Math.min(rgb.r, rgb.g), rgb.b);
+
+        if (max == min) {
+          h = 0;
+        } else if (max == rgb.r) {
+          h = 60 * (rgb.g - rgb.b) / (max - min) + 0;
+        } else if (max == rgb.g) {
+          h = (60 * (rgb.b - rgb.r) / (max - min)) + 120;
+        } else {
+          h = (60 * (rgb.r - rgb.g) / (max - min)) + 240;
+        }
+
+        while (h < 0) {
+          h += 360;
+        }
+
+        if (isConeModel) {
+          s = max - min;
+        } else {
+          s = (max == 0)
+            ? 0
+            : (max - min) / max * 255;
+        }
+
+        v = max;
+        return (isInt)
+            ? {h: Math.round(h), s: Math.round(s), v: Math.round(v)}
+            : {h: h, s: s, v: v};
+      }
+
+      // function hsv2rgb2(hue, saturation, value) {
+      //   var result = false;
+
+      //   if (((hue || hue === 0) && hue <= 360) && ((saturation || saturation === 0) && saturation <= 255) && ((value || value === 0) && value <= 255)) {
+      //     var red   = 0,
+      //         green = 0,
+      //         blue  = 0,
+      //         i     = 0,
+      //         f     = 0,
+      //         q     = 0,
+      //         p     = 0,
+      //         t     = 0;
+
+      //     hue        = Number(hue)        / 60;
+      //     saturation = Number(saturation) / 255;
+      //     value      = Number(value)      / 255;
+
+      //     if (saturation === 0) {
+      //       red   = value;
+      //       green = value;
+      //       blue  = value;
+      //     } else {
+      //       i = Math.floor(hue);
+      //       f = hue - i;
+      //       p = value * (1 - saturation);
+      //       q = value * (1 - saturation * f);
+      //       t = value * (1 - saturation * (1 - f));
+
+      //       switch (i) {
+      //         case 0 :
+      //           red   = value;
+      //           green = t;
+      //           blue  = p;
+      //           break;
+      //         case 1 :
+      //           red   = q;
+      //           green = value;
+      //           blue  = p;
+      //           break;
+      //         case 2 :
+      //           red   = p;
+      //           green = value;
+      //           blue  = t;
+      //           break;
+      //         case 3 :
+      //           red   = p;
+      //           green = q;
+      //           blue  = value;
+      //           break;
+      //         case 4 :
+      //           red   = t;
+      //           green = p;
+      //           blue  = value;
+      //           break;
+      //         case 5 :
+      //           red   = value;
+      //           green = p;
+      //           blue  = q;
+      //           break;
+      //       }
+      //     }
+
+      //     result = {
+      //       r: Math.round(red   * 255),
+      //       g: Math.round(green * 255),
+      //       b: Math.round(blue  * 255),
+      //     };
+      //     // result = {
+      //     //   red   : Math.round(red   * 255).toString(16),
+      //     //   green : Math.round(green * 255).toString(16),
+      //     //   blue  : Math.round(blue  * 255).toString(16)
+      //     // };
+      //   }
+
+      //   // return Math.round(red   * 255) * 0x10000
+      //   //      + Math.round(green * 255) * 0x100
+      //   //      + Math.round(blue  * 255)
+      //   // ;
+      //   return result;
+      // };
+
+      function RGBtoHSV (r, g, b, coneModel) {
+        var h, // 0..360
+            s, v, // 0..255
+            max = Math.max(Math.max(r, g), b),
+            min = Math.min(Math.min(r, g), b);
+
+        // hue の計算
+        if (max == min) {
+          h = 0; // 本来は定義されないが、仮に0を代入
+        } else if (max == r) {
+          h = 60 * (g - b) / (max - min) + 0;
+        } else if (max == g) {
+          h = (60 * (b - r) / (max - min)) + 120;
+        } else {
+          h = (60 * (r - g) / (max - min)) + 240;
+        }
+
+        while (h < 0) {
+          h += 360;
+        }
+
+        // saturation の計算
+        if (coneModel) {
+          // 円錐モデルの場合
+          s = max - min;
+        } else {
+          s = (max == 0)
+            ? NaN
+            : (max - min) / max * 255;
+        }
+
+        // value の計算
+        v = max;
+
+        return {'h': Math.round(h), 's': Math.round(s), 'v': Math.round(v)};
+      }
+
+      function HSVtoRGB (h, s, v, coneModel) {
+        var r, g, b; // 0..255
+
+        while (h < 0) {
+          h += 360;
+        }
+
+        h = h % 360;
+
+        // 特別な場合 saturation = 0
+        if (s == 0) {
+          // → RGB は V に等しい
+          v = Math.round(v);
+          return {'r': v, 'g': v, 'b': v};
+        }
+
+        s = s / 255;
+
+        var i = Math.floor(h / 60) % 6,
+            f = (h / 60) - i,
+            p = v * (1 - s),
+            q = v * (1 - f * s),
+            t = v * (1 - (1 - f) * s)
+
+        switch (i) {
+          case 0 :
+            r = v;  g = t;  b = p;  break;
+          case 1 :
+            r = q;  g = v;  b = p;  break;
+          case 2 :
+            r = p;  g = v;  b = t;  break;
+          case 3 :
+            r = p;  g = q;  b = v;  break;
+          case 4 :
+            r = t;  g = p;  b = v;  break;
+          case 5 :
+            r = v;  g = p;  b = q;  break;
+        }
+
+        return {'r': Math.round(r), 'g': Math.round(g), 'b': Math.round(b)};
+      }
+
+      function ColorCode() {}
+      ColorCode.prototype = {
+        getR: function () { return this.r; },
+        getG: function () { return this.g; },
+        getB: function () { return this.b; },
+        getHue: function () { return this.hue; },
+        getSaturation: function () { return this.saturation; },
+        getValue: function () { return this.value; },
+        getComplementary: function () {
+          //--------
+          //  補色
+          //--------
+          var max = Math.max(this.r, this.g, this.b);
+          var min = Math.min(this.r, this.g, this.b);
+          return new RgbCode((max - this.r + min),
+            (max - this.g + min),
+            (max - this.b + min));
+        },
+        getRgbCode: function (pre) {
+          //-------------------------------
+          // RGB値(#000000 - #ffffff) を返す
+          //-------------------------------
+          var code = ('0' + this.r.toString(16)).slice(-2) +
+            ('0' + this.g.toString(16)).slice(-2) +
+            ('0' + this.b.toString(16)).slice(-2);
+
+          if (pre) {
+            return '#' + code;
+          }
+          else {
+            return code;
+          }
+        }
+      }
+
+      function RgbCode(r, g, b) {
+        // r, g, b は 0～255
+        if (!(this instanceof RgbCode)) {
+          return new RgbCode(r, g, b);
+        }
+
+        if (arguments.length == 1) {
+          var param = arguments[0];
+          if (typeof param == 'number') {
+            param = String(param);
+          }
+          var rgb;
+          if (param.substr(0, 1) == '#') {
+            rgb = param.substr(1);
+          }
+          else {
+            rgb = param;
+          }
+          r = parseInt(rgb.substr(0, 2), 16);
+          g = parseInt(rgb.substr(2, 2), 16);
+          b = parseInt(rgb.substr(4, 2), 16);
+        }
+
+        if (typeof r == 'string') {
+          r = Number(r);
+        }
+        if (typeof g == 'string') {
+          g = Number(g);
+        }
+        if (typeof b == 'string') {
+          b = Number(b);
+        }
+
+        this.r = r;
+        this.g = g;
+        this.b = b;
+
+        var max = Math.max(r, g, b);
+        var min = Math.min(r, g, b);
+
+        //------------------
+        // 色相
+        //------------------
+        if ((r == g) && (r == b)) {
+          // r = g = b
+          this.hue = 0;
+        }
+        else if ((r >= g) && (r >= b)) {
+          // r が最大
+          this.hue = 60 * (g - b) / (max - min);
+        }
+        else if ((g >= r) && (g >= b)) {
+          // g が最大
+          this.hue = 60 * (b - r) / (max - min) + 120;
+        }
+        else if ((b >= r) && (b >= g)) {
+          // b が最大
+          this.hue = 60 * (r - g) / (max - min) + 240;
+        }
+
+        if (this.hue < 0) {
+          this.hue += 360;
+        }
+        this.hue = Math.round(this.hue);
+
+        //------------------
+        // 彩度
+        //------------------
+        if (max === 0) {
+          this.saturation = 0;
+        }
+        else {
+          this.saturation = Math.round(255 * (max - min) / max);
+        }
+
+        //------------------
+        // 明度
+        //------------------
+        this.value = Math.round(max);
+
+      }
+      RgbCode.prototype = new ColorCode();
+
+      function HsvCode(hue, saturation, value) {
+        // hue は 0 ～ 360
+        // saturation, value は 0 ～ 255
+
+        if (!(this instanceof HsvCode)) {
+          return new HsvCode(hue, saturation, value);
+        }
+
+        if (typeof hue == 'string') {
+          hue = Number(hue);
+        }
+        if (typeof saturation == 'string') {
+          saturation = Number(saturation);
+        }
+        if (typeof value == 'string') {
+          value = Number(value);
+        }
+
+        this.hue = hue;
+        this.saturation = saturation;
+        this.value = value;
+
+        var max = value;
+        var min = max - ((saturation / 255) * max);
+
+        if (hue < 60) {
+          this.r = max;
+          this.g = (hue / 60) * (max - min) + min;
+          this.b = min;
+        }
+        else if (hue < 120) {
+          this.r = ((120 - hue) / 60) * (max - min) + min;
+          this.g = max;
+          this.b = min;
+        }
+        else if (hue < 180) {
+          this.r = min;
+          this.g = max;
+          this.b = ((hue - 120) / 60) * (max - min) + min;
+        }
+        else if (hue < 240) {
+          this.r = min;
+          this.g = ((240 - hue) / 60) * (max - min) + min;
+          this.b = max;
+        }
+        else if (hue < 300) {
+          this.r = ((hue - 240) / 60) * (max - min) + min;
+          this.g = min;
+          this.b = max;
+        }
+        else {
+          this.r = max;
+          this.g = min;
+          this.b = ((360 - hue) / 60) * (max - min) + min;
+        }
+
+        this.r = Math.round(this.r);
+        this.g = Math.round(this.g);
+        this.b = Math.round(this.b);
+      }
+      HsvCode.prototype = new ColorCode();
+    });
+      // class Color {
+      //   constructor() {}
+
+      //   RGB = class {
+      //     constructor(rgb) {
+      //       this.r = rgb.r;
+      //       this.g = rgb.g;
+      //       this.b = rgb.b;
+      //     }
+
+      //     static colorValue(r, g, b) {
+      //       return this.r * 0x10000 + this.g * 0x100 + this.b;
+      //     }
+      //     static colorValue(rgb) {
+      //       return RGB.colorValue(rgb.r, rgb.g, rgb.b);
+      //     }
+      //     static colorCode(r, g, b) {
+      //       return '#' + ('000000' + this.colorValue(r, g, b).toString(16).toLocaleUpperCase()).substr(-6);
+      //     }
+      //     static colorCode(rgb) {
+      //       return RGB.colorCode(rgb.r, rgb.g, rgb.b);
+      //     }
+
+      //     get colorValue() {
+      //       return RGB.colorValue(this.r, this.g, this.b);
+      //     }
+      //     get colorCode() {
+      //       return RGB.colorCode(this.r, this.g, this.b);
+      //     }
+      //   }
+      // }
+  </script>
+  <style>
+    html,
+    body {
+      display: block;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background-color: #a0a0a0;
+    }
+
+    div.display {
+      border-radius: 1em;
+      padding: 1em;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-right: -50%;
+      transform: translate(-50%, -50%);
+    }
+
+    span {
+      display: inline-block;
+    }
+
+    input {
+      text-align: right;
+      width: 3rem;
+    }
+
+    #color {
+      width: 5rem;
+    }
+
+    #color-code {
+      width: 4rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="display" style="align-items: center;
+  justify-content: center;">
+    <div>
+      <input id="color-picker" type="color">
+      <input id="color-code" type="text">
+    </div>
+    <div>
+      <span>
+        <div id="rgb">
+          <label>RGB</label>
+        </div>
+        <div>
+          <label>R</label>
+          <input id="rgb-r" class="rgb" type="number" min="0" max="255" value="0">
+        </div>
+        <div>
+          <label>G</label>
+          <input id="rgb-g" class="rgb" type="number" min="0" max="255" value="0">
+        </div>
+        <div>
+          <label>B</label>
+          <input id="rgb-b" class="rgb" type="number" min="0" max="255" value="0">
+        </div>
+      </span>
+      <span>
+        <div id="hsv">
+          <label>HSV</label>
+        </div>
+        <div>
+          <label>H</label>
+          <input id="hsv-h" class="hue" type="number" min="0" max="360" value="0">
+        </div>
+        <div>
+          <label>S</label>
+          <input id="hsv-s" class="saturation" type="number" min="0" max="255" value="128">
+        </div>
+        <div>
+          <label>V</label>
+          <input id="hsv-v" class="value" type="number" min="0" max="255" value="128">
+        </div>
+      </span>
+      <span>
+        <div id="hsl">
+          <label>HSL</label>
+        </div>
+        <div>
+          <label>H</label>
+          <input id="hsl-h" class="hue" type="number" min="0" max="360" value="0">
+        </div>
+        <div>
+          <label>S</label>
+          <input id="hsl-s" class="saturation" type="number" min="0" max="255" value="128">
+        </div>
+        <div>
+          <label>L</label>
+          <input id="hsl-l" class="lightness" type="number" min="0" max="255" value="128">
+        </div>
+      </span>
+    </div>
+  </div>
+</body>
+
+</html>

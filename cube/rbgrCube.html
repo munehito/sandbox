@@ -1,0 +1,477 @@
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+  <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.151.3/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.151.3/examples/jsm/"
+        }
+      }
+  </script>
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    // Wait for page to load
+    window.addEventListener('DOMContentLoaded', () => {
+      const renderTargetElement = document.querySelector('#render-target');
+      const cubeSetting = (() => {
+        const me = {
+          _sizeElementId: '#sample-size',
+          get size() { return parseInt(document.querySelector(this._sizeElementId).value); },
+
+          _intervalElementId: '#sample-interval',
+          get interval() { return parseInt(document.querySelector(this._intervalElementId).value); },
+
+          quantityElementId: '#sample-quantity',
+          get quantity() { return parseInt(document.querySelector(this.quantityElementId).value); },
+
+          color: {},
+        };
+
+        me.color = ((quantity) => {
+          const me = {
+            x: { range: {} },
+            y: { range: {} },
+            z: { range: {} },
+          };
+          Object.defineProperties(me.x.range, {
+            min: _makeIntDiscripter('#sample-color-rgb-r-range-min'),
+            max: _makeIntDiscripter('#sample-color-rgb-r-range-max'),
+          });
+          Object.defineProperties(me.x, {
+            quantity: _makeIntDiscripter('#sample-color-rgb-r-quantity'),
+          });
+          Object.defineProperties(me.y.range, {
+            min: _makeIntDiscripter('#sample-color-rgb-g-range-min'),
+            max: _makeIntDiscripter('#sample-color-rgb-g-range-max'),
+          });
+          Object.defineProperties(me.y, {
+            quantity: _makeIntDiscripter('#sample-color-rgb-g-quantity'),
+          });
+          Object.defineProperties(me.z.range, {
+            min: _makeIntDiscripter('#sample-color-rgb-b-range-min'),
+            max: _makeIntDiscripter('#sample-color-rgb-b-range-max'),
+          });
+          Object.defineProperties(me.z, {
+            quantity: _makeIntDiscripter('#sample-color-rgb-b-quantity'),
+          });
+          me.x.quantity = quantity;
+          me.y.quantity = quantity;
+          me.z.quantity = quantity;
+
+          return me;
+        })
+          (me.quantity);
+
+        function _makeIntDiscripter(_elementId) {
+          return {
+            get() {
+              return parseInt(document.querySelector(_elementId).value);
+            },
+            set(value) {
+              if ((typeof value) !== 'number') value = parseInt(value);
+              const element = document.querySelector(_elementId);
+              if (element.min) {
+                const min = parseInt(element.min);
+                if (value < min) value = min;
+              }
+              if (element.max) {
+                const max = parseInt(element.max);
+                if (max < value) value = max;
+              }
+              element.value = value;
+            }
+          };
+        }
+
+        return me;
+      })();
+      const renderer = (() => {
+        const me = new THREE.WebGLRenderer({
+          canvas: renderTargetElement,
+          antialias: true
+        });
+        me.setPixelRatio(window.devicePixelRatio);
+        me.setSize(window.innerWidth, window.innerHeight);
+        return me;
+      })();
+      const scene = ((setting) => {
+        const me = new THREE.Scene();
+        me.buildColorCube = function (setting) {
+          const group = new THREE.Group();
+          const geometry = new THREE.BoxGeometry(setting.size, setting.size, setting.size);
+          function makeAxsis(
+            sampleSize,
+            sampleInterval,
+            axisQuantity,
+            colorRangeMin,
+            colorRangeMax,
+          ) {
+            const resolution = axisQuantity - 1;
+            const colorResolution = colorRangeMax - colorRangeMin;
+            return {
+              resolution: resolution,
+              colorResolution: colorResolution,
+              positionOffset: (sampleInterval * resolution + sampleSize) / 2,
+
+              get axis() { return this._axis; },
+              set axis(value) {
+                this._axis = value;
+                this.color = (Math.round(colorResolution / resolution * this._axis) + colorRangeMin);
+                // this.colorRange = {
+                //   min: Math.round(colorResolution / resolution * (this._axis - 1)),
+                //   max: Math.round(colorResolution / resolution * (this._axis + 1)),
+                // };
+                this.colorRange = {
+                  min: Math.round(colorResolution / resolution * this._axis),
+                  max: Math.round(colorRangeMax - (colorResolution / resolution * this._axis)),
+                };
+                this.position = -((sampleInterval * this._axis) - this.positionOffset);
+              },
+            }
+          };
+          const x = makeAxsis(
+            setting.size,
+            setting.interval,
+            setting.color.x.quantity,
+            setting.color.x.range.min,
+            setting.color.x.range.max,
+          );
+          const y = makeAxsis(
+            setting.size,
+            setting.interval,
+            setting.color.y.quantity,
+            setting.color.y.range.min,
+            setting.color.y.range.max,
+          );
+          const z = makeAxsis(
+            setting.size,
+            setting.interval,
+            setting.color.z.quantity,
+            setting.color.z.range.min,
+            setting.color.z.range.max,
+          );
+
+          for (x.axis = 0; x.axis <= x.resolution; x.axis++) {
+            const colorRRange = x.colorRange;
+            for (y.axis = 0; y.axis <= y.resolution; y.axis++) {
+              const colorGRange = y.colorRange;
+              for (z.axis = 0; z.axis <= z.resolution; z.axis++) {
+                const colorBRange = z.colorRange;
+
+                const material = new THREE.MeshBasicMaterial({color: new THREE.Color(x.color/255, y.color/255, z.color/255)});
+                // const hsl = new THREE.Color();
+                // hsl.setHSL(x.color/255, y.color/255, z.color/255);
+                // const material = new THREE.MeshBasicMaterial({color: hsl});
+                material.colorRange = {
+                  r: colorRRange,
+                  g: colorGRange,
+                  b: colorBRange,
+                }
+                const mesh = new THREE.Mesh(geometry, material);
+                mesh.position.set(x.position, y.position, z.position);
+                group.add(mesh);
+              }
+            }
+          }
+          this.add(group);
+        };
+
+        me.buildColorCube(setting);
+
+        return me;
+      })
+        (cubeSetting);
+      const camera = ((interval, quantity, width, height) => {
+        const distanceBase = interval * (quantity + 3);
+        const me = new THREE.PerspectiveCamera(45, width / height);
+        me.position.set(distanceBase, distanceBase * 0.8, distanceBase * 0.9);
+
+        return me;
+      })
+        (
+          cubeSetting.interval,
+          cubeSetting.quantity,
+          renderTargetElement.width,
+          renderTargetElement.height
+        );
+
+      const controls = new OrbitControls(camera, renderTargetElement);
+      // Smoothly control the camera controller
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.2;
+
+
+      // addEventListener
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      renderTargetElement.addEventListener('mousedown', (mouseEvent) => {
+        const material = getMaterial(mouseEvent);
+        if (material) {
+          if (material.color) {
+            const materialColor = material.color;
+            const colorElement = document.querySelector('#color');
+            const colorCodeElement = document.querySelector('#color-code');
+
+            colorCodeElement.value = colorCode(materialColor.r * 0xFF, materialColor.g * 0xFF, materialColor.b * 0xFF);
+            colorElement.value = colorCodeElement.value;
+            navigator.clipboard.writeText(colorElement.value);
+          }
+          else {
+            console.warn("Woops! Why don't material have color?", material);
+          }
+        }
+      });
+
+      renderTargetElement.addEventListener('dblclick', (mouseEvent) => {
+        const material = getMaterial(mouseEvent);
+        if (material) {
+          if (material.colorRange) {
+            const materialcolorRange = material.colorRange;
+            cubeSetting.color.x.range.min = materialcolorRange.r.min;
+            cubeSetting.color.x.range.max = materialcolorRange.r.max;
+            cubeSetting.color.y.range.min = materialcolorRange.g.min;
+            cubeSetting.color.y.range.max = materialcolorRange.g.max;
+            cubeSetting.color.z.range.min = materialcolorRange.b.min;
+            cubeSetting.color.z.range.max = materialcolorRange.b.max;
+            scene.clear();
+            scene.buildColorCube(cubeSetting);
+          }
+          else {
+            console.warn("Woops! Why don't material have colorRange?", material);
+          }
+        }
+      });
+
+      renderTargetElement.addEventListener('mousemove', updateCameraPositioin);
+      renderTargetElement.addEventListener('wheel', updateCameraPositioin);
+
+      for (const target of [
+        '#sample-size',
+        '#sample-interval',
+        '#sample-color-rgb-r-range-min',
+        '#sample-color-rgb-r-range-max',
+        '#sample-color-rgb-r-quantity',
+        '#sample-color-rgb-g-range-min',
+        '#sample-color-rgb-g-range-max',
+        '#sample-color-rgb-g-quantity',
+        '#sample-color-rgb-b-range-min',
+        '#sample-color-rgb-b-range-max',
+        '#sample-color-rgb-b-quantity',
+      ])
+      {
+        document.querySelector(target).addEventListener('change', (changeEvent) => {
+          scene.clear();
+          scene.buildColorCube(cubeSetting);
+        });
+      }
+
+      document.querySelector('#sample-quantity').addEventListener('change', (changeEvent) => {
+        cubeSetting.color.x.quantity = changeEvent.target.value;
+        cubeSetting.color.y.quantity = changeEvent.target.value;
+        cubeSetting.color.z.quantity = changeEvent.target.value;
+
+        scene.clear();
+        scene.buildColorCube(cubeSetting);
+      });
+
+
+      // init
+      updateCameraPositioin();
+      tick();
+
+      // function for eventListener
+      function getMaterial(mouseEvent) {
+        const raycaster = new THREE.Raycaster();
+        const rect = mouseEvent.target.getBoundingClientRect();
+        const vector = new THREE.Vector2(
+          (mouseEvent.clientX - rect.left) / window.innerWidth * 2 - 1,
+          -(mouseEvent.clientY - rect.top) / window.innerHeight * 2 + 1
+        );
+
+        raycaster.setFromCamera(vector, camera);
+
+        const intersects = raycaster.intersectObjects(scene.children);
+
+        if (intersects.length && intersects[0].object.material) {
+          return intersects[0].object.material;
+        }
+        return null;
+      }
+
+      function tick() {
+        controls.update();
+        renderer.render(scene, camera);
+        requestAnimationFrame(tick);
+      }
+
+      function updateCameraPositioin() {
+        const cameraPositionXElement = document.querySelector('#camera-position-x');
+        const cameraPositionYElement = document.querySelector('#camera-position-y');
+        const cameraPositionZElement = document.querySelector('#camera-position-z');
+
+        cameraPositionXElement.value = Math.floor(camera.position.x);
+        cameraPositionYElement.value = Math.floor(camera.position.y);
+        cameraPositionZElement.value = Math.floor(camera.position.z);
+      }
+
+      function colorCode(r, g, b) {
+        return '#' + ('000000' + (r * 0x10000 + g * 0x100 + b).toString(16).toLocaleUpperCase()).substr(-6);
+      }
+    });
+  </script>
+  <style>
+    html,
+    body,
+    #render-target {
+      display: block;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    span {
+      display: inline-block;
+    }
+
+    input[type=number] {
+      text-align: right;
+      width: 3rem;
+    }
+
+    input.color-quantity {
+      width: 2rem;
+    }
+
+    input.point-color {
+      text-align: right;
+      width: 2rem;
+    }
+
+    input.color {
+      width: 2rem;
+    }
+
+    #color {
+      width: 4rem;
+    }
+
+    #color-code {
+      width: 4rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="display">
+    <span comment="setting">
+      <span comment="Sample">
+        <label>sample</label>
+        <div>
+          <label>size</label>
+          <input id="sample-size" type="number" value="30">
+        </div>
+        <div>
+          <label>interval</label>
+          <input id="sample-interval" type="number" value="100">
+        </div>
+        <div>
+          <label>quantity</label>
+          <input id="sample-quantity" type="number" min="2" max="16" value="7">
+        </div>
+      </span>
+      <span id="color-type-rgb" comment="Color range">
+        <span>
+          <label>color type RGB</label>
+          <div>
+            <label>R</label>
+            (
+            <input id="sample-color-rgb-r-range-min" class="color-rgb" type="number" min="0" max="255" value="0">
+            <label>-</label>
+            <input id="sample-color-rgb-r-range-max" class="color-rgb" type="number" min="0" max="255" value="255">
+            } /
+            <input id="sample-color-rgb-r-quantity" class="color-quantity" type="number" min="2" max="16">
+            <!-- <input id="sample-color-rgb-r-quantity-range" type="range"  min="2" max="16"> -->
+          </div>
+          <div>
+            <label>G</label>
+            (
+            <input id="sample-color-rgb-g-range-min" class="color-rgb" type="number" min="0" max="255" value="0">
+            <label>-</label>
+            <input id="sample-color-rgb-g-range-max" class="color-rgb" type="number" min="0" max="255" value="255">
+            } /
+            <input id="sample-color-rgb-g-quantity" class="color-quantity" type="number" min="2" max="16">
+          </div>
+          <div>
+            <label>B</label>
+            (
+            <input id="sample-color-rgb-b-range-min" class="color-rgb" type="number" min="0" max="255" value="0">
+            <label>-</label>
+            <input id="sample-color-rgb-b-range-max" class="color-rgb" type="number" min="0" max="255" value="255">
+            } /
+            <input id="sample-color-rgb-b-quantity" class="color-quantity" type="number" min="2" max="16">
+          </div>
+        </span>
+      </span>
+    </span>
+    <span comment="Color">
+      <span>
+        <div>
+          <label>Color</label>
+        </div>
+        <div>
+          <input id="color" type="color" disabled>
+        </div>
+        <div>
+          <input id="color-code" type="text" disabled>
+        </div>
+      </span>
+      <span>
+        <div>
+          <label>RGB</label>
+        </div>
+        <div>
+          <label>R</label>
+          <input id="point-color-rgb-r" class="point-color" type="text" disabled>
+        </div>
+        <div>
+          <label>G</label>
+          <input id="point-color-rgb-g" class="point-color" type="text" disabled>
+        </div>
+        <div>
+          <label>B</label>
+          <input id="point-color-rgb-b" class="point-color" type="text" disabled>
+        </div>
+      </span>
+    </span>
+    <span comment="CameraPosition">
+      <div>
+        <label>CameraPosition</label>
+      </div>
+      <div>
+        <label>X</label>
+        <input id="camera-position-x" type="number">
+      </div>
+      <div>
+        <label>Y</label>
+        <input id="camera-position-y" type="number">
+      </div>
+      <div>
+        <label>Z</label>
+        <input id="camera-position-z" type="number">
+      </div>
+    </span>
+  </div>
+  <canvas id="render-target"></canvas>
+</body>
+
+</html>
