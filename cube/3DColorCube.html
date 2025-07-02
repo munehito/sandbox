@@ -13,6 +13,11 @@
       padding: 0;
     }
 
+    html,
+    body {
+      overflow: hidden;
+    }
+
     span {
       display: inline-block;
     }
@@ -282,7 +287,8 @@
         }
 
         return me;
-      })();
+      })
+        ();
       const renderer = (() => {
         const me = new THREE.WebGLRenderer({
           canvas: renderTargetElement,
@@ -291,7 +297,8 @@
         me.setPixelRatio(window.devicePixelRatio);
         me.setSize(window.innerWidth, window.innerHeight);
         return me;
-      })();
+      })
+        ();
       const scene = ((_setting) => {
         const me = new THREE.Scene();
         me.buildColorCube = function (_setting) {
@@ -523,6 +530,7 @@
         cameraPositionYElement.value = Math.floor(camera.position.y);
         cameraPositionZElement.value = Math.floor(camera.position.z);
       }
+
       function hsvToRgb16(hue, saturation, value) {
         var result = false;
 
@@ -634,6 +642,7 @@
 
         return { 'h': h, 's': s, 'v': v };
       }
+
       function HSVtoRGB(h, s, v) {
         var r, g, b; // 0..255
 
