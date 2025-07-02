@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja" style="background-color: black; color: white;">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>時計</title>
+  <style>
+    html, body {
+      margin: 5;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      height: 100%;
+    }
+
+    .full-screen-text {
+      font-size: 12vw; /* ビューポート幅の10%をフォントサイズに設定 */
+      /* max-font-size: 100vh; */
+      text-align: center;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .big-text {
+      font-size: 2vw;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <svg id="interval-svg" height="20vw" viewBox="-10 -4 920 260">
+      <g id="bar">
+        <rect id="bar-frame" x="-6" y="0" width="912" height="240" stroke="gray" stroke-width="4" />
+
+        <line id="bar-3-progress" x1="0" y1="42"  x2="900" y2="42"  stroke="#00ff7f" stroke-width="74" stroke-dasharray="900 900" stroke-dashoffset="0">
+          <animate id="bar-3-progress-animate"  attributeType="XML" attributeName="stroke-dashoffset" from="900" to="-900" calcMode="paced" repeatCount="indefinite" dur="6min" />
+        </line>
+        <line id="bar-5-progress" x1="0" y1="120" x2="900" y2="120" stroke="#ffaa00" stroke-width="74" stroke-dasharray="900 900" stroke-dashoffset="0">
+          <animate id="bar-5-progress-animate"  attributeType="XML" attributeName="stroke-dashoffset" from="900" to="-900" calcMode="paced" repeatCount="indefinite" dur="10min" />
+        </line>
+        <line id="bar-15-progress"x1="0" y1="198" x2="900" y2="198" stroke="#5555ff" stroke-width="74" stroke-dasharray="900 900" stroke-dashoffset="0">
+          <animate id="bar-15-progress-animate" attributeType="XML" attributeName="stroke-dashoffset" from="900" to="-900" calcMode="paced" repeatCount="indefinite" dur="30min" />
+        </line>
+  
+        <line id="bar-3-1"    x1="300" y1="3"   x2="300"  y2="81" stroke="#606060" stroke-width="4" />
+        <line id="bar-3-2"    x1="600" y1="3"   x2="600"  y2="81" stroke="#606060" stroke-width="4" />
+
+        <line id="bar-5-1"    x1="180" y1="81"  x2="180" y2="159" stroke="#606060" stroke-width="4" />
+        <line id="bar-5-2"    x1="360" y1="81"  x2="360" y2="159" stroke="#606060" stroke-width="4" />
+        <line id="bar-5-3"    x1="540" y1="81"  x2="540" y2="159" stroke="#606060" stroke-width="4" />
+        <line id="bar-5-4"    x1="720" y1="81"  x2="720" y2="159" stroke="#606060" stroke-width="4" />
+
+        <line id="bar-15-01"  x1="60"  y1="160" x2="60"  y2="237" stroke="#606060" stroke-width="4" />
+        <line id="bar-15-02"  x1="120" y1="160" x2="120" y2="237" stroke="#606060" stroke-width="4" />
+        <line id="bar-15-03"  x1="180" y1="160" x2="180" y2="237" stroke="#00ff7f" stroke-width="4" />
+        <line id="bar-15-04"  x1="240" y1="160" x2="240" y2="237" stroke="#606060" stroke-width="4" />
+        <line id="bar-15-05"  x1="300" y1="160" x2="300" y2="237" stroke="#ffaa00" stroke-width="4" />
+        <line id="bar-15-06"  x1="360" y1="160" x2="360" y2="237" stroke="#00ff7f" stroke-width="4" />
+        <line id="bar-15-07"  x1="420" y1="160" x2="420" y2="237" stroke="#606060" stroke-width="4" />
+        <line id="bar-15-08"  x1="480" y1="160" x2="480" y2="237" stroke="#606060" stroke-width="4" />
+        <line id="bar-15-09"  x1="540" y1="160" x2="540" y2="237" stroke="#00ff7f" stroke-width="4" />
+        <line id="bar-15-10"  x1="600" y1="160" x2="600" y2="237" stroke="#ffaa00" stroke-width="4" />
+        <line id="bar-15-11"  x1="660" y1="160" x2="660" y2="237" stroke="#606060" stroke-width="4" />
+        <line id="bar-15-12"  x1="720" y1="160" x2="720" y2="237" stroke="#00ff7f" stroke-width="4" />
+        <line id="bar-15-13"  x1="780" y1="160" x2="780" y2="237" stroke="#606060" stroke-width="4" />
+        <line id="bar-15-14"  x1="840" y1="160" x2="840" y2="237" stroke="#606060" stroke-width="4" />
+      </g>
+    </svg>
+  </div>
+
+  <div id="time" class="full-screen-text">
+    <span id="hours"></span>
+    <span>:</span>
+    <span id="minutes"></span>
+    <span>:</span>
+    <span id="seconds"></span>
+    <!-- <span>.</span> -->
+    <!-- <span id="milliseconds"></span> -->
+  </div>
+
+  <div>
+    <label>補正ミリ秒</label>
+    <input id="correction-milliseconds" class="big-text" type="number" step="10" min="-2000" max="2000" value="0">
+    <input class="big-text" type="button" value="-200" onclick="document.getElementById('correction-milliseconds').stepUp(-20);raiseEvent('correction-milliseconds', 'change');">
+    <input class="big-text" type="button" value="+200" onclick="document.getElementById('correction-milliseconds').stepUp(20);raiseEvent('correction-milliseconds', 'change');">
+  </div>
+
+  <div id="m1"></div>
+  <div id="m2"></div>
+  <div id="m3"></div>
+  <div id="m4"></div>
+  <div id="m5"></div>
+
+  <script type="text/javascript">
+    function print(mid, msg) {
+      document.getElementById(mid).textContent = msg;
+    }
+
+    function raiseEvent(id, eventName) {
+      document.getElementById(id).dispatchEvent(new Event(eventName));
+    }  
+
+    function initProgress() {
+      function cycle(intervalMinutes) { return 60 * intervalMinutes; }
+      function setPosition(id, offset) {
+        const svg = document.getElementById('interval-svg');
+        svg.pauseAnimations();
+        document.getElementById(id).setAttribute('from', 900 - offset);
+        document.getElementById(id).setAttribute('to',  -900 - offset);
+        svg.unpauseAnimations();
+      }
+
+      const now = new Date((new Date()).getTime() + parseInt(document.getElementById('correction-milliseconds').value, 10));
+      const nowSeconds = now.getMinutes() * 60 + now.getSeconds();
+
+      setPosition('bar-3-progress-animate', nowSeconds % cycle(3) / (cycle(3)/900));
+      setPosition('bar-5-progress-animate', nowSeconds % cycle(5) / (cycle(5)/900));
+      setPosition('bar-15-progress-animate', nowSeconds % cycle(15));
+    }
+    
+    function updateClock() {
+      const now = new Date((new Date()).getTime() + parseInt(document.getElementById('correction-milliseconds').value, 10));
+
+      // document.getElementById('milliseconds').textContent = String(Math.trunc(now.getMilliseconds() / 100)).padStart(1, '0');
+      document.getElementById('seconds').textContent = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById('minutes').textContent = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('hours').textContent = String(now.getHours()).padStart(2, '0');
+
+      print('m1', now.getMinutes() * 60 + now.getSeconds());
+      print('m2', document.getElementById('bar-3-progress').getAttribute('stroke-dashoffset'));
+    }
+    setInterval(updateClock, 2);
+    updateClock();
+
+
+    window.addEventListener("load", () => {
+        const correctionMilliseconds = JSON.parse(localStorage.getItem('correction-milliseconds'))
+
+        if (correctionMilliseconds) {
+          document.getElementById('correction-milliseconds').value = correctionMilliseconds;
+        }
+        raiseEvent('correction-milliseconds', 'change');
+    });
+
+    document.getElementById('correction-milliseconds').addEventListener('change', (e) => {
+      localStorage.setItem('correction-milliseconds', JSON.stringify(e.target.value));
+      initProgress();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<html lang="ja" style="background-color: black; color: white;">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>circle animation</title>
+  <style>
+    html, body {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      height: 100%;
+    }
+
+    svg.progress {
+        margin:20px;
+        width: 200px;
+        display:block;
+    }
+    circle.progress3 {
+        fill:none;
+        stroke:#00ff7f;
+        stroke-width:10px;
+        stroke-dasharray: 314;
+        animation: progress3_frames linear 360s infinite;
+        /* animation: progress3_frames linear 6s infinite; */
+        transform: rotate(-90deg);
+        transform-origin: 50% 50%;
+    }
+    circle.progress5 {
+        fill:none;
+        stroke:#ffaa00;
+        stroke-width:10px;
+        stroke-dasharray: 251;
+        animation: progress5_frames linear 600s infinite;
+        /* animation: progress5_frames linear 10s infinite; */
+        transform: rotate(-90deg);
+        transform-origin: 50% 50%;
+    }
+    circle.progress15 {
+        fill:none;
+        stroke:#5555ff;
+        stroke-width:10px;
+        stroke-dasharray: 189;
+        animation: progress15_frames linear 3600s infinite;
+        /* animation: progress15_frames linear 30s infinite; */
+        transform: rotate(-90deg);
+        transform-origin: 50% 50%;
+    }
+
+    @keyframes progress3_frames { from { stroke-dashoffset: 628; } to { stroke-dashoffset: 0; } }
+    @keyframes progress5_frames { from { stroke-dashoffset: 502; } to { stroke-dashoffset: 0; } }
+    @keyframes progress15_frames { from { stroke-dashoffset: 377; } to { stroke-dashoffset: 0; } }
+  </style>
+</head>
+
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 110" class="progress" >
+    <circle cx="55" cy="55" r="50" class="progress3" />
+    <circle cx="55" cy="55" r="40" class="progress5" />
+    <circle cx="55" cy="55" r="30" class="progress15" />
+  </svg>
+</body>
+
+</html>

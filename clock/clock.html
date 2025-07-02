@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ja" style="background-color: black; color: white;">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>時計</title>
+  <style>
+    html,
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      height: 100%;
+    }
+
+    table {
+      width: 95vw;
+      /* border: 1pt white solid; */
+      table-layout: fixed;
+    }
+
+    td {
+      border: 1pt gray solid;
+      text-align: center;
+      /* font-size: 2vw; */
+    }
+
+    td.now {
+      border: 3pt white solid;
+      background-color: gray;
+    }
+
+    td.center {
+      border: 3pt red solid;
+    }
+
+    td.progress3 {
+      background-color: #00ff7f;
+      color: black;
+    }
+
+    td.progress5 {
+      background-color: #ffaa00;
+      color: black;
+    }
+
+    td.progress15 {
+      background-color: #5555ff;
+    }
+
+    .full-screen-text {
+      width: 90vw;
+      font-size: 15vw;
+      /* ビューポート幅の10%をフォントサイズに設定 */
+      /* max-font-size: 100vh; */
+      line-height: 1.2;
+      text-align: center;
+      font-weight: bold;
+      white-space: nowrap;
+      /* border: 1pt gray solid; */
+    }
+
+    .big-text {
+      font-size: 2vw;
+    }
+
+    .status {
+      font-size: 1.5vw;
+      color: #aaa;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <table id="progress">
+      <tr>
+        <td>
+          <table id="progress3">
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="center"></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr></tr>
+      <tr>
+        <td>
+          <table id="progress5">
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td class="center"></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr></tr>
+      <tr>
+        <td>
+          <table id="progress15">
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="center"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <!-- <tr>
+        <td>
+          <table id="progress-day">
+            <tr>
+              <td></td><td></td>
+              <td>09:00</td><td>09:15</td><td>09:30</td><td>09:45</td>
+              <td>10:00</td><td>10:15</td><td>10:30</td><td>10:45</td>
+              <td>11:00</td><td>11:15</td>
+            </tr>
+            <tr>
+              <td>12:30</td><td>12:45</td>
+              <td>13:00</td><td>13:15</td><td>13:30</td><td>13:45</td>
+              <td>14:00</td><td>14:15</td><td>14:30</td><td>14:45</td>
+              <td>15:00</td><td>15:15</td>
+            </tr>
+          </table>
+        </td>
+      </tr> -->
+    </table>
+  </div>
+
+  <div id="time" class="full-screen-text">
+    <span id="hours"></span>
+    <span>:</span>
+    <span id="minutes"></span>
+    <span>:</span>
+    <span id="seconds"></span>
+    <!-- <span>.</span> -->
+    <!-- <span id="milliseconds"></span> -->
+  </div>
+
+  <div>
+    <label>補正ミリ秒</label>
+    <input id="correction-milliseconds" class="big-text" type="number" step="10" min="-2000" max="2000" value="0">
+    <input class="big-text" type="button" value="-200"
+      onclick="document.getElementById('correction-milliseconds').stepUp(-20);raiseEvent('correction-milliseconds', 'change');">
+    <input class="big-text" type="button" value="+200"
+      onclick="document.getElementById('correction-milliseconds').stepUp(20);raiseEvent('correction-milliseconds', 'change');">
+  </div>
+
+  <div id="sync-status" class="status">同期中...</div>
+
+  <!-- <div>m1:  <span id="m1"></span></div>
+  <div>m2:  <span id="m2"></span></div>
+  <div>m3:  <span id="m3"></span></div>
+  <div>m4:  <span id="m4"></span></div>
+  <div>m5:  <span id="m5"></span></div> -->
+
+  <script type="text/javascript">
+    const now = {
+      _ntpOffset: 0,
+      _lastSync: null,
+      _syncInProgress: false,
+
+      getDate: function () {
+        const correction = parseInt(document.getElementById('correction-milliseconds').value, 10) || 0;
+        return new Date(Date.now() + this._ntpOffset + correction);
+      },
+
+      _trySyncGoogle: async function () {
+        try {
+          // Googleの公開NTPサーバーを利用
+          const response = await fetch('https://time.google.com/api/time', {
+            method: 'HEAD',
+            cache: 'no-store'
+          });
+
+          const serverTime = new Date(response.headers.get('date'));
+          this._ntpOffset = serverTime.getTime() - Date.now();
+          const msg = `Google時刻同期済み ${serverTime.toLocaleTimeString()}`;
+          document.getElementById('sync-status').textContent = msg;
+
+          return true;
+        } catch (e) {
+          const msg = 'Google時刻同期失敗';
+          document.getElementById('sync-status').textContent = msg;
+          console.error(msg, e);
+
+          return false;
+        }
+      },
+
+      _trySyncWorldTime: async function () {
+        try {
+          const startTime = Date.now();
+          // WorldTimeAPIを使用
+          const response = await fetch('https://worldtimeapi.org/api/timezone/Asia/Tokyo', {
+            cache: 'no-store',
+            headers: { 'Cache-Control': 'no-cache' }
+          });
+
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+          const data = await response.json();
+          const serverTime = new Date(data.unixtime * 1000);
+          const roundTripTime = Date.now() - startTime;
+
+          // 往復時間を考慮してオフセット計算
+          this._ntpOffset = serverTime.getTime() - (startTime + (roundTripTime / 2));
+          const msg = `WorldTimeAPI時刻同期済み ${serverTime.toLocaleTimeString()} (精度±${Math.round(roundTripTime / 2)}ms)`;
+          document.getElementById('sync-status').textContent = msg;
+
+          return true;
+        } catch (e) {
+          const msg = 'WorldTimeAPI時刻同期失敗';
+          document.getElementById('sync-status').textContent = msg;
+          console.error(msg, e);
+
+          return false;
+        }
+      },
+
+      sync: async function () {
+        if (this._syncInProgress) return;
+        this._syncInProgress = true;
+
+        try {
+          // if (await this._trySyncWorldTime()) {
+          // } else if (await this._trySyncGoogle()) {
+          // } else {
+            const msg = `同期エラー: ローカル時刻を使用中`;
+            document.getElementById('sync-status').textContent = msg;
+            return;
+          // }
+
+          this._lastSync = new Date();
+        } catch (e) {
+          const msg = `同期エラー: ${e.message} - ローカル時刻を使用中`;
+          document.getElementById('sync-status').textContent = msg;
+          console.error(msg, e);
+        } finally {
+          this._syncInProgress = false;
+        }
+      }
+    };
+
+    function print(mid, msg) {
+      const el = document.getElementById(mid);
+      if (el) el.textContent = msg;
+    }
+
+    function raiseEvent(id, eventName) {
+      const el = document.getElementById(id);
+      if (el) el.dispatchEvent(new Event(eventName));
+    }
+
+    function updateProgress() {
+      class Progress {
+        constructor(interval) {
+          this.id = 'progress' + interval.toString();
+          this.tds = Array.from(document.getElementById(this.id).getElementsByTagName('td'));
+          this.text = '_';
+        }
+
+        update(now) {
+          const position = now.getMinutes() % 15;
+
+          for (let index = 0; index < 15; index++) {
+            if (index < position) {
+              this.tds[index].classList.add(this.id);
+              this.tds[index].classList.remove('now');
+
+              this.text = index.toString().padStart(2, '0');
+            } else if (index == position) {
+              this.tds[index].classList.remove(this.id);
+              this.tds[index].classList.add('now');
+
+              this.text = [
+                '0___________',
+                '0_1_________',
+                '0_1_2_______',
+                '0_1_2_3_____',
+                '0_1_2_3_4___',
+                '0_1_2_3_4_5_',
+              ][Math.trunc(now.getSeconds() / 10)];
+              if (this.id == 'progress15') this.text = Math.trunc(now.getSeconds() / 10).toString().padEnd(2, '_');
+            } else {
+              this.tds[index].classList.remove(this.id);
+              this.tds[index].classList.remove('now');
+
+              this.text = '_';
+            }
+
+            this.tds[index].textContent = this.text;
+          }
+        }
+      }
+
+      const progressHash = {
+        p3: new Progress(3),
+        p5: new Progress(5),
+        p15: new Progress(15),
+      };
+
+      const nowDate = now.getDate();
+
+      progressHash.p3.update(nowDate);
+      progressHash.p5.update(nowDate);
+      progressHash.p15.update(nowDate);
+    }
+
+    function updateClock() {
+      const nowDate = now.getDate();
+
+      // document.getElementById('milliseconds').textContent = String(Math.trunc(nowDate.getMilliseconds() / 100)).padStart(1, '0');
+      document.getElementById('seconds').textContent = String(nowDate.getSeconds()).padStart(2, '0');
+      document.getElementById('minutes').textContent = String(nowDate.getMinutes()).padStart(2, '0');
+      document.getElementById('hours').textContent = String(nowDate.getHours()).padStart(2, '0');
+    }
+
+    // addEventListener
+    window.addEventListener("load", () => {
+      const correctionMilliseconds = JSON.parse(localStorage.getItem('correction-milliseconds'));
+      if (correctionMilliseconds) {
+        document.getElementById('correction-milliseconds').value = correctionMilliseconds;
+      }
+      raiseEvent('correction-milliseconds', 'change');
+      now.sync();
+
+      setInterval(updateClock, 20);
+      setInterval(updateProgress, 250);
+      setInterval(now.sync, 1000 * 60 * 15); // 15分ごとに再同期
+    });
+
+    document.getElementById('correction-milliseconds').addEventListener('change', (e) => {
+      localStorage.setItem('correction-milliseconds', JSON.stringify(e.target.value));
+    });
+  </script>
+</body>
+
+</html>

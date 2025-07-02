@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja" style="background-color: black; color: white;">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Interval Circle</title>
+</head>
+<body>
+  <svg id="interval-svg" viewBox="0 0 1000 1000">
+    <defs>
+      <g id="i3-hand">
+        <line id="i3-hand-line" x1="0" y1="-330" x2="0" y2="0" stroke="#00ff7f" stroke-width="10" transform="rotate(0)" />
+        <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0" to="360" calcMode="paced" repeatCount="indefinite"
+          dur="3min" />
+      </g>
+
+      <g id="i5-hand">
+        <line id="i5-hand-line" x1="0" y1="-280" x2="0" y2="0" stroke="#ffaa00" stroke-width="15" transform="rotate(0)" />
+        <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0" to="360" calcMode="paced" repeatCount="indefinite"
+          dur="5min" />
+      </g>
+
+      <g id="iF-hand">
+        <line id="iF-hand-line" x1="0" y1="-230" x2="0" y2="0" stroke="#5555ff" stroke-width="20" transform="rotate(0)" />
+        <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0" to="360" calcMode="paced" repeatCount="indefinite"
+          dur="15min" />
+      </g>
+
+      <g id="scale"><circle id="scale-circle" cx="0" cy="-360" r="15" stroke="none" fill="#fff" /></g>
+      <g id="scale3"><circle id="scale3-circle" cx="0" cy="-360" r="15" stroke="none" fill="#00ff7f" /></g>
+      <g id="scale5"><circle id="scale5-circle" cx="0" cy="-360" r="10" stroke="none" fill="#ffaa00" /></g>
+      <g id="scaleF"><circle id="scaleF-circle" cx="0" cy="-360" r="5" stroke="none" fill="#5555ff" /></g>
+
+      <g id="clock">
+        <!-- フレーム部分 -->
+        <circle cx="0" cy="0" r="400" fill="none" stroke="gray" stroke-width="10" />
+
+        <!--  時間表示 -->
+        <use xlink:href="#scale" transform="rotate(0)" />
+
+        <!-- <use xlink:href="#scale3" transform="rotate(0)" /> -->
+        <use xlink:href="#scale3" transform="rotate(120)" />
+        <use xlink:href="#scale3" transform="rotate(240)" />
+
+        <!-- <use xlink:href="#scale5" transform="rotate(0)" /> -->
+        <use xlink:href="#scale5" transform="rotate(72)" />
+        <use xlink:href="#scale5" transform="rotate(144)" />
+        <use xlink:href="#scale5" transform="rotate(216)" />
+        <use xlink:href="#scale5" transform="rotate(288)" />
+
+        <!-- <use xlink:href="#scaleF" transform="rotate(0)" /> -->
+        <use xlink:href="#scaleF" transform="rotate(24)" />
+        <use xlink:href="#scaleF" transform="rotate(48)" />
+        <use xlink:href="#scaleF" transform="rotate(72)" />
+        <use xlink:href="#scaleF" transform="rotate(96)" />
+        <use xlink:href="#scaleF" transform="rotate(120)" />
+        <use xlink:href="#scaleF" transform="rotate(144)" />
+        <use xlink:href="#scaleF" transform="rotate(168)" />
+        <use xlink:href="#scaleF" transform="rotate(192)" />
+        <use xlink:href="#scaleF" transform="rotate(216)" />
+        <use xlink:href="#scaleF" transform="rotate(240)" />
+        <use xlink:href="#scaleF" transform="rotate(264)" />
+        <use xlink:href="#scaleF" transform="rotate(288)" />
+        <use xlink:href="#scaleF" transform="rotate(312)" />
+        <use xlink:href="#scaleF" transform="rotate(336)" />
+
+        <!-- 針の部分 -->
+        <use xlink:href="#i3-hand" transform="translate(0, 0)" />
+        <use xlink:href="#i5-hand" transform="translate(0, 0)" />
+        <use xlink:href="#iF-hand" transform="translate(0, 0)" />
+        <circle cx="0" cy="0" r="15" fill="" stroke="gray" stroke-width="15" />
+      </g>
+    </defs>
+    <!-- 設置 -->
+    <use xlink:href="#clock" transform="translate(500, 550)" />
+  </svg>
+
+  <div id="i3"></div>
+  <div id="i5"></div>
+  <div id="iF"></div>
+
+  <div id="m1"></div>
+  <div id="m2"></div>
+  <div id="m3"></div>
+  <div id="m4"></div>
+  <div id="m5"></div>
+
+  <!-- 現在時刻を表示する -->
+  <script type="text/javascript">
+    function print(mid, msg) {
+      document.getElementById(mid).textContent = msg;
+    }
+
+    function setHand() {
+      const nowTime = new Date();
+      const nowSeconds = nowTime.getMinutes() * 60 + nowTime.getSeconds();
+      function cycle(intervalMinutes) {return 60 * intervalMinutes}
+
+      document.getElementById('i3-hand-line').setAttribute('transform', 'rotate(' + nowSeconds % cycle(3) / (cycle(3)/360) + ')');
+      document.getElementById('i5-hand-line').setAttribute('transform', 'rotate(' + nowSeconds % cycle(5) / (cycle(5)/360) + ')');
+      document.getElementById('iF-hand-line').setAttribute('transform', 'rotate(' + nowSeconds % cycle(15) / (cycle(15)/360) + ')');
+
+      print('i3', 'rotate( ' + nowSeconds % 180 / (180/360) + ' )');
+      print('i5', 'rotate( ' + nowSeconds % 300 / (300/360) + ' )');
+      print('iF', 'rotate( ' + nowSeconds % 900 / (900/360) + ' )');
+
+      print('m2', nowSeconds % cycle(3));
+
+    }
+
+    // setInterval(setHand, 6000);
+    setHand();
+  </script>
+</body>
+
+</html>

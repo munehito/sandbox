@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja" style="background-color: black; color: white;">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Interval Line</title>
+  <style>
+    html, body {
+      margin: 5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <svg id="interval-svg" viewBox="-10 -4 920 260">
+    <g id="bar">
+      <rect id="bar-frame" x="-6" y="0" width="912" height="240" stroke="gray" stroke-width="4" />
+
+      <line id="bar-3-progress" x1="0" y1="42"  x2="900" y2="42"  stroke="#00ff7f" stroke-width="74" stroke-dasharray="900" stroke-dashoffset="0">
+        <animate id="bar-3-progress-animate"  attributeType="XML" attributeName="stroke-dashoffset" from="900" to="-900" calcMode="paced" repeatCount="indefinite" dur="6s" />
+      </line>
+      <line id="bar-5-progress" x1="0" y1="120" x2="900" y2="120" stroke="#ffaa00" stroke-width="74" stroke-dasharray="900" stroke-dashoffset="0">
+        <animate id="bar-5-progress-animate"  attributeType="XML" attributeName="stroke-dashoffset" from="900" to="-900" calcMode="paced" repeatCount="indefinite" dur="10s" />
+      </line>
+      <line id="bar-15-progress"x1="0" y1="198" x2="900" y2="198" stroke="#5555ff" stroke-width="74" stroke-dasharray="900" stroke-dashoffset="0">
+        <animate id="bar-15-progress-animate" attributeType="XML" attributeName="stroke-dashoffset" from="900" to="-900" calcMode="paced" repeatCount="indefinite" dur="30s" />
+      </line>
+
+      <line id="bar-3-1"    x1="300" y1="3"   x2="300"  y2="81" stroke="#606060" stroke-width="4" />
+      <line id="bar-3-2"    x1="600" y1="3"   x2="600"  y2="81" stroke="#606060" stroke-width="4" />
+
+      <line id="bar-5-1"    x1="180" y1="81"  x2="180" y2="159" stroke="#606060" stroke-width="4" />
+      <line id="bar-5-2"    x1="360" y1="81"  x2="360" y2="159" stroke="#606060" stroke-width="4" />
+      <line id="bar-5-3"    x1="540" y1="81"  x2="540" y2="159" stroke="#606060" stroke-width="4" />
+      <line id="bar-5-4"    x1="720" y1="81"  x2="720" y2="159" stroke="#606060" stroke-width="4" />
+
+      <line id="bar-15-01"  x1="60"  y1="160" x2="60"  y2="237" stroke="#606060" stroke-width="4" />
+      <line id="bar-15-02"  x1="120" y1="160" x2="120" y2="237" stroke="#606060" stroke-width="4" />
+      <line id="bar-15-03"  x1="180" y1="160" x2="180" y2="237" stroke="#00ff7f" stroke-width="4" />
+      <line id="bar-15-04"  x1="240" y1="160" x2="240" y2="237" stroke="#606060" stroke-width="4" />
+      <line id="bar-15-05"  x1="300" y1="160" x2="300" y2="237" stroke="#ffaa00" stroke-width="4" />
+      <line id="bar-15-06"  x1="360" y1="160" x2="360" y2="237" stroke="#00ff7f" stroke-width="4" />
+      <line id="bar-15-07"  x1="420" y1="160" x2="420" y2="237" stroke="#606060" stroke-width="4" />
+      <line id="bar-15-08"  x1="480" y1="160" x2="480" y2="237" stroke="#606060" stroke-width="4" />
+      <line id="bar-15-09"  x1="540" y1="160" x2="540" y2="237" stroke="#00ff7f" stroke-width="4" />
+      <line id="bar-15-10"  x1="600" y1="160" x2="600" y2="237" stroke="#ffaa00" stroke-width="4" />
+      <line id="bar-15-11"  x1="660" y1="160" x2="660" y2="237" stroke="#606060" stroke-width="4" />
+      <line id="bar-15-12"  x1="720" y1="160" x2="720" y2="237" stroke="#00ff7f" stroke-width="4" />
+      <line id="bar-15-13"  x1="780" y1="160" x2="780" y2="237" stroke="#606060" stroke-width="4" />
+      <line id="bar-15-14"  x1="840" y1="160" x2="840" y2="237" stroke="#606060" stroke-width="4" />
+  </g>
+  </svg>
+
+  <div id="now"></div>
+  <div id="i3"></div>
+  <div id="i5"></div>
+  <div id="iF"></div>
+
+  <div id="m1"></div>
+  <div id="m2"></div>
+  <div id="m3"></div>
+  <div id="m4"></div>
+  <div id="m5"></div>
+
+  <script type="text/javascript">
+    function print(mid, msg) {
+      document.getElementById(mid).textContent = msg;
+    }
+
+    function initProgress() {
+      function cycle(intervalMinutes) { return intervalMinutes*1000; }
+      function setPosition(id, offset) {
+        const svg = document.getElementById('interval-svg');
+        svg.pauseAnimations();
+        document.getElementById(id).setAttribute('from', 900 - offset);
+        document.getElementById(id).setAttribute('to',  -900 - offset);
+        svg.unpauseAnimations();
+      }
+
+      const now = new Date();
+      const nowSeconds = now.getSeconds() * 1000 + now.getMilliseconds();
+
+      setPosition('bar-3-progress-animate', nowSeconds % cycle(3) / (cycle(3)/900));
+      setPosition('bar-5-progress-animate', nowSeconds % cycle(5) / (cycle(5)/900));
+      setPosition('bar-15-progress-animate', nowSeconds % cycle(15));
+
+      // print('i3', nowSeconds % cycle(3) / (cycle(3)/900));
+      // print('i5', nowSeconds % cycle(5) / (cycle(5)/900));
+      // print('iF', nowSeconds % cycle(15) / (cycle(15)/900));
+      print('m1', nowSeconds);
+    }
+    initProgress();
+
+    setInterval(() => {
+      const now = new Date();
+      print('now', now.getSeconds());
+      print('i3', now.getSeconds() % 3);
+      print('i5', now.getSeconds() % 5);
+      print('iF', now.getSeconds() % 15);
+    }, 5);
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja" style="background-color: black; color: white;">
+<!-- head部分は変更なし -->
+
+<body>
+  <!-- 既存のHTML構造は変更なし -->
+
+  <script type="text/javascript">
+    const now = {
+      _ntpOffset: 0,
+      _lastSync: null,
+      _syncInProgress: false,
+
+      getDate: function () {
+        const correction = parseInt(document.getElementById('correction-milliseconds').value, 10) || 0;
+        return new Date(Date.now() + this._ntpOffset + correction);
+      },
+      tryFallbackAPI: async function () {
+        try {
+          // Googleの公開NTPサーバーを利用
+          const response = await fetch('https://time.google.com/api/time', {
+            method: 'HEAD',
+            cache: 'no-store'
+          });
+
+          const serverTime = new Date(response.headers.get('date'));
+          this._ntpOffset = serverTime.getTime() - Date.now();
+          document.getElementById('sync-status').textContent =
+            `Google時刻同期済み ${serverTime.toLocaleTimeString()}`;
+        } catch (e) {
+          console.error('フォールバックAPIも失敗:', e);
+        }
+      },
+
+      sync: async function () {
+        if (this._syncInProgress) return;
+        this._syncInProgress = true;
+
+        try {
+          const startTime = Date.now();
+          // WorldTimeAPIを使用
+          const response = await fetch('https://worldtimeapi.org/api/timezone/Asia/Tokyo', {
+            cache: 'no-store',
+            headers: { 'Cache-Control': 'no-cache' }
+          });
+
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+          const data = await response.json();
+          const serverTime = new Date(data.unixtime * 1000);
+          const roundTripTime = Date.now() - startTime;
+
+          // 往復時間を考慮してオフセット計算
+          this._ntpOffset = serverTime.getTime() - (startTime + (roundTripTime / 2));
+          this._lastSync = new Date();
+
+          document.getElementById('sync-status').textContent =
+            `時刻同期済み ${serverTime.toLocaleTimeString()} (精度±${Math.round(roundTripTime / 2)}ms)`;
+        } catch (e) {
+          console.error('時刻同期エラー:', e);
+          document.getElementById('sync-status').textContent =
+            `同期エラー: ${e.message} - ローカル時刻を使用中`;
+
+          // 代替APIを試す
+          await this.tryFallbackAPI();
+        } finally {
+          this._syncInProgress = false;
+        }
+      }
+    };
+
+    // 既存の関数は変更なし（print, raiseEvent, updateProgress, updateClock）
+
+    // イベントリスナー
+    window.addEventListener("load", () => {
+      const correctionMilliseconds = JSON.parse(localStorage.getItem('correction-milliseconds'));
+      if (correctionMilliseconds) {
+        document.getElementById('correction-milliseconds').value = correctionMilliseconds;
+      }
+      raiseEvent('correction-milliseconds', 'change');
+
+      // 初期同期
+      now.sync();
+      // 15分ごとに再同期
+      setInterval(() => now.sync(), 15 * 60 * 1000);
+    });
+
+    document.getElementById('correction-milliseconds').addEventListener('change', (e) => {
+      localStorage.setItem('correction-milliseconds', JSON.stringify(e.target.value));
+    });
+
+    // 定期的な更新
+    setInterval(updateProgress, 250);
+    setInterval(updateClock, 2);
+  </script>
+</body>
+
+</html>

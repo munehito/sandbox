@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ja" style="background-color: black; color: white;">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>時計</title>
+  <style>
+    html, body {
+      margin: 5;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      height: 100%;
+    }
+    table {
+      width: 90vw;
+      /* border: 1pt white solid; */
+      /* table-layout: fixed; */
+    }
+    td {
+      border: 1pt gray solid;
+      text-align: center;
+      /* font-size: 2vw; */
+    }
+
+    .full-screen-text {
+      width: 90vw;
+      font-size: 15vw; /* ビューポート幅の10%をフォントサイズに設定 */
+      /* max-font-size: 100vh; */
+      line-height: 1.2;
+      text-align: center;
+      font-weight: bold;
+      white-space: nowrap;
+      /* border: 1pt gray solid; */
+    }
+
+    .big-text {
+      font-size: 2vw;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <table id="progress">
+      <tr>
+        <td>
+          <table id="progress3">
+            <tr>
+              <td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <td></td><td></td><td></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <table id="progress15">
+            <tr>
+              <td></td><td></td><td></td><td></td><td></td>
+              <td></td><td></td><td></td><td></td><td></td>
+              <td></td><td></td><td></td><td></td><td></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <table id="progress5">
+            <tr>
+              <td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+              <td></td><td></td><td></td><td></td><td></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div id="time" class="full-screen-text">
+    <span id="hours"></span>
+    <span>:</span>
+    <span id="minutes"></span>
+    <span>:</span>
+    <span id="seconds"></span>
+    <!-- <span>.</span> -->
+    <!-- <span id="milliseconds"></span> -->
+  </div>
+
+  <div>
+    <label>補正ミリ秒</label>
+    <input id="correction-milliseconds" class="big-text" type="number" step="10" min="-2000" max="2000" value="0">
+    <input class="big-text" type="button" value="-200" onclick="document.getElementById('correction-milliseconds').stepUp(-20);raiseEvent('correction-milliseconds', 'change');">
+    <input class="big-text" type="button" value="+200" onclick="document.getElementById('correction-milliseconds').stepUp(20);raiseEvent('correction-milliseconds', 'change');">
+  </div>
+
+  <div id="m1"></div>
+  <div id="m2"></div>
+  <div id="m3"></div>
+  <div id="m4"></div>
+  <div id="m5"></div>
+
+  <script type="text/javascript">
+    function print(mid, msg) {
+      document.getElementById(mid).textContent = msg;
+    }
+
+    function raiseEvent(id, eventName) {
+      document.getElementById(id).dispatchEvent(new Event(eventName));
+    }
+    const progress = {
+      update() {
+        const tds = {
+          p3: Array.from(document.getElementById('progress3').getElementsByTagName('td')),
+          p5: Array.from(document.getElementById('progress5').getElementsByTagName('td')),
+          p15: Array.from(document.getElementById('progress15').getElementsByTagName('td')),
+        }
+        const now = new Date((new Date()).getTime() + parseInt(document.getElementById('correction-milliseconds').value, 10));
+        const nowSeconds = now.getMinutes() * 60 + now.getSeconds();
+        const position = now.getMinutes() % 15;
+
+        let text = '';
+        let text15 = '';
+        let bgcolor = {
+          p3: '',
+          p5: '',
+          p15: '',
+        }
+        for (let index=0; index < 15; index++) {
+          if (index < position) {
+            // text = '012345';S
+            text = '0_1_2_3_4_5_';
+            text15 = '_' + index.toString().padStart(2, '0') + '_';
+            bgcolor.p3 = '#00ff7f';
+            bgcolor.p5 = '#ffaa00';
+            bgcolor.p15 = '#5555ff';
+          } else if (index == position) {
+            // text = [
+            //   '0_____',
+            //   '01____',
+            //   '012___',
+            //   '0123__',
+            //   '01234_',
+            //   '012345',
+            // ][Math.trunc(now.getSeconds() / 10)];
+            text = [
+              '0___________',
+              '0_1_________',
+              '0_1_2_______',
+              '0_1_2_3_____',
+              '0_1_2_3_4___',
+              '0_1_2_3_4_5_',
+            ][Math.trunc(now.getSeconds() / 10)];
+            text15 = '_' + index.toString().padStart(2, '0') + '_';
+            bgcolor.p3 = '';
+            bgcolor.p5 = '';
+            bgcolor.p15 = '';
+          } else {
+            // text = '______';
+            text = '____________';
+            text15 = '____';
+            bgcolor.p3 = '';
+            bgcolor.p5 = '';
+            bgcolor.p15 = '';
+          }
+
+          tds.p3[index].textContent = text;
+          tds.p5[index].textContent = text;
+          tds.p15[index].textContent = text15;
+
+          tds.p3[index].bgColor = bgcolor.p3;
+          tds.p5[index].bgColor = bgcolor.p5;
+          tds.p15[index].bgColor = bgcolor.p15;
+        }
+        // const tds = cells.p3;
+        // tds.forEach((td, index) => {
+        //   if (index < position) {
+        //     td.textContent = '0_1_2_3_4_5_';
+        //     td.bgColor = '#00ff7f';
+        //   } else if (index == position) {
+        //     td.textContent = [
+        //       '0___________',
+        //       '0_1_________',
+        //       '0_1_2_______',
+        //       '0_1_2_3_____',
+        //       '0_1_2_3_4___',
+        //       '0_1_2_3_4_5_',
+        //     ][Math.trunc(now.getSeconds() / 10)];
+        //     td.bgColor = '';
+        //   } else {
+        //     td.textContent = '____________';
+        //     td.bgColor = '';
+        //   }
+        // });
+      }
+    }
+    setInterval(progress.update, 2);
+
+    function initProgress() {
+      function cycle(intervalMinutes) { return 60 * intervalMinutes; }
+      function setPosition(id, offset) {
+        const svg = document.getElementById('interval-svg');
+        svg.pauseAnimations();
+        document.getElementById(id).setAttribute('from', 900 - offset);
+        document.getElementById(id).setAttribute('to',  -900 - offset);
+        svg.unpauseAnimations();
+      }
+
+      const now = new Date((new Date()).getTime() + parseInt(document.getElementById('correction-milliseconds').value, 10));
+      const nowSeconds = now.getMinutes() * 60 + now.getSeconds();
+
+      setPosition('bar-3-progress-animate', nowSeconds % cycle(3) / (cycle(3)/900));
+      setPosition('bar-5-progress-animate', nowSeconds % cycle(5) / (cycle(5)/900));
+      setPosition('bar-15-progress-animate', nowSeconds % cycle(15));
+    }
+    
+    function updateClock() {
+      const now = new Date((new Date()).getTime() + parseInt(document.getElementById('correction-milliseconds').value, 10));
+
+      // document.getElementById('milliseconds').textContent = String(Math.trunc(now.getMilliseconds() / 100)).padStart(1, '0');
+      document.getElementById('seconds').textContent = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById('minutes').textContent = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('hours').textContent = String(now.getHours()).padStart(2, '0');
+
+      print('m1', now.getMinutes() * 60 + now.getSeconds());
+      print('m2', document.getElementById('bar-3-progress').getAttribute('stroke-dashoffset'));
+    }
+    setInterval(updateClock, 2);
+    updateClock();
+
+
+    window.addEventListener("load", () => {
+        const correctionMilliseconds = JSON.parse(localStorage.getItem('correction-milliseconds'))
+
+        if (correctionMilliseconds) {
+          document.getElementById('correction-milliseconds').value = correctionMilliseconds;
+        }
+        raiseEvent('correction-milliseconds', 'change');
+    });
+
+    document.getElementById('correction-milliseconds').addEventListener('change', (e) => {
+      localStorage.setItem('correction-milliseconds', JSON.stringify(e.target.value));
+      initProgress();
+    });
+  </script>
+</body>
+</html>

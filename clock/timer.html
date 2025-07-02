@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja" style="background-color: black; color: white;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3分タイマー</title>
+    <!-- <link rel="stylesheet" href="timer.css"> -->
+    <style>
+
+      svg.demo{
+        /* width: 200px; */
+        width: 100%;
+        display:block;
+        margin:40px;
+      }
+      circle.demo{
+        fill:none;
+        stroke:#00F;
+        stroke-width:25px;
+        stroke-dasharray: 314;
+        animation: demo_kururi ease 10s infinite;
+      }
+
+      @keyframes demo_kururi {
+        from {
+          stroke-dashoffset: 314;
+        }
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+    </style>
+</head>
+<body>
+    <!-- <div class="timer-container">
+        <div id="timer" class="timer">03:00</div>
+        <button id="startButton">スタート</button>
+        <button id="resetButton">リセット</button>
+    </div> -->
+    <div>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150" class="demo" >
+        <circle cx="75" cy="75" r="50" class="demo" />
+      </svg>
+    </div>
+    <script src="timer.js"></script>
+</body>
+</html>
