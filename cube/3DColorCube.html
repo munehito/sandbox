@@ -92,40 +92,20 @@
             };
           };
 
-          switch (type) {
-            case 'rgb':
-              defineRange('x', '#sample-color-rgb-r-range-min', '#sample-color-rgb-r-range-max');
-              defineRange('y', '#sample-color-rgb-g-range-min', '#sample-color-rgb-g-range-max');
-              defineRange('z', '#sample-color-rgb-b-range-min', '#sample-color-rgb-b-range-max');
-              model.colorCode = (r, g, b) => r * 0x10000 + g * 0x100 + b;
-              break;
-            case 'hsv':
-              defineRange('x', '#sample-color-hsv-h-range-min', '#sample-color-hsv-h-range-max');
-              defineRange('y', '#sample-color-hsv-s-range-min', '#sample-color-hsv-s-range-max');
-              defineRange('z', '#sample-color-hsv-v-range-min', '#sample-color-hsv-v-range-max');
-              model.colorCode = (h, s, v) => HSVtoRGB(h, s, v);
-              break;
-            case 'hsl':
-              defineRange('x', '#sample-color-hsl-h-range-min', '#sample-color-hsl-h-range-max');
-              defineRange('y', '#sample-color-hsl-s-range-min', '#sample-color-hsl-s-range-max');
-              defineRange('z', '#sample-color-hsl-l-range-min', '#sample-color-hsl-l-range-max');
-              model.colorCode = (h, s, l) => HSLtoRGB(h, s, l);
-              break;
-          }
+          defineRange('x', '#sample-color-rgb-r-range-min', '#sample-color-rgb-r-range-max');
+          defineRange('y', '#sample-color-rgb-g-range-min', '#sample-color-rgb-g-range-max');
+          defineRange('z', '#sample-color-rgb-b-range-min', '#sample-color-rgb-b-range-max');
+          model.colorCode = (r, g, b) => r * 0x10000 + g * 0x100 + b;
+
           return model;
         };
 
         return {
-          colorType: "rgb",
-          colorTypes: {
-            rgb: _createColorModel('rgb', quantity),
-            hsv: _createColorModel('hsv', quantity),
-            hsl: _createColorModel('hsl', quantity),
-          },
+          _color: _createColorModel('rgb', quantity),
           get size() { return parseInt(document.querySelector('#sample-size').value); },
           get interval() { return parseInt(document.querySelector('#sample-interval').value); },
           get quantity() { return parseInt(document.querySelector('#sample-quantity').value); },
-          get color() { return this.colorTypes[this.colorType]; }
+          get color() { return this._color }
         };
       })
         ();
@@ -148,15 +128,7 @@
           const group = new THREE.Group();
 
           // カラーモデルごとの形状選択
-          switch (_setting.colorType) {
-            case 'rgb':
-              buildCube(_setting, group);
-              break;
-            case 'hsv':
-            case 'hsl':
-              buildCylindricalGrid(_setting, group);
-              break;
-          }
+          buildCube(_setting, group);
 
           this.add(group);
         };
@@ -246,55 +218,6 @@
           }
         }
 
-        function buildCylindricalGrid(_setting, group) {
-          const baseSize = _setting.size * 0.5;
-          const radius = baseSize * (_setting.interval / 30); // 間隔を少し調整
-          const height = baseSize * (_setting.interval / 15); // 高さを増加
-
-          // quantityを活用して解像度設定
-          const segments = Math.max(12, _setting.quantity * 3); // 円周方向
-          const layers = Math.max(6, _setting.quantity * 1.5);  // 高さ方向
-          const radialSteps = Math.max(3, _setting.quantity / 2); // 半径方向
-
-          // 個々の立方体サイズ（sizeとquantityで調整）
-          const cubeSize = Math.min(
-            baseSize * 0.7,
-            (radius * 2 * Math.PI) / (segments * 1.5)
-          );
-
-          const cubeGeo = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
-
-          // 3次元グリッド構築
-          for (let r = 1; r <= radialSteps; r++) {
-            const currentRadius = (radius / radialSteps) * r;
-
-            for (let h = 0; h < layers; h++) {
-              const y = (height / layers) * h - height / 2;
-
-              for (let a = 0; a < segments; a++) {
-                const angle = (a / segments) * Math.PI * 2;
-                const x = Math.cos(angle) * currentRadius;
-                const z = Math.sin(angle) * currentRadius;
-
-                // HSV/HSL色計算
-                const hValue = (a / segments) * 360; // 色相
-                const sValue = (r / radialSteps) * 100; // 彩度
-                const vOrL = (h / layers) * 100; // 明度
-
-                const color = _setting.color.colorCode(hValue, sValue, vOrL);
-
-                const cube = new THREE.Mesh(cubeGeo, new THREE.MeshBasicMaterial({
-                  color: new THREE.Color(color),
-                  transparent: true,
-                  opacity: 0.9
-                }));
-
-                cube.position.set(x, y, z);
-                group.add(cube);
-              }
-            }
-          }
-        }
         // 初期化
         me.buildColorModel(_setting);
 
@@ -314,30 +237,15 @@
 
         me.adjustPosition = function (_setting) {
           const baseDistance = _setting.interval * (_setting.quantity + 3);
-          const cylinderHeight = _setting.size * (_setting.interval / 15) * (_setting.quantity * 1.5);
-          const cylinderRadius = _setting.size * (_setting.interval / 30) * (_setting.quantity / 2);
 
-          switch (_setting.colorType) {
-            case 'hsv':
-            case 'hsl':
-              const viewDistance = Math.max(cylinderHeight * 2, cylinderRadius * 4);
-              this.position.set(
-                viewDistance * 0.8,
-                viewDistance * 0.6,
-                viewDistance * 0.8
-              );
-              this.fov = 45;
-              break;
-            case 'rgb':
-            default:
-              this.position.set(
-                baseDistance,
-                baseDistance * 0.8,
-                baseDistance * 0.9
-              );
-              this.fov = 45;
-          }
-          this.lookAt(0, cylinderHeight / 4, 0);
+          this.position.set(
+            baseDistance,
+            baseDistance * 0.8,
+            baseDistance * 0.9
+          );
+          this.fov = 45;
+
+          this.lookAt(0, 0, 0);
           this.updateProjectionMatrix();
         };
 
@@ -359,7 +267,7 @@
       // addEventListener
       window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
-        camera.adjustPosition(colorCubeSetting.colorType);
+        camera.adjustPosition(colorCubeSetting);
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
       });
@@ -427,9 +335,14 @@
       }
 
       document.querySelector('#sample-quantity').addEventListener('change', (_changeEvent) => {
-        colorCubeSetting.color.x.quantity = _changeEvent.target.value;
-        colorCubeSetting.color.y.quantity = _changeEvent.target.value;
-        colorCubeSetting.color.z.quantity = _changeEvent.target.value;
+        const value = parseInt(_changeEvent.target.value);
+        colorCubeSetting.color.x.quantity = value;
+        colorCubeSetting.color.y.quantity = value;
+        colorCubeSetting.color.z.quantity = value;
+
+        document.querySelector('#sample-color-rgb-r-quantity').value = value;
+        document.querySelector('#sample-color-rgb-g-quantity').value = value;
+        document.querySelector('#sample-color-rgb-b-quantity').value = value;
 
         scene.clear();
         scene.buildColorModel(colorCubeSetting);
@@ -444,6 +357,10 @@
       });
 
       // init
+      document.querySelector('#sample-color-rgb-r-quantity').value = colorCubeSetting.quantity;
+      document.querySelector('#sample-color-rgb-g-quantity').value = colorCubeSetting.quantity;
+      document.querySelector('#sample-color-rgb-b-quantity').value = colorCubeSetting.quantity;
+
       updateCameraPositioin();
       tick();
 
@@ -483,152 +400,6 @@
         cameraPositionZElement.value = Math.floor(camera.position.z);
       }
 
-      function HSVtoRGB(h, s, v) {
-        var result = false;
-
-        if (((h || h === 0) && h <= 360) && ((s || s === 0) && s <= 100) && ((v || v === 0) && v <= 100)) {
-          var red = 0,
-            green = 0,
-            blue = 0,
-            i = 0,
-            f = 0,
-            q = 0,
-            p = 0,
-            t = 0;
-
-          h = Number(h) / 60;
-          s = Number(s) / 100;
-          v = Number(v) / 100;
-
-          if (s === 0) {
-            red = v;
-            green = v;
-            blue = v;
-          } else {
-            i = Math.floor(h);
-            f = h - i;
-            p = v * (1 - s);
-            q = v * (1 - s * f);
-            t = v * (1 - s * (1 - f));
-
-            switch (i) {
-              case 0:
-                red = v;
-                green = t;
-                blue = p;
-                break;
-              case 1:
-                red = q;
-                green = v;
-                blue = p;
-                break;
-              case 2:
-                red = p;
-                green = v;
-                blue = t;
-                break;
-              case 3:
-                red = p;
-                green = q;
-                blue = v;
-                break;
-              case 4:
-                red = t;
-                green = p;
-                blue = v;
-                break;
-              case 5:
-                red = v;
-                green = p;
-                blue = q;
-                break;
-            }
-          }
-
-          result = {
-            red: Math.round(red * 255).toString(16),
-            green: Math.round(green * 255).toString(16),
-            blue: Math.round(blue * 255).toString(16)
-          };
-        }
-
-        return Math.round(red * 255) * 0x10000
-          + Math.round(green * 255) * 0x100
-          + Math.round(blue * 255)
-          ;
-      };
-
-      function HSLtoRGB(h, s, l) {
-        h = Math.max(0, Math.min(360, h));
-        s = Math.max(0, Math.min(100, s)) / 100;
-        l = Math.max(0, Math.min(100, l)) / 100;
-
-        let r, g, b;
-
-        if (s === 0) {
-          r = g = b = l; // 無彩色（グレー）
-        } else {
-          const hue2rgb = (p, q, t) => {
-            if (t < 0) t += 1;
-            if (t > 1) t -= 1;
-            if (t < 1 / 6) return p + (q - p) * 6 * t;
-            if (t < 1 / 2) return q;
-            if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-            return p;
-          };
-
-          const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-          const p = 2 * l - q;
-          r = hue2rgb(p, q, h / 360 + 1 / 3);
-          g = hue2rgb(p, q, h / 360);
-          b = hue2rgb(p, q, h / 360 - 1 / 3);
-        }
-
-        // RGBを0xRRGGBB形式の数値に変換
-        return (
-          Math.round(r * 255) * 0x10000 +
-          Math.round(g * 255) * 0x100 +
-          Math.round(b * 255)
-        );
-      }
-
-      function RGBtoHSV(r, g, b, coneModel) {
-        var h, // 0..360
-          s, v, // 0..255
-          max = Math.max(Math.max(r, g), b),
-          min = Math.min(Math.min(r, g), b);
-
-        // hue の計算
-        if (max == min) {
-          h = 0; // 本来は定義されないが、仮に0を代入
-        } else if (max == r) {
-          h = 60 * (g - b) / (max - min) + 0;
-        } else if (max == g) {
-          h = (60 * (b - r) / (max - min)) + 120;
-        } else {
-          h = (60 * (r - g) / (max - min)) + 240;
-        }
-
-        while (h < 0) {
-          h += 360;
-        }
-
-        // saturation の計算
-        if (coneModel) {
-          // 円錐モデルの場合
-          s = max - min;
-        } else {
-          s = (max == 0)
-            ? 0 // 本来は定義されないが、仮に0を代入
-            : (max - min) / max * 255;
-        }
-
-        // value の計算
-        v = max;
-
-        return { 'h': h, 's': s, 'v': v };
-      }
-
     });
   </script>
 </head>
@@ -651,21 +422,6 @@
           <input id="sample-quantity" type="number" min="2" max="16" value="5">
         </div>
       </span>
-      <span>
-        <label>color type</label>
-        <div>
-          <input id="sample-coloer-type-rgb" type="radio" name="sampleColoerType" value="rgb" checked>
-          <label for="sample-coloer-type-rgb">RGB</label>
-        </div>
-        <div>
-          <input id="sample-coloer-type-hsv" type="radio" name="sampleColoerType" value="hsv">
-          <label for="sample-coloer-type-hsv">HSV</label>
-        </div>
-        <div>
-          <input id="sample-coloer-type-hsl" type="radio" name="sampleColoerType" value="hsl">
-          <label for="sample-coloer-type-hsl">HSL</label>
-        </div>
-      </span>
       <span id="color-type-rgb" comment="Color range">
         <span>
           <label>color type RGB</label>
@@ -675,7 +431,7 @@
             <input id="sample-color-rgb-r-range-min" class="color-rgb" type="number" min="0" max="255" value="0">
             <label>-</label>
             <input id="sample-color-rgb-r-range-max" class="color-rgb" type="number" min="0" max="255" value="255">
-            } /
+            ) /
             <input id="sample-color-rgb-r-quantity" class="color-quantity" type="number" min="2" max="16">
             <!-- <input id="sample-color-rgb-r-quantity-range" type="range"  min="2" max="16"> -->
           </div>
@@ -685,7 +441,7 @@
             <input id="sample-color-rgb-g-range-min" class="color-rgb" type="number" min="0" max="255" value="0">
             <label>-</label>
             <input id="sample-color-rgb-g-range-max" class="color-rgb" type="number" min="0" max="255" value="255">
-            } /
+            ) /
             <input id="sample-color-rgb-g-quantity" class="color-quantity" type="number" min="2" max="16">
           </div>
           <div>
@@ -694,72 +450,8 @@
             <input id="sample-color-rgb-b-range-min" class="color-rgb" type="number" min="0" max="255" value="0">
             <label>-</label>
             <input id="sample-color-rgb-b-range-max" class="color-rgb" type="number" min="0" max="255" value="255">
-            } /
-            <input id="sample-color-rgb-b-quantity" class="color-quantity" type="number" min="2" max="16">
-          </div>
-        </span>
-      </span>
-      <span id="color-type-hsv" comment="Color range">
-        <span>
-          <label>color type HSV</label>
-          <div>
-            <label>H</label>
-            (
-            <input id="sample-color-hsv-h-range-min" class="color-hsv" type="number" min="0" max="360" value="0">
-            <label>-</label>
-            <input id="sample-color-hsv-h-range-max" class="color-hsv" type="number" min="0" max="360" value="360">
             ) /
-            <input id="sample-color-hsv-h-quantity" class="color-quantity" type="number" min="2" max="16">
-          </div>
-          <div>
-            <label>S</label>
-            (
-            <input id="sample-color-hsv-s-range-min" class="color-hsv" type="number" min="0" max="100" value="0">
-            <label>-</label>
-            <input id="sample-color-hsv-s-range-max" class="color-hsv" type="number" min="0" max="100" value="100">
-            } /
-            <input id="sample-color-hsv-s-quantity" class="color-quantity" type="number" min="2" max="16">
-          </div>
-          <div>
-            <label>V</label>
-            (
-            <input id="sample-color-hsv-v-range-min" class="color-hsv" type="number" min="0" max="100" value="0">
-            <label>-</label>
-            <input id="sample-color-hsv-v-range-max" class="color-hsv" type="number" min="0" max="100" value="100">
-            } /
-            <input id="sample-color-hsv-v-quantity" class="color-quantity" type="number" min="2" max="16">
-          </div>
-        </span>
-      </span>
-      <span id="color-type-hsl" comment="Color range">
-        <span>
-          <label>color type HSL</label>
-          <div>
-            <label>H</label>
-            (
-            <input id="sample-color-hsl-h-range-min" class="color-hsl" type="number" min="0" max="360" value="0">
-            <label>-</label>
-            <input id="sample-color-hsl-h-range-max" class="color-hsl" type="number" min="0" max="360" value="360">
-            } /
-            <input id="sample-color-hsl-h-quantity" class="color-quantity" type="number" min="2" max="16">
-          </div>
-          <div>
-            <label>S</label>
-            (
-            <input id="sample-color-hsl-s-range-min" class="color-hsl" type="number" min="0" max="100" value="0">
-            <label>-</label>
-            <input id="sample-color-hsl-s-range-max" class="color-hsl" type="number" min="0" max="100" value="100">
-            } /
-            <input id="sample-color-hsl-s-quantity" class="color-quantity" type="number" min="2" max="16">
-          </div>
-          <div>
-            <label>L</label>
-            (
-            <input id="sample-color-hsl-l-range-min" class="color-hsl" type="number" min="0" max="100" value="0">
-            <label>-</label>
-            <input id="sample-color-hsl-l-range-max" class="color-hsl" type="number" min="0" max="100" value="100">
-            } /
-            <input id="sample-color-hsl-l-quantity" class="color-quantity" type="number" min="2" max="16">
+            <input id="sample-color-rgb-b-quantity" class="color-quantity" type="number" min="2" max="16">
           </div>
         </span>
       </span>
@@ -791,23 +483,6 @@
         <div>
           <label>B</label>
           <input id="point-color-rgb-b" class="point-color" type="text" disabled>
-        </div>
-      </span>
-      <span>
-        <div>
-          <label>HSV</label>
-        </div>
-        <div>
-          <label>H</label>
-          <input id="point-color-hsv-h" class="point-color" type="text" disabled>
-        </div>
-        <div>
-          <label>S</label>
-          <input id="point-color-hsv-s" class="point-color" type="text" disabled>
-        </div>
-        <div>
-          <label>V</label>
-          <input id="point-color-hsv-v" class="point-color" type="text" disabled>
         </div>
       </span>
     </span>
