@@ -312,12 +312,12 @@
         // 共通の基本設定
         me.lookAt(0, 0, 0);
 
-        me.adjustPosition = function (mode) {
+        me.adjustPosition = function (_setting) {
           const baseDistance = _setting.interval * (_setting.quantity + 3);
           const cylinderHeight = _setting.size * (_setting.interval / 15) * (_setting.quantity * 1.5);
           const cylinderRadius = _setting.size * (_setting.interval / 30) * (_setting.quantity / 2);
 
-          switch (mode) {
+          switch (_setting.colorType) {
             case 'hsv':
             case 'hsl':
               const viewDistance = Math.max(cylinderHeight * 2, cylinderRadius * 4);
@@ -342,7 +342,7 @@
         };
 
         // 初期位置設定
-        me.adjustPosition(_setting.colorType);
+        me.adjustPosition(_setting);
 
         return me;
       })
