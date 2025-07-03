@@ -73,228 +73,60 @@
     window.addEventListener('DOMContentLoaded', () => {
       const renderTargetElement = document.querySelector('#render-target');
       const colorCubeSetting = (() => {
-        const me = {
-          _sizeElementId: '#sample-size',
-          get size() { return parseInt(document.querySelector(this._sizeElementId).value); },
+        const quantity = parseInt(document.querySelector('#sample-quantity').value);
 
-          _intervalElementId: '#sample-interval',
-          get interval() { return parseInt(document.querySelector(this._intervalElementId).value); },
+        const _createColorModel = (type, quantity) => {
+          const model = {
+            x: { range: {}, quantity },
+            y: { range: {}, quantity },
+            z: { range: {}, quantity },
+            colorCode: null,
+          };
 
-          _quantityElementId: '#sample-quantity',
-          get quantity() { return parseInt(document.querySelector(this._quantityElementId).value); },
+          const defineRange = (axis, minId, maxId) => {
+            model[axis].range = {
+              get min() { return parseInt(document.querySelector(minId).value); },
+              set min(value) { document.querySelector(minId).value = value; },
+              get max() { return parseInt(document.querySelector(maxId).value); },
+              set max(value) { document.querySelector(maxId).value = value; },
+            };
+          };
 
-          color: {},
-
-          colorTypes: {
-            rgb: {},
-            hsv: {},
-            hsl: {},
-          },
+          switch (type) {
+            case 'rgb':
+              defineRange('x', '#sample-color-rgb-r-range-min', '#sample-color-rgb-r-range-max');
+              defineRange('y', '#sample-color-rgb-g-range-min', '#sample-color-rgb-g-range-max');
+              defineRange('z', '#sample-color-rgb-b-range-min', '#sample-color-rgb-b-range-max');
+              model.colorCode = (r, g, b) => r * 0x10000 + g * 0x100 + b;
+              break;
+            case 'hsv':
+              defineRange('x', '#sample-color-hsv-h-range-min', '#sample-color-hsv-h-range-max');
+              defineRange('y', '#sample-color-hsv-s-range-min', '#sample-color-hsv-s-range-max');
+              defineRange('z', '#sample-color-hsv-v-range-min', '#sample-color-hsv-v-range-max');
+              model.colorCode = (h, s, v) => HSVtoRGB(h, s, v);
+              break;
+            case 'hsl':
+              defineRange('x', '#sample-color-hsl-h-range-min', '#sample-color-hsl-h-range-max');
+              defineRange('y', '#sample-color-hsl-s-range-min', '#sample-color-hsl-s-range-max');
+              defineRange('z', '#sample-color-hsl-l-range-min', '#sample-color-hsl-l-range-max');
+              model.colorCode = (h, s, l) => HSLtoRGB(h, s, l);
+              break;
+          }
+          return model;
         };
 
-        me.colorTypes.rgb = ((_quantity) => {
-          const me = {
-            x: { range: {} },
-            y: { range: {} },
-            z: { range: {} },
-            colorCode(_r, _g, _b) {
-              return _r * 0x10000 + _g * 0x100 + _b;
-            },
-          };
-
-          Object.defineProperties(me.x.range, {
-            min: _makeIntDiscripter('#sample-color-rgb-r-range-min'),
-            max: _makeIntDiscripter('#sample-color-rgb-r-range-max'),
-          });
-          Object.defineProperties(me.x, {
-            quantity: _makeIntDiscripter('#sample-color-rgb-r-quantity'),
-          });
-          Object.defineProperties(me.y.range, {
-            min: _makeIntDiscripter('#sample-color-rgb-g-range-min'),
-            max: _makeIntDiscripter('#sample-color-rgb-g-range-max'),
-          });
-          Object.defineProperties(me.y, {
-            quantity: _makeIntDiscripter('#sample-color-rgb-g-quantity'),
-          });
-          Object.defineProperties(me.z.range, {
-            min: _makeIntDiscripter('#sample-color-rgb-b-range-min'),
-            max: _makeIntDiscripter('#sample-color-rgb-b-range-max'),
-          });
-          Object.defineProperties(me.z, {
-            quantity: _makeIntDiscripter('#sample-color-rgb-b-quantity'),
-          });
-          me.x.quantity = _quantity;
-          me.y.quantity = _quantity;
-          me.z.quantity = _quantity;
-
-          return me;
-        })
-          (me.quantity);
-
-        me.colorTypes.hsv = ((_quantity) => {
-          const me = {
-            x: { range: {} },
-            y: { range: {} },
-            z: { range: {} },
-            colorCode(_h, _s, _v) {
-              const rgb = {
-                r: 0,
-                g: 0,
-                b: 0,
-                get colorCode() {
-                  return Math.round(this.r * 255) * 0x10000
-                    + Math.round(this.g * 255) * 0x100
-                    + Math.round(this.b * 255);
-                }
-              };
-
-              const saturation = Number(_s) / 100;
-              const value = Number(_v) / 100;
-              if (saturation == 0) {
-                rgb.r = value;
-                rgb.g = value;
-                rgb.b = value;
-              }
-              else {
-                const hueDivid60 = Number(_h) / 60;
-                const hueInt = Math.floor(hueDivid60);
-                const hueFraction = hueDivid60 - hueInt;
-
-                const max = value;
-                const min = value * (1 - saturation);
-                const odd = value * (1 - saturation * hueFraction);
-                const even = value * (1 - saturation * (1 - hueFraction));
-                switch (hueInt) {
-                  case 0:
-                  case 6:
-                    rgb.r = max;
-                    rgb.g = odd;
-                    rgb.b = min;
-                    break;
-                  case 1:
-                    rgb.r = even;
-                    rgb.g = max;
-                    rgb.b = min;
-                    break;
-                  case 2:
-                    rgb.r = min;
-                    rgb.g = max;
-                    rgb.b = odd;
-                    break;
-                  case 3:
-                    rgb.r = min;
-                    rgb.g = even;
-                    rgb.b = max;
-                    break;
-                  case 4:
-                    rgb.r = odd;
-                    rgb.g = min;
-                    rgb.b = max;
-                    break;
-                  case 5:
-                    rgb.r = max;
-                    rgb.g = min;
-                    rgb.b = even;
-                    break;
-                }
-              }
-
-              return rgb.colorCode;
-            },
-            colorCode2(_h, _s, _v) { return HSVtoRGB(_h, _s, _v); },
-          };
-
-          Object.defineProperties(me.x.range, {
-            min: _makeIntDiscripter('#sample-color-hsv-h-range-min'),
-            max: _makeIntDiscripter('#sample-color-hsv-h-range-max'),
-          });
-          Object.defineProperties(me.x, {
-            quantity: _makeIntDiscripter('#sample-color-hsv-h-quantity'),
-          });
-          Object.defineProperties(me.y.range, {
-            min: _makeIntDiscripter('#sample-color-hsv-s-range-min'),
-            max: _makeIntDiscripter('#sample-color-hsv-s-range-max'),
-          });
-          Object.defineProperties(me.y, {
-            quantity: _makeIntDiscripter('#sample-color-hsv-s-quantity'),
-          });
-          Object.defineProperties(me.z.range, {
-            min: _makeIntDiscripter('#sample-color-hsv-v-range-min'),
-            max: _makeIntDiscripter('#sample-color-hsv-v-range-max'),
-          });
-          Object.defineProperties(me.z, {
-            quantity: _makeIntDiscripter('#sample-color-hsv-v-quantity'),
-          });
-          me.x.quantity = _quantity;
-          me.y.quantity = _quantity;
-          me.z.quantity = _quantity;
-
-          return me;
-        })
-          (me.quantity);
-
-        me.colorTypes.hsl = ((_quantity) => {
-          const me = {
-            x: { range: {} },
-            y: { range: {} },
-            z: { range: {} },
-          };
-
-          Object.defineProperties(me.x.range, {
-            min: _makeIntDiscripter('#sample-color-hsl-h-range-min'),
-            max: _makeIntDiscripter('#sample-color-hsl-h-range-max'),
-          });
-          Object.defineProperties(me.x, {
-            quantity: _makeIntDiscripter('#sample-color-hsl-h-quantity'),
-          });
-          Object.defineProperties(me.y.range, {
-            min: _makeIntDiscripter('#sample-color-hsl-s-range-min'),
-            max: _makeIntDiscripter('#sample-color-hsl-s-range-max'),
-          });
-          Object.defineProperties(me.y, {
-            quantity: _makeIntDiscripter('#sample-color-hsl-s-quantity'),
-          });
-          Object.defineProperties(me.z.range, {
-            min: _makeIntDiscripter('#sample-color-hsl-l-range-min'),
-            max: _makeIntDiscripter('#sample-color-hsl-l-range-max'),
-          });
-          Object.defineProperties(me.z, {
-            quantity: _makeIntDiscripter('#sample-color-hsl-l-quantity'),
-          });
-          me.x.quantity = _quantity;
-          me.y.quantity = _quantity;
-          me.z.quantity = _quantity;
-
-          return me;
-        })
-          (me.quantity);
-
-        me.color = me.colorTypes.rgb;
-        // me.color = me.colorTypes.hsv;
-        // me.color = me.colorTypes.rgb;
-
-        function _makeIntDiscripter(_elementId) {
-          return {
-            get() {
-              return parseInt(document.querySelector(_elementId).value);
-            },
-            set(_value) {
-              if ((typeof _value) !== 'number') _value = parseInt(_value);
-              const element = document.querySelector(_elementId);
-              if (element.min) {
-                const min = parseInt(element.min);
-                if (_value < min) _value = min;
-              }
-              if (element.max) {
-                const max = parseInt(element.max);
-                if (max < _value) _value = max;
-              }
-              element.value = _value;
-            }
-          };
-        }
-
-        return me;
+        return {
+          colorType: "rgb",
+          colorTypes: {
+            rgb: _createColorModel('rgb', quantity),
+            hsv: _createColorModel('hsv', quantity),
+            hsl: _createColorModel('hsl', quantity),
+          },
+          get size() { return parseInt(document.querySelector('#sample-size').value); },
+          get interval() { return parseInt(document.querySelector('#sample-interval').value); },
+          get quantity() { return parseInt(document.querySelector('#sample-quantity').value); },
+          get color() { return this.colorTypes[this.colorType]; }
+        };
       })
         ();
       const renderer = (() => {
@@ -498,6 +330,13 @@
         scene.buildColorCube(colorCubeSetting);
       });
 
+      document.querySelectorAll('input[name="sampleColoerType"]').forEach((radio) => {
+        radio.addEventListener('change', (e) => {
+          colorCubeSetting.colorType = e.target.value;
+          scene.clear();
+          scene.buildColorCube(colorCubeSetting);
+        });
+      });
 
       // init
       updateCameraPositioin();
@@ -613,6 +452,40 @@
           + Math.round(blue * 255)
           ;
       };
+
+      function HSLtoRGB(h, s, l) {
+        h = Math.max(0, Math.min(360, h));
+        s = Math.max(0, Math.min(100, s)) / 100;
+        l = Math.max(0, Math.min(100, l)) / 100;
+
+        let r, g, b;
+
+        if (s === 0) {
+          r = g = b = l; // 無彩色（グレー）
+        } else {
+          const hue2rgb = (p, q, t) => {
+            if (t < 0) t += 1;
+            if (t > 1) t -= 1;
+            if (t < 1 / 6) return p + (q - p) * 6 * t;
+            if (t < 1 / 2) return q;
+            if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+            return p;
+          };
+
+          const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+          const p = 2 * l - q;
+          r = hue2rgb(p, q, h / 360 + 1 / 3);
+          g = hue2rgb(p, q, h / 360);
+          b = hue2rgb(p, q, h / 360 - 1 / 3);
+        }
+
+        // RGBを0xRRGGBB形式の数値に変換
+        return (
+          Math.round(r * 255) * 0x10000 +
+          Math.round(g * 255) * 0x100 +
+          Math.round(b * 255)
+        );
+      }
 
       function RGBtoHSV(r, g, b, coneModel) {
         var h, // 0..360
