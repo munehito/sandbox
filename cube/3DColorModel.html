@@ -1,0 +1,838 @@
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <style>
+    html,
+    body,
+    #render-target {
+      display: block;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      overflow: hidden;
+    }
+
+    #display {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 100;
+      padding: 10px;
+    }
+
+    span {
+      display: inline-block;
+    }
+
+    input[type=number] {
+      text-align: right;
+      width: 3rem;
+    }
+
+    input.color-quantity {
+      width: 2rem;
+    }
+
+    input.point-color {
+      text-align: right;
+      width: 2rem;
+    }
+
+    input.color {
+      width: 2rem;
+    }
+
+    #color {
+      width: 4rem;
+    }
+
+    #color-code {
+      width: 4rem;
+    }
+  </style>
+  <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+  <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.151.3/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.151.3/examples/jsm/"
+        }
+      }
+  </script>
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    // Wait for page to load
+    window.addEventListener('DOMContentLoaded', () => {
+      const renderTargetElement = document.querySelector('#render-target');
+      const colorCubeSetting = (() => {
+        const quantity = parseInt(document.querySelector('#sample-quantity').value);
+
+        const _createColorModel = (type, quantity) => {
+          const model = {
+            x: { range: {}, quantity },
+            y: { range: {}, quantity },
+            z: { range: {}, quantity },
+            colorCode: null,
+          };
+
+          const defineRange = (axis, minId, maxId) => {
+            model[axis].range = {
+              get min() { return parseInt(document.querySelector(minId).value); },
+              set min(value) { document.querySelector(minId).value = value; },
+              get max() { return parseInt(document.querySelector(maxId).value); },
+              set max(value) { document.querySelector(maxId).value = value; },
+            };
+          };
+
+          switch (type) {
+            case 'rgb':
+              defineRange('x', '#sample-color-rgb-r-range-min', '#sample-color-rgb-r-range-max');
+              defineRange('y', '#sample-color-rgb-g-range-min', '#sample-color-rgb-g-range-max');
+              defineRange('z', '#sample-color-rgb-b-range-min', '#sample-color-rgb-b-range-max');
+              model.colorCode = (r, g, b) => r * 0x10000 + g * 0x100 + b;
+              break;
+            case 'hsv':
+              defineRange('x', '#sample-color-hsv-h-range-min', '#sample-color-hsv-h-range-max');
+              defineRange('y', '#sample-color-hsv-s-range-min', '#sample-color-hsv-s-range-max');
+              defineRange('z', '#sample-color-hsv-v-range-min', '#sample-color-hsv-v-range-max');
+              model.colorCode = (h, s, v) => HSVtoRGB(h, s, v);
+              break;
+            case 'hsl':
+              defineRange('x', '#sample-color-hsl-h-range-min', '#sample-color-hsl-h-range-max');
+              defineRange('y', '#sample-color-hsl-s-range-min', '#sample-color-hsl-s-range-max');
+              defineRange('z', '#sample-color-hsl-l-range-min', '#sample-color-hsl-l-range-max');
+              model.colorCode = (h, s, l) => HSLtoRGB(h, s, l);
+              break;
+          }
+          return model;
+        };
+
+        return {
+          colorType: "rgb",
+          colorTypes: {
+            rgb: _createColorModel('rgb', quantity),
+            hsv: _createColorModel('hsv', quantity),
+            hsl: _createColorModel('hsl', quantity),
+          },
+          get size() { return parseInt(document.querySelector('#sample-size').value); },
+          get interval() { return parseInt(document.querySelector('#sample-interval').value); },
+          get quantity() { return parseInt(document.querySelector('#sample-quantity').value); },
+          get color() { return this.colorTypes[this.colorType]; }
+        };
+      })
+        ();
+      const renderer = (() => {
+        const me = new THREE.WebGLRenderer({
+          canvas: renderTargetElement,
+          antialias: true
+        });
+        me.setPixelRatio(window.devicePixelRatio);
+        me.setSize(window.innerWidth, window.innerHeight);
+        return me;
+      })
+        ();
+      const scene = ((_setting) => {
+        const me = new THREE.Scene();
+
+        // 形状生成を統一するメイン関数
+        me.buildColorModel = function (_setting) {
+          this.clear();
+          const group = new THREE.Group();
+
+          // カラーモデルごとの形状選択
+          switch (_setting.colorType) {
+            case 'rgb':
+              buildCube(_setting, group);
+              break;
+            case 'hsv':
+            case 'hsl':
+              buildCylindricalGrid(_setting, group);
+              break;
+          }
+
+          this.add(group);
+        };
+
+        function buildCube(_setting, group) {
+          const geometry = new THREE.BoxGeometry(_setting.size, _setting.size, _setting.size);
+          function makeAxsis(
+            _size,
+            _interval,
+            _axisQuantity,
+            _colorRangeMin,
+            _colorRangeMax,
+          ) {
+            const resolution = _axisQuantity - 1;
+            const colorResolution = _colorRangeMax - _colorRangeMin;
+            return {
+              resolution: resolution,
+              colorResolution: colorResolution,
+              positionOffset: (_interval * resolution + _size) / 2,
+
+              get axis() { return this._axis; },
+              set axis(_value) {
+                this._axis = _value;
+                this.color = (Math.round(colorResolution / resolution * this._axis) + _colorRangeMin);
+                this.colorRange = {
+                  min: Math.round(colorResolution / resolution * (this._axis - 1)),
+                  max: Math.round(colorResolution / resolution * (this._axis + 1)),
+                };
+                this.position = -((_interval * this._axis) - this.positionOffset);
+              },
+            }
+          };
+
+          const x = makeAxsis(
+            _setting.size,
+            _setting.interval,
+            _setting.color.x.quantity,
+            _setting.color.x.range.min,
+            _setting.color.x.range.max,
+          );
+          const y = makeAxsis(
+            _setting.size,
+            _setting.interval,
+            _setting.color.y.quantity,
+            _setting.color.y.range.min,
+            _setting.color.y.range.max,
+          );
+          const z = makeAxsis(
+            _setting.size,
+            _setting.interval,
+            _setting.color.z.quantity,
+            _setting.color.z.range.min,
+            _setting.color.z.range.max,
+          );
+
+          for (x.axis = 0; x.axis <= x.resolution; x.axis++) {
+            const colorRRange = x.colorRange;
+            for (y.axis = 0; y.axis <= y.resolution; y.axis++) {
+              const colorGRange = y.colorRange;
+              for (z.axis = 0; z.axis <= z.resolution; z.axis++) {
+                const colorBRange = z.colorRange;
+
+                const material = new THREE.MeshBasicMaterial({
+                  color: _setting.color.colorCode(x.color, y.color, z.color)
+                });
+                material.colorRange = {
+                  r: colorRRange,
+                  g: colorGRange,
+                  b: colorBRange,
+                };
+
+                const mesh = new THREE.Mesh(geometry, material);
+                mesh.position.set(x.position, y.position, z.position);
+                group.add(mesh);
+              }
+            }
+          }
+
+          for (let h = 0; h <= 360; h += 60) {
+            for (let s = 0; s <= 100; s += 20) {
+              for (let v = 0; v <= 100; v += 20) {
+                console.log(
+                  _setting.color.colorCode(h, s, v).toString(16),
+                  h, s, v);
+              }
+            }
+          }
+        }
+
+        function buildCylindricalGrid(_setting, group) {
+          const baseSize = _setting.size * 0.5;
+          const radius = baseSize * (_setting.interval / 30); // 間隔を少し調整
+          const height = baseSize * (_setting.interval / 15); // 高さを増加
+
+          // quantityを活用して解像度設定
+          const segments = Math.max(12, _setting.quantity * 3); // 円周方向
+          const layers = Math.max(6, _setting.quantity * 1.5);  // 高さ方向
+          const radialSteps = Math.max(3, _setting.quantity / 2); // 半径方向
+
+          // 個々の立方体サイズ（sizeとquantityで調整）
+          const cubeSize = Math.min(
+            baseSize * 0.7,
+            (radius * 2 * Math.PI) / (segments * 1.5)
+          );
+
+          const cubeGeo = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
+
+          // 3次元グリッド構築
+          for (let r = 1; r <= radialSteps; r++) {
+            const currentRadius = (radius / radialSteps) * r;
+
+            for (let h = 0; h < layers; h++) {
+              const y = (height / layers) * h - height / 2;
+
+              for (let a = 0; a < segments; a++) {
+                const angle = (a / segments) * Math.PI * 2;
+                const x = Math.cos(angle) * currentRadius;
+                const z = Math.sin(angle) * currentRadius;
+
+                // HSV/HSL色計算
+                const hValue = (a / segments) * 360; // 色相
+                const sValue = (r / radialSteps) * 100; // 彩度
+                const vOrL = (h / layers) * 100; // 明度
+
+                const color = _setting.color.colorCode(hValue, sValue, vOrL);
+
+                const cube = new THREE.Mesh(cubeGeo, new THREE.MeshBasicMaterial({
+                  color: new THREE.Color(color),
+                  transparent: true,
+                  opacity: 0.9
+                }));
+
+                cube.position.set(x, y, z);
+                group.add(cube);
+              }
+            }
+          }
+        }
+        // 初期化
+        me.buildColorModel(_setting);
+
+        return me;
+      })
+        (colorCubeSetting);
+
+      const camera = ((_setting, _renderTargetElement) => {
+        const distanceBase = _setting.interval * (_setting.quantity + 3);
+        const me = new THREE.PerspectiveCamera(
+          45,
+          _renderTargetElement.width / _renderTargetElement.height
+        );
+
+        // 共通の基本設定
+        me.lookAt(0, 0, 0);
+
+        me.adjustPosition = function (_setting) {
+          const baseDistance = _setting.interval * (_setting.quantity + 3);
+          const cylinderHeight = _setting.size * (_setting.interval / 15) * (_setting.quantity * 1.5);
+          const cylinderRadius = _setting.size * (_setting.interval / 30) * (_setting.quantity / 2);
+
+          switch (_setting.colorType) {
+            case 'hsv':
+            case 'hsl':
+              const viewDistance = Math.max(cylinderHeight * 2, cylinderRadius * 4);
+              this.position.set(
+                viewDistance * 0.8,
+                viewDistance * 0.6,
+                viewDistance * 0.8
+              );
+              this.fov = 45;
+              break;
+            case 'rgb':
+            default:
+              this.position.set(
+                baseDistance,
+                baseDistance * 0.8,
+                baseDistance * 0.9
+              );
+              this.fov = 45;
+          }
+          this.lookAt(0, cylinderHeight / 4, 0);
+          this.updateProjectionMatrix();
+        };
+
+        // 初期位置設定
+        me.adjustPosition(_setting);
+
+        return me;
+      })
+        (
+          colorCubeSetting,
+          renderTargetElement
+        );
+      const controls = new OrbitControls(camera, renderTargetElement);
+      // Smoothly control the camera controller
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.2;
+
+
+      // addEventListener
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.adjustPosition(colorCubeSetting.colorType);
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+      renderTargetElement.addEventListener('mousedown', (_mouseEvent) => {
+        const material = getMaterial(_mouseEvent);
+        if (material) {
+          if (material.color) {
+            const materialColor = material.color;
+            const colorElement = document.querySelector('#color');
+            const colorCodeElement = document.querySelector('#color-code');
+
+            colorCodeElement.value = '#'
+              + ('00' + (materialColor.r * 0xFF).toString(16)).substr(-2)
+              + ('00' + (materialColor.g * 0xFF).toString(16)).substr(-2)
+              + ('00' + (materialColor.b * 0xFF).toString(16)).substr(-2);
+            colorElement.value = colorCodeElement.value;
+            navigator.clipboard.writeText(colorElement.value);
+          }
+          else {
+            console.warn("Woops! Why don't material have color?", material);
+          }
+        }
+      });
+
+      renderTargetElement.addEventListener('dblclick', (_mouseEvent) => {
+        const material = getMaterial(_mouseEvent);
+        if (material) {
+          if (material.colorRange) {
+            const materialcolorRange = material.colorRange;
+            colorCubeSetting.color.x.range.min = materialcolorRange.r.min;
+            colorCubeSetting.color.x.range.max = materialcolorRange.r.max;
+            colorCubeSetting.color.y.range.min = materialcolorRange.g.min;
+            colorCubeSetting.color.y.range.max = materialcolorRange.g.max;
+            colorCubeSetting.color.z.range.min = materialcolorRange.b.min;
+            colorCubeSetting.color.z.range.max = materialcolorRange.b.max;
+            scene.clear();
+            scene.buildColorModel(colorCubeSetting);
+          }
+          else {
+            console.warn("Woops! Why don't material have colorRange?", material);
+          }
+        }
+      });
+
+      renderTargetElement.addEventListener('mousemove', updateCameraPositioin);
+      renderTargetElement.addEventListener('wheel', updateCameraPositioin);
+
+      for (const target of [
+        '#sample-size',
+        '#sample-interval',
+        '#sample-color-rgb-r-range-min',
+        '#sample-color-rgb-r-range-max',
+        '#sample-color-rgb-r-quantity',
+        '#sample-color-rgb-g-range-min',
+        '#sample-color-rgb-g-range-max',
+        '#sample-color-rgb-g-quantity',
+        '#sample-color-rgb-b-range-min',
+        '#sample-color-rgb-b-range-max',
+        '#sample-color-rgb-b-quantity',
+      ]) {
+        document.querySelector(target).addEventListener('change', (_changeEvent) => {
+          scene.clear();
+          scene.buildColorModel(colorCubeSetting);
+        });
+      }
+
+      document.querySelector('#sample-quantity').addEventListener('change', (_changeEvent) => {
+        colorCubeSetting.color.x.quantity = _changeEvent.target.value;
+        colorCubeSetting.color.y.quantity = _changeEvent.target.value;
+        colorCubeSetting.color.z.quantity = _changeEvent.target.value;
+
+        scene.clear();
+        scene.buildColorModel(colorCubeSetting);
+      });
+
+      document.querySelectorAll('input[name="sampleColoerType"]').forEach((radio) => {
+        radio.addEventListener('change', (e) => {
+          colorCubeSetting.colorType = e.target.value;
+          scene.clear();
+          scene.buildColorModel(colorCubeSetting);
+        });
+      });
+
+      // init
+      updateCameraPositioin();
+      tick();
+
+
+      // function for eventListener
+      function getMaterial(_mouseEvent) {
+        const raycaster = new THREE.Raycaster();
+        const rect = _mouseEvent.target.getBoundingClientRect();
+        const vector = new THREE.Vector2(
+          (_mouseEvent.clientX - rect.left) / window.innerWidth * 2 - 1,
+          -(_mouseEvent.clientY - rect.top) / window.innerHeight * 2 + 1
+        );
+
+        raycaster.setFromCamera(vector, camera);
+
+        const intersects = raycaster.intersectObjects(scene.children);
+
+        if (intersects.length && intersects[0].object.material) {
+          return intersects[0].object.material;
+        }
+        return null;
+      }
+
+      function tick() {
+        controls.update();
+        renderer.render(scene, camera);
+        requestAnimationFrame(tick);
+      }
+
+      function updateCameraPositioin() {
+        const cameraPositionXElement = document.querySelector('#camera-position-x');
+        const cameraPositionYElement = document.querySelector('#camera-position-y');
+        const cameraPositionZElement = document.querySelector('#camera-position-z');
+
+        cameraPositionXElement.value = Math.floor(camera.position.x);
+        cameraPositionYElement.value = Math.floor(camera.position.y);
+        cameraPositionZElement.value = Math.floor(camera.position.z);
+      }
+
+      function HSVtoRGB(h, s, v) {
+        var result = false;
+
+        if (((h || h === 0) && h <= 360) && ((s || s === 0) && s <= 100) && ((v || v === 0) && v <= 100)) {
+          var red = 0,
+            green = 0,
+            blue = 0,
+            i = 0,
+            f = 0,
+            q = 0,
+            p = 0,
+            t = 0;
+
+          h = Number(h) / 60;
+          s = Number(s) / 100;
+          v = Number(v) / 100;
+
+          if (s === 0) {
+            red = v;
+            green = v;
+            blue = v;
+          } else {
+            i = Math.floor(h);
+            f = h - i;
+            p = v * (1 - s);
+            q = v * (1 - s * f);
+            t = v * (1 - s * (1 - f));
+
+            switch (i) {
+              case 0:
+                red = v;
+                green = t;
+                blue = p;
+                break;
+              case 1:
+                red = q;
+                green = v;
+                blue = p;
+                break;
+              case 2:
+                red = p;
+                green = v;
+                blue = t;
+                break;
+              case 3:
+                red = p;
+                green = q;
+                blue = v;
+                break;
+              case 4:
+                red = t;
+                green = p;
+                blue = v;
+                break;
+              case 5:
+                red = v;
+                green = p;
+                blue = q;
+                break;
+            }
+          }
+
+          result = {
+            red: Math.round(red * 255).toString(16),
+            green: Math.round(green * 255).toString(16),
+            blue: Math.round(blue * 255).toString(16)
+          };
+        }
+
+        return Math.round(red * 255) * 0x10000
+          + Math.round(green * 255) * 0x100
+          + Math.round(blue * 255)
+          ;
+      };
+
+      function HSLtoRGB(h, s, l) {
+        h = Math.max(0, Math.min(360, h));
+        s = Math.max(0, Math.min(100, s)) / 100;
+        l = Math.max(0, Math.min(100, l)) / 100;
+
+        let r, g, b;
+
+        if (s === 0) {
+          r = g = b = l; // 無彩色（グレー）
+        } else {
+          const hue2rgb = (p, q, t) => {
+            if (t < 0) t += 1;
+            if (t > 1) t -= 1;
+            if (t < 1 / 6) return p + (q - p) * 6 * t;
+            if (t < 1 / 2) return q;
+            if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+            return p;
+          };
+
+          const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+          const p = 2 * l - q;
+          r = hue2rgb(p, q, h / 360 + 1 / 3);
+          g = hue2rgb(p, q, h / 360);
+          b = hue2rgb(p, q, h / 360 - 1 / 3);
+        }
+
+        // RGBを0xRRGGBB形式の数値に変換
+        return (
+          Math.round(r * 255) * 0x10000 +
+          Math.round(g * 255) * 0x100 +
+          Math.round(b * 255)
+        );
+      }
+
+      function RGBtoHSV(r, g, b, coneModel) {
+        var h, // 0..360
+          s, v, // 0..255
+          max = Math.max(Math.max(r, g), b),
+          min = Math.min(Math.min(r, g), b);
+
+        // hue の計算
+        if (max == min) {
+          h = 0; // 本来は定義されないが、仮に0を代入
+        } else if (max == r) {
+          h = 60 * (g - b) / (max - min) + 0;
+        } else if (max == g) {
+          h = (60 * (b - r) / (max - min)) + 120;
+        } else {
+          h = (60 * (r - g) / (max - min)) + 240;
+        }
+
+        while (h < 0) {
+          h += 360;
+        }
+
+        // saturation の計算
+        if (coneModel) {
+          // 円錐モデルの場合
+          s = max - min;
+        } else {
+          s = (max == 0)
+            ? 0 // 本来は定義されないが、仮に0を代入
+            : (max - min) / max * 255;
+        }
+
+        // value の計算
+        v = max;
+
+        return { 'h': h, 's': s, 'v': v };
+      }
+
+    });
+  </script>
+</head>
+
+<body>
+  <div id="display">
+    <span comment="setting">
+      <span comment="Sample">
+        <label>sample</label>
+        <div>
+          <label>size</label>
+          <input id="sample-size" type="number" value="30">
+        </div>
+        <div>
+          <label>interval</label>
+          <input id="sample-interval" type="number" value="100">
+        </div>
+        <div>
+          <label>quantity</label>
+          <input id="sample-quantity" type="number" min="2" max="16" value="5">
+        </div>
+      </span>
+      <span>
+        <label>color type</label>
+        <div>
+          <input id="sample-coloer-type-rgb" type="radio" name="sampleColoerType" value="rgb" checked>
+          <label for="sample-coloer-type-rgb">RGB</label>
+        </div>
+        <div>
+          <input id="sample-coloer-type-hsv" type="radio" name="sampleColoerType" value="hsv">
+          <label for="sample-coloer-type-hsv">HSV</label>
+        </div>
+        <div>
+          <input id="sample-coloer-type-hsl" type="radio" name="sampleColoerType" value="hsl">
+          <label for="sample-coloer-type-hsl">HSL</label>
+        </div>
+      </span>
+      <span id="color-type-rgb" comment="Color range">
+        <span>
+          <label>color type RGB</label>
+          <div>
+            <label>R</label>
+            (
+            <input id="sample-color-rgb-r-range-min" class="color-rgb" type="number" min="0" max="255" value="0">
+            <label>-</label>
+            <input id="sample-color-rgb-r-range-max" class="color-rgb" type="number" min="0" max="255" value="255">
+            } /
+            <input id="sample-color-rgb-r-quantity" class="color-quantity" type="number" min="2" max="16">
+            <!-- <input id="sample-color-rgb-r-quantity-range" type="range"  min="2" max="16"> -->
+          </div>
+          <div>
+            <label>G</label>
+            (
+            <input id="sample-color-rgb-g-range-min" class="color-rgb" type="number" min="0" max="255" value="0">
+            <label>-</label>
+            <input id="sample-color-rgb-g-range-max" class="color-rgb" type="number" min="0" max="255" value="255">
+            } /
+            <input id="sample-color-rgb-g-quantity" class="color-quantity" type="number" min="2" max="16">
+          </div>
+          <div>
+            <label>B</label>
+            (
+            <input id="sample-color-rgb-b-range-min" class="color-rgb" type="number" min="0" max="255" value="0">
+            <label>-</label>
+            <input id="sample-color-rgb-b-range-max" class="color-rgb" type="number" min="0" max="255" value="255">
+            } /
+            <input id="sample-color-rgb-b-quantity" class="color-quantity" type="number" min="2" max="16">
+          </div>
+        </span>
+      </span>
+      <span id="color-type-hsv" comment="Color range">
+        <span>
+          <label>color type HSV</label>
+          <div>
+            <label>H</label>
+            (
+            <input id="sample-color-hsv-h-range-min" class="color-hsv" type="number" min="0" max="360" value="0">
+            <label>-</label>
+            <input id="sample-color-hsv-h-range-max" class="color-hsv" type="number" min="0" max="360" value="360">
+            ) /
+            <input id="sample-color-hsv-h-quantity" class="color-quantity" type="number" min="2" max="16">
+          </div>
+          <div>
+            <label>S</label>
+            (
+            <input id="sample-color-hsv-s-range-min" class="color-hsv" type="number" min="0" max="100" value="0">
+            <label>-</label>
+            <input id="sample-color-hsv-s-range-max" class="color-hsv" type="number" min="0" max="100" value="100">
+            } /
+            <input id="sample-color-hsv-s-quantity" class="color-quantity" type="number" min="2" max="16">
+          </div>
+          <div>
+            <label>V</label>
+            (
+            <input id="sample-color-hsv-v-range-min" class="color-hsv" type="number" min="0" max="100" value="0">
+            <label>-</label>
+            <input id="sample-color-hsv-v-range-max" class="color-hsv" type="number" min="0" max="100" value="100">
+            } /
+            <input id="sample-color-hsv-v-quantity" class="color-quantity" type="number" min="2" max="16">
+          </div>
+        </span>
+      </span>
+      <span id="color-type-hsl" comment="Color range">
+        <span>
+          <label>color type HSL</label>
+          <div>
+            <label>H</label>
+            (
+            <input id="sample-color-hsl-h-range-min" class="color-hsl" type="number" min="0" max="360" value="0">
+            <label>-</label>
+            <input id="sample-color-hsl-h-range-max" class="color-hsl" type="number" min="0" max="360" value="360">
+            } /
+            <input id="sample-color-hsl-h-quantity" class="color-quantity" type="number" min="2" max="16">
+          </div>
+          <div>
+            <label>S</label>
+            (
+            <input id="sample-color-hsl-s-range-min" class="color-hsl" type="number" min="0" max="100" value="0">
+            <label>-</label>
+            <input id="sample-color-hsl-s-range-max" class="color-hsl" type="number" min="0" max="100" value="100">
+            } /
+            <input id="sample-color-hsl-s-quantity" class="color-quantity" type="number" min="2" max="16">
+          </div>
+          <div>
+            <label>L</label>
+            (
+            <input id="sample-color-hsl-l-range-min" class="color-hsl" type="number" min="0" max="100" value="0">
+            <label>-</label>
+            <input id="sample-color-hsl-l-range-max" class="color-hsl" type="number" min="0" max="100" value="100">
+            } /
+            <input id="sample-color-hsl-l-quantity" class="color-quantity" type="number" min="2" max="16">
+          </div>
+        </span>
+      </span>
+    </span>
+    <span comment="Color">
+      <span>
+        <div>
+          <label>Color</label>
+        </div>
+        <div>
+          <input id="color" type="color" disabled>
+        </div>
+        <div>
+          <input id="color-code" type="text" disabled>
+        </div>
+      </span>
+      <span>
+        <div>
+          <label>RGB</label>
+        </div>
+        <div>
+          <label>R</label>
+          <input id="point-color-rgb-r" class="point-color" type="text" disabled>
+        </div>
+        <div>
+          <label>G</label>
+          <input id="point-color-rgb-g" class="point-color" type="text" disabled>
+        </div>
+        <div>
+          <label>B</label>
+          <input id="point-color-rgb-b" class="point-color" type="text" disabled>
+        </div>
+      </span>
+      <span>
+        <div>
+          <label>HSV</label>
+        </div>
+        <div>
+          <label>H</label>
+          <input id="point-color-hsv-h" class="point-color" type="text" disabled>
+        </div>
+        <div>
+          <label>S</label>
+          <input id="point-color-hsv-s" class="point-color" type="text" disabled>
+        </div>
+        <div>
+          <label>V</label>
+          <input id="point-color-hsv-v" class="point-color" type="text" disabled>
+        </div>
+      </span>
+    </span>
+    <span comment="CameraPosition">
+      <div>
+        <label>CameraPosition</label>
+      </div>
+      <div>
+        <label>X</label>
+        <input id="camera-position-x" type="number">
+      </div>
+      <div>
+        <label>Y</label>
+        <input id="camera-position-y" type="number">
+      </div>
+      <div>
+        <label>Z</label>
+        <input id="camera-position-z" type="number">
+      </div>
+    </span>
+  </div>
+  <div id="credits">
+    Powered by <a href="https://threejs.org/">Three.js</a> (MIT License)
+  </div>
+  <canvas id="render-target" width="2000" height="2000"></canvas>
+</body>
+
+</html>
