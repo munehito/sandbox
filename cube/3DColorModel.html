@@ -6,6 +6,8 @@
     html,
     body,
     #render-target {
+      background-color: black;
+      color: white;
       display: block;
       width: 100%;
       height: 100%;
@@ -73,13 +75,17 @@
     window.addEventListener('DOMContentLoaded', () => {
       const renderTargetElement = document.querySelector('#render-target');
       const colorCubeSetting = (() => {
-        const quantity = parseInt(document.querySelector('#sample-quantity').value);
+        const quantitys = {
+          x: parseInt(document.querySelector('#sample-quantity-x').value),
+          y: parseInt(document.querySelector('#sample-quantity-y').value),
+          z: parseInt(document.querySelector('#sample-quantity-z').value),
+        };
 
-        const _createColorModel = (type, quantity) => {
+        const _createColorModel = (type, quantitys) => {
           const model = {
-            x: { range: {}, quantity },
-            y: { range: {}, quantity },
-            z: { range: {}, quantity },
+            x: { range: {}, quantity: quantitys.x },
+            y: { range: {}, quantity: quantitys.y },
+            z: { range: {}, quantity: quantitys.z },
             colorCode: null,
           };
 
@@ -118,13 +124,16 @@
         return {
           colorType: "rgb",
           colorTypes: {
-            rgb: _createColorModel('rgb', quantity),
-            hsv: _createColorModel('hsv', quantity),
-            hsl: _createColorModel('hsl', quantity),
+            rgb: _createColorModel('rgb', quantitys),
+            hsv: _createColorModel('hsv', quantitys),
+            hsl: _createColorModel('hsl', quantitys),
           },
           get size() { return parseInt(document.querySelector('#sample-size').value); },
           get interval() { return parseInt(document.querySelector('#sample-interval').value); },
           get quantity() { return parseInt(document.querySelector('#sample-quantity').value); },
+          get quantityX() { return parseInt(document.querySelector('#sample-quantity-x').value); },
+          get quantityY() { return parseInt(document.querySelector('#sample-quantity-y').value); },
+          get quantityZ() { return parseInt(document.querySelector('#sample-quantity-z').value); },
           get color() { return this.colorTypes[this.colorType]; }
         };
       })
@@ -247,18 +256,14 @@
         }
 
         function buildCylindricalGrid(_setting, group) {
-          const segments = 12; // 円周方向
-          const layers = _setting.quantity * 1.5;  // 高さ方向
-          const radialSteps = _setting.quantity; // 半径方向
+          const radialSteps = _setting.quantityX; // 半径方向
+          const layers = _setting.quantityY;  // 高さ方向
+          const segments = _setting.quantityZ; // 円周方向
 
-          const baseSize = _setting.size * 2;
-          const radius = baseSize * 6; // 間隔を少し調整
-          const height = baseSize * layers; // 高さを増加
+          const radius = _setting.size * _setting.quantityX * 2; // 間隔を少し調整
+          const height = _setting.size * _setting.quantityY * 2; // 高さを増加
 
-          // 個々の立方体サイズ（sizeとquantityで調整）
-          const cubeSize = _setting.size;
-
-          const cubeGeo = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
+          const cubeGeo = new THREE.BoxGeometry(_setting.size, _setting.size, _setting.size);
 
           // 3次元グリッド構築
           for (let r = 1; r <= radialSteps; r++) {
@@ -419,8 +424,32 @@
       }
 
       document.querySelector('#sample-quantity').addEventListener('change', (_changeEvent) => {
+        document.querySelector('#sample-quantity-x').value = _changeEvent.target.value;
+        document.querySelector('#sample-quantity-y').value = _changeEvent.target.value;
+        document.querySelector('#sample-quantity-z').value = _changeEvent.target.value;
         colorCubeSetting.color.x.quantity = _changeEvent.target.value;
         colorCubeSetting.color.y.quantity = _changeEvent.target.value;
+        colorCubeSetting.color.z.quantity = _changeEvent.target.value;
+
+        scene.clear();
+        scene.buildColorModel(colorCubeSetting);
+      });
+
+      document.querySelector('#sample-quantity-x').addEventListener('change', (_changeEvent) => {
+        colorCubeSetting.color.x.quantity = _changeEvent.target.value;
+
+        scene.clear();
+        scene.buildColorModel(colorCubeSetting);
+      });
+
+      document.querySelector('#sample-quantity-y').addEventListener('change', (_changeEvent) => {
+        colorCubeSetting.color.y.quantity = _changeEvent.target.value;
+
+        scene.clear();
+        scene.buildColorModel(colorCubeSetting);
+      });
+
+      document.querySelector('#sample-quantity-z').addEventListener('change', (_changeEvent) => {
         colorCubeSetting.color.z.quantity = _changeEvent.target.value;
 
         scene.clear();
@@ -605,7 +634,21 @@
           <input id="sample-quantity" type="number" min="2" max="16" value="5">
         </div>
       </span>
-      <span>
+      <span comment="Sample">
+        <div>
+          <label>quantity X</label>
+          <input id="sample-quantity-x" type="number" min="2" max="16" value="2">
+        </div>
+        <div>
+          <label>quantity Y</label>
+          <input id="sample-quantity-y" type="number" min="2" max="16" value="4">
+        </div>
+        <div>
+          <label>quantity Z</label>
+          <input id="sample-quantity-z" type="number" min="2" max="16" value="6">
+        </div>
+      </span>
+      <span comment="Color type">
         <label>color type</label>
         <div>
           <input id="sample-coloer-type-rgb" type="radio" name="sampleColoerType" value="rgb" checked>
