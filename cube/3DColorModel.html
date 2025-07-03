@@ -247,20 +247,16 @@
         }
 
         function buildCylindricalGrid(_setting, group) {
-          const baseSize = _setting.size * 0.5;
-          const radius = baseSize * (_setting.interval / 30); // 間隔を少し調整
-          const height = baseSize * (_setting.interval / 15); // 高さを増加
+          const segments = 12; // 円周方向
+          const layers = _setting.quantity * 1.5;  // 高さ方向
+          const radialSteps = _setting.quantity; // 半径方向
 
-          // quantityを活用して解像度設定
-          const segments = Math.max(12, _setting.quantity * 3); // 円周方向
-          const layers = Math.max(6, _setting.quantity * 1.5);  // 高さ方向
-          const radialSteps = Math.max(3, _setting.quantity / 2); // 半径方向
+          const baseSize = _setting.size * 2;
+          const radius = baseSize * 6; // 間隔を少し調整
+          const height = baseSize * layers; // 高さを増加
 
           // 個々の立方体サイズ（sizeとquantityで調整）
-          const cubeSize = Math.min(
-            baseSize * 0.7,
-            (radius * 2 * Math.PI) / (segments * 1.5)
-          );
+          const cubeSize = _setting.size;
 
           const cubeGeo = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
 
@@ -286,7 +282,7 @@
                 const cube = new THREE.Mesh(cubeGeo, new THREE.MeshBasicMaterial({
                   color: new THREE.Color(color),
                   transparent: true,
-                  opacity: 0.9
+                  // opacity: 0.9
                 }));
 
                 cube.position.set(x, y, z);
@@ -313,31 +309,27 @@
         me.lookAt(0, 0, 0);
 
         me.adjustPosition = function (_setting) {
-          const baseDistance = _setting.interval * (_setting.quantity + 3);
-          const cylinderHeight = _setting.size * (_setting.interval / 15) * (_setting.quantity * 1.5);
-          const cylinderRadius = _setting.size * (_setting.interval / 30) * (_setting.quantity / 2);
-
           switch (_setting.colorType) {
             case 'hsv':
             case 'hsl':
-              const viewDistance = Math.max(cylinderHeight * 2, cylinderRadius * 4);
               this.position.set(
-                viewDistance * 0.8,
-                viewDistance * 0.6,
-                viewDistance * 0.8
+                _setting.interval,
+                _setting.interval * 0.6,
+                _setting.interval * 0.8
               );
               this.fov = 45;
+              this.lookAt(0, 0, 0);
               break;
             case 'rgb':
             default:
               this.position.set(
-                baseDistance,
-                baseDistance * 0.8,
-                baseDistance * 0.9
+                distanceBase,
+                distanceBase * 0.8,
+                distanceBase * 0.9
               );
               this.fov = 45;
+              this.lookAt(0, 0, 0);
           }
-          this.lookAt(0, cylinderHeight / 4, 0);
           this.updateProjectionMatrix();
         };
 
