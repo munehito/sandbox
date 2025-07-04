@@ -619,8 +619,8 @@
         }
       });
 
-      renderTargetElement.addEventListener('mousemove', updateCameraPositioin);
-      renderTargetElement.addEventListener('wheel', updateCameraPositioin);
+      renderTargetElement.addEventListener('mousemove', updateCameraPosition);
+      renderTargetElement.addEventListener('wheel', updateCameraPosition);
 
       for (const target of [
         '#sample-size',
@@ -678,7 +678,7 @@
 
       // init
       updateColorTypeDisplay();
-      updateCameraPositioin();
+      updateCameraPosition();
       tick();
 
 
@@ -714,7 +714,7 @@
         document.getElementById('color-type-hsl').style.display = (type === 'hsl') ? '' : 'none';
       }
 
-      function updateCameraPositioin() {
+      function updateCameraPosition() {
         const cameraPositionXElement = document.querySelector('#camera-position-x');
         const cameraPositionYElement = document.querySelector('#camera-position-y');
         const cameraPositionZElement = document.querySelector('#camera-position-z');
