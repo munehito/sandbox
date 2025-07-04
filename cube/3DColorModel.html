@@ -313,7 +313,6 @@
     window.addEventListener('DOMContentLoaded', () => {
       const renderTargetElement = document.querySelector('#render-target');
       const colorCubeSetting = (() => {
-
         const defineAxis = (_colorType, _axis) => {
           const minId = `#sample-color-${_colorType}-${_axis}-range-min`;
           const maxId = `#sample-color-${_colorType}-${_axis}-range-max`;
@@ -381,143 +380,140 @@
           // カラーモデルごとの形状選択
           switch (_setting.colorType) {
             case 'rgb':
-              buildCube(_setting, group);
+              (function buildCube(_setting, group) {
+                const geometry = new THREE.BoxGeometry(_setting.size, _setting.size, _setting.size);
+                function makeAxsis(
+                  _size,
+                  _interval,
+                  _axisQuantity,
+                  _colorRangeMin,
+                  _colorRangeMax,
+                ) {
+                  const resolution = _axisQuantity - 1;
+                  const colorResolution = _colorRangeMax - _colorRangeMin;
+                  return {
+                    resolution: resolution,
+                    colorResolution: colorResolution,
+                    positionOffset: (_interval * resolution + _size) / 2,
+
+                    get axis() { return this._axis; },
+                    set axis(_value) {
+                      this._axis = _value;
+                      this.color = (Math.round(colorResolution / resolution * this._axis) + _colorRangeMin);
+                      this.colorRange = {
+                        min: Math.round(colorResolution / resolution * (this._axis - 1)),
+                        max: Math.round(colorResolution / resolution * (this._axis + 1)),
+                      };
+                      this.position = -((_interval * this._axis) - this.positionOffset);
+                    },
+                  }
+                };
+
+                const x = makeAxsis(
+                  _setting.size,
+                  _setting.interval,
+                  _setting.color.x.quantity,
+                  _setting.color.x.range.min,
+                  _setting.color.x.range.max,
+                );
+                const y = makeAxsis(
+                  _setting.size,
+                  _setting.interval,
+                  _setting.color.y.quantity,
+                  _setting.color.y.range.min,
+                  _setting.color.y.range.max,
+                );
+                const z = makeAxsis(
+                  _setting.size,
+                  _setting.interval,
+                  _setting.color.z.quantity,
+                  _setting.color.z.range.min,
+                  _setting.color.z.range.max,
+                );
+
+                for (x.axis = 0; x.axis <= x.resolution; x.axis++) {
+                  const colorRRange = x.colorRange;
+                  for (y.axis = 0; y.axis <= y.resolution; y.axis++) {
+                    const colorGRange = y.colorRange;
+                    for (z.axis = 0; z.axis <= z.resolution; z.axis++) {
+                      const colorBRange = z.colorRange;
+
+                      const material = new THREE.MeshBasicMaterial({
+                        color: _setting.color.colorCode(x.color, y.color, z.color)
+                      });
+                      material.colorRange = {
+                        r: colorRRange,
+                        g: colorGRange,
+                        b: colorBRange,
+                      };
+
+                      const mesh = new THREE.Mesh(geometry, material);
+                      mesh.position.set(x.position, y.position, z.position);
+                      group.add(mesh);
+                    }
+                  }
+                }
+
+                for (let h = 0; h <= 360; h += 60) {
+                  for (let s = 0; s <= 100; s += 20) {
+                    for (let v = 0; v <= 100; v += 20) {
+                      console.log(
+                        _setting.color.colorCode(h, s, v).toString(16),
+                        h, s, v);
+                    }
+                  }
+                }
+              })
+                (_setting, group);
               break;
             case 'hsv':
             case 'hsl':
-              buildCylindricalGrid(_setting, group);
+              (function buildCylindricalGrid(_setting, group) {
+                const radialSteps = _setting.color.x.quantity; // 半径方向
+                const layers = _setting.color.y.quantity;  // 高さ方向
+                const segments = _setting.color.z.quantity; // 円周方向
+
+                const radius = _setting.size * radialSteps * 2;
+                const height = _setting.size * layers * 2;
+
+                const cubeGeo = new THREE.BoxGeometry(_setting.size, _setting.size, _setting.size);
+
+                // 3次元グリッド構築
+                for (let r = 1; r <= radialSteps; r++) {
+                  const currentRadius = (radius / radialSteps) * r;
+                  for (let h = 0; h < layers; h++) {
+                    const y = (height / layers) * h - height / 2;
+                    for (let a = 0; a < segments; a++) {
+                      const angle = (a / segments) * Math.PI * 2;
+                      const x = Math.cos(angle) * currentRadius;
+                      const z = Math.sin(angle) * currentRadius;
+
+                      // HSV/HSL色計算
+                      const hValue = (a / segments) * 360; // 色相
+                      const sValue = (r / radialSteps) * 100; // 彩度
+                      const vOrL = (h / layers) * 100; // 明度
+
+                      const color = _setting.color.colorCode(hValue, sValue, vOrL);
+
+                      const cube = new THREE.Mesh(cubeGeo, new THREE.MeshBasicMaterial({
+                        color: new THREE.Color(color),
+                        transparent: true,
+                        // opacity: 0.9
+                      }));
+
+                      cube.position.set(x, y, z);
+                      group.add(cube);
+                    }
+                  }
+                }
+              })
+                (_setting, group);
               break;
           }
 
           this.add(group);
         };
 
-        function buildCube(_setting, group) {
-          const geometry = new THREE.BoxGeometry(_setting.size, _setting.size, _setting.size);
-          function makeAxsis(
-            _size,
-            _interval,
-            _axisQuantity,
-            _colorRangeMin,
-            _colorRangeMax,
-          ) {
-            const resolution = _axisQuantity - 1;
-            const colorResolution = _colorRangeMax - _colorRangeMin;
-            return {
-              resolution: resolution,
-              colorResolution: colorResolution,
-              positionOffset: (_interval * resolution + _size) / 2,
-
-              get axis() { return this._axis; },
-              set axis(_value) {
-                this._axis = _value;
-                this.color = (Math.round(colorResolution / resolution * this._axis) + _colorRangeMin);
-                this.colorRange = {
-                  min: Math.round(colorResolution / resolution * (this._axis - 1)),
-                  max: Math.round(colorResolution / resolution * (this._axis + 1)),
-                };
-                this.position = -((_interval * this._axis) - this.positionOffset);
-              },
-            }
-          };
-
-          const x = makeAxsis(
-            _setting.size,
-            _setting.interval,
-            _setting.color.x.quantity,
-            _setting.color.x.range.min,
-            _setting.color.x.range.max,
-          );
-          const y = makeAxsis(
-            _setting.size,
-            _setting.interval,
-            _setting.color.y.quantity,
-            _setting.color.y.range.min,
-            _setting.color.y.range.max,
-          );
-          const z = makeAxsis(
-            _setting.size,
-            _setting.interval,
-            _setting.color.z.quantity,
-            _setting.color.z.range.min,
-            _setting.color.z.range.max,
-          );
-
-          for (x.axis = 0; x.axis <= x.resolution; x.axis++) {
-            const colorRRange = x.colorRange;
-            for (y.axis = 0; y.axis <= y.resolution; y.axis++) {
-              const colorGRange = y.colorRange;
-              for (z.axis = 0; z.axis <= z.resolution; z.axis++) {
-                const colorBRange = z.colorRange;
-
-                const material = new THREE.MeshBasicMaterial({
-                  color: _setting.color.colorCode(x.color, y.color, z.color)
-                });
-                material.colorRange = {
-                  r: colorRRange,
-                  g: colorGRange,
-                  b: colorBRange,
-                };
-
-                const mesh = new THREE.Mesh(geometry, material);
-                mesh.position.set(x.position, y.position, z.position);
-                group.add(mesh);
-              }
-            }
-          }
-
-          for (let h = 0; h <= 360; h += 60) {
-            for (let s = 0; s <= 100; s += 20) {
-              for (let v = 0; v <= 100; v += 20) {
-                console.log(
-                  _setting.color.colorCode(h, s, v).toString(16),
-                  h, s, v);
-              }
-            }
-          }
-        }
-
-        function buildCylindricalGrid(_setting, group) {
-          const radialSteps = _setting.color.x.quantity; // 半径方向
-          const layers = _setting.color.y.quantity;  // 高さ方向
-          const segments = _setting.color.z.quantity; // 円周方向
-
-          const radius = _setting.size * radialSteps * 2;
-          const height = _setting.size * layers * 2;
-
-          const cubeGeo = new THREE.BoxGeometry(_setting.size, _setting.size, _setting.size);
-
-          // 3次元グリッド構築
-          for (let r = 1; r <= radialSteps; r++) {
-            const currentRadius = (radius / radialSteps) * r;
-
-            for (let h = 0; h < layers; h++) {
-              const y = (height / layers) * h - height / 2;
-
-              for (let a = 0; a < segments; a++) {
-                const angle = (a / segments) * Math.PI * 2;
-                const x = Math.cos(angle) * currentRadius;
-                const z = Math.sin(angle) * currentRadius;
-
-                // HSV/HSL色計算
-                const hValue = (a / segments) * 360; // 色相
-                const sValue = (r / radialSteps) * 100; // 彩度
-                const vOrL = (h / layers) * 100; // 明度
-
-                const color = _setting.color.colorCode(hValue, sValue, vOrL);
-
-                const cube = new THREE.Mesh(cubeGeo, new THREE.MeshBasicMaterial({
-                  color: new THREE.Color(color),
-                  transparent: true,
-                  // opacity: 0.9
-                }));
-
-                cube.position.set(x, y, z);
-                group.add(cube);
-              }
-            }
-          }
-        }
         // 初期化
         me.buildColorModel(_setting);
 
