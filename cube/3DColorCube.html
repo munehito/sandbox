@@ -61,14 +61,13 @@
     {
       "imports": {
         "three": "./libs/three.module.js",
-        "three/addons/": "./libs/"
+        "OrbitControls": "./libs/addons/controls/OrbitControls.js"
       }
     }
   </script>
   <script type="module">
     import * as THREE from 'three';
-    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-
+    import { OrbitControls } from 'OrbitControls';
     // Wait for page to load
     window.addEventListener('DOMContentLoaded', () => {
       const renderTargetElement = document.querySelector('#render-target');
