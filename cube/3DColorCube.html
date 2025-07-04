@@ -467,14 +467,6 @@
         scene.buildColorModel(colorCubeSetting);
       });
 
-      document.querySelectorAll('input[name="sampleColorType"]').forEach((radio) => {
-        radio.addEventListener('change', (e) => {
-          colorCubeSetting.colorType = e.target.value;
-          scene.clear();
-          scene.buildColorModel(colorCubeSetting);
-        });
-      });
-
       // init
       document.querySelector('#sample-color-rgb-r-quantity').value = colorCubeSetting.quantity;
       document.querySelector('#sample-color-rgb-g-quantity').value = colorCubeSetting.quantity;
