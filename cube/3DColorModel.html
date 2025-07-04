@@ -721,12 +721,14 @@
 
       document.querySelectorAll('input[name="sampleColorType"]').forEach((radio) => {
         radio.addEventListener('change', (e) => {
+          updateColorTypeDisplay();
           scene.clear();
           scene.buildColorModel(colorCubeSetting);
         });
       });
 
       // init
+      updateColorTypeDisplay();
       updateCameraPositioin();
       tick();
 
@@ -754,6 +756,13 @@
         controls.update();
         renderer.render(scene, camera);
         requestAnimationFrame(tick);
+      }
+
+      function updateColorTypeDisplay() {
+        const type = document.querySelector('input[name="sampleColorType"]:checked').value;
+        document.getElementById('color-type-rgb').style.display = (type === 'rgb') ? '' : 'none';
+        document.getElementById('color-type-hsv').style.display = (type === 'hsv') ? '' : 'none';
+        document.getElementById('color-type-hsl').style.display = (type === 'hsl') ? '' : 'none';
       }
 
       function updateCameraPositioin() {
