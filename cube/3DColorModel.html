@@ -517,7 +517,6 @@
         (colorCubeSetting);
 
       const camera = ((_setting, _renderTargetElement) => {
-        const distanceBase = _setting.interval * (_setting.quantity + 3);
         const me = new THREE.PerspectiveCamera(
           45,
           _renderTargetElement.width / _renderTargetElement.height
@@ -540,6 +539,7 @@
               break;
             case 'rgb':
             default:
+              const distanceBase = _setting.interval * (_setting.quantity + 3);
               this.position.set(
                 distanceBase,
                 distanceBase * 0.8,
