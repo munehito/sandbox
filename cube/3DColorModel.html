@@ -114,20 +114,6 @@
           <input id="sample-quantity" type="number" min="2" max="16" value="5">
         </div>
       </span>
-      <span comment="Sample">
-        <div>
-          <label>quantity X</label>
-          <input id="sample-quantity-x" type="number" min="2" max="16" value="2">
-        </div>
-        <div>
-          <label>quantity Y</label>
-          <input id="sample-quantity-y" type="number" min="2" max="16" value="4">
-        </div>
-        <div>
-          <label>quantity Z</label>
-          <input id="sample-quantity-z" type="number" min="2" max="16" value="6">
-        </div>
-      </span>
       <span comment="Color type">
         <label>color type</label>
         <div>
@@ -177,7 +163,7 @@
       </span>
       <span id="color-type-hsv" comment="Color range">
         <span>
-          <label>color type HSV</label>
+          <label>HSV</label>
           <div>
             <label>H</label>
             (
@@ -185,7 +171,7 @@
             <label>-</label>
             <input id="sample-color-hsv-h-range-max" class="color-hsv" type="number" min="0" max="360" value="360">
             ) /
-            <input id="sample-color-hsv-h-quantity" class="color-quantity" type="number" min="2" max="16">
+            <input id="sample-color-hsv-h-quantity" class="color-quantity" type="number" min="2" max="16" value="5">
           </div>
           <div>
             <label>S</label>
@@ -194,7 +180,7 @@
             <label>-</label>
             <input id="sample-color-hsv-s-range-max" class="color-hsv" type="number" min="0" max="100" value="100">
             ) /
-            <input id="sample-color-hsv-s-quantity" class="color-quantity" type="number" min="2" max="16">
+            <input id="sample-color-hsv-s-quantity" class="color-quantity" type="number" min="2" max="16" value="7">
           </div>
           <div>
             <label>V</label>
@@ -203,7 +189,7 @@
             <label>-</label>
             <input id="sample-color-hsv-v-range-max" class="color-hsv" type="number" min="0" max="100" value="100">
             ) /
-            <input id="sample-color-hsv-v-quantity" class="color-quantity" type="number" min="2" max="16">
+            <input id="sample-color-hsv-v-quantity" class="color-quantity" type="number" min="2" max="16" value="12">
           </div>
         </span>
       </span>
@@ -217,7 +203,7 @@
             <label>-</label>
             <input id="sample-color-hsl-h-range-max" class="color-hsl" type="number" min="0" max="360" value="360">
             ) /
-            <input id="sample-color-hsl-h-quantity" class="color-quantity" type="number" min="2" max="16">
+            <input id="sample-color-hsl-h-quantity" class="color-quantity" type="number" min="2" max="16" value="5">
           </div>
           <div>
             <label>S</label>
@@ -226,7 +212,7 @@
             <label>-</label>
             <input id="sample-color-hsl-s-range-max" class="color-hsl" type="number" min="0" max="100" value="100">
             ) /
-            <input id="sample-color-hsl-s-quantity" class="color-quantity" type="number" min="2" max="16">
+            <input id="sample-color-hsl-s-quantity" class="color-quantity" type="number" min="2" max="16" value="7">
           </div>
           <div>
             <label>L</label>
@@ -235,7 +221,7 @@
             <label>-</label>
             <input id="sample-color-hsl-l-range-max" class="color-hsl" type="number" min="0" max="100" value="100">
             ) /
-            <input id="sample-color-hsl-l-quantity" class="color-quantity" type="number" min="2" max="16">
+            <input id="sample-color-hsl-l-quantity" class="color-quantity" type="number" min="2" max="16" value="12">
           </div>
         </span>
       </span>
@@ -318,90 +304,48 @@
     window.addEventListener('DOMContentLoaded', () => {
       const renderTargetElement = document.querySelector('#render-target');
       const colorCubeSetting = (() => {
-        const quantitys = {
-          x: parseInt(document.querySelector('#sample-quantity-x').value),
-          y: parseInt(document.querySelector('#sample-quantity-y').value),
-          z: parseInt(document.querySelector('#sample-quantity-z').value),
-        };
 
-        const _createColorModel = (type, quantitys) => {
-          const model = {
-            x: { range: {}, quantity: quantitys.x },
-            y: { range: {}, quantity: quantitys.y },
-            z: { range: {}, quantity: quantitys.z },
-            colorCode: null,
-          };
-
-          const defineRange = (axis, minId, maxId) => {
-            model[axis].range = {
+        const defineAxis = (_colorType, _axis) => {
+          const minId = `#sample-color-${_colorType}-${_axis}-range-min`;
+          const maxId = `#sample-color-${_colorType}-${_axis}-range-max`;
+          const quantityId = `#sample-color-${_colorType}-${_axis}-quantity`;
+          return {
+            range: {
               get min() { return parseInt(document.querySelector(minId).value); },
               set min(value) { document.querySelector(minId).value = value; },
               get max() { return parseInt(document.querySelector(maxId).value); },
               set max(value) { document.querySelector(maxId).value = value; },
-            };
+            },
+            get quantity() { return parseInt(document.querySelector(quantityId).value); },
+            set quantity(value) { document.querySelector(quantityId).value = value; }
           };
-
-          switch (type) {
-            case 'rgb':
-              defineRange('x', '#sample-color-rgb-r-range-min', '#sample-color-rgb-r-range-max');
-              defineRange('y', '#sample-color-rgb-g-range-min', '#sample-color-rgb-g-range-max');
-              defineRange('z', '#sample-color-rgb-b-range-min', '#sample-color-rgb-b-range-max');
-              model.colorCode = (r, g, b) => r * 0x10000 + g * 0x100 + b;
-              break;
-            case 'hsv':
-              defineRange('x', '#sample-color-hsv-h-range-min', '#sample-color-hsv-h-range-max');
-              defineRange('y', '#sample-color-hsv-s-range-min', '#sample-color-hsv-s-range-max');
-              defineRange('z', '#sample-color-hsv-v-range-min', '#sample-color-hsv-v-range-max');
-              model.colorCode = (h, s, v) => HSVtoRGB(h, s, v);
-              break;
-            case 'hsl':
-              defineRange('x', '#sample-color-hsl-h-range-min', '#sample-color-hsl-h-range-max');
-              defineRange('y', '#sample-color-hsl-s-range-min', '#sample-color-hsl-s-range-max');
-              defineRange('z', '#sample-color-hsl-l-range-min', '#sample-color-hsl-l-range-max');
-              model.colorCode = (h, s, l) => HSLtoRGB(h, s, l);
-              break;
-          }
-          return model;
         };
 
         return {
           get colorType() { return document.querySelector('input[name="sampleColorType"]:checked').value; },
           colorTypes: {
-            rgb: (
-              () => {
-              const defineAxis = (_axis) => {
-                const minId = `#sample-color-rgb-${_axis}-range-min`;
-                const maxId = `#sample-color-rgb-${_axis}-range-max`;
-                const quantityId = `#sample-color-rgb-${_axis}-quantity`;
-                return {
-                  range: {
-                    get min() { return parseInt(document.querySelector(minId).value); },
-                    set min(value) { document.querySelector(minId).value = value; },
-                    get max() { return parseInt(document.querySelector(maxId).value); },
-                    set max(value) { document.querySelector(maxId).value = value; },
-                  },
-                  get quantity() { return parseInt(document.querySelector(quantityId).value); },
-                  set quantity(value) { document.querySelector(quantityId).value = value; }
-                };
-              };
-
-              return {
-                x: defineAxis('r'),
-                y: defineAxis('g'),
-                z: defineAxis('b'),
-                colorCode: (r, g, b) => r * 0x10000 + g * 0x100 + b,
-              };
-            })
-              (),
-            hsv: _createColorModel('hsv', quantitys),
-            hsl: _createColorModel('hsl', quantitys),
+            rgb: {
+              x: defineAxis('rgb', 'r'),
+              y: defineAxis('rgb', 'g'),
+              z: defineAxis('rgb', 'b'),
+              colorCode: (r, g, b) => r * 0x10000 + g * 0x100 + b,
+            },
+            hsv: {
+              x: defineAxis('hsv', 'h'),
+              y: defineAxis('hsv', 's'),
+              z: defineAxis('hsv', 'v'),
+              colorCode: (h, s, v) => HSVtoRGB(h, s, v),
+            },
+            hsl: {
+              x: defineAxis('hsl', 'h'),
+              y: defineAxis('hsl', 's'),
+              z: defineAxis('hsl', 'l'),
+              colorCode: (h, s, l) => HSLtoRGB(h, s, l),
+            },
           },
           get size() { return parseInt(document.querySelector('#sample-size').value); },
           get interval() { return parseInt(document.querySelector('#sample-interval').value); },
           get quantity() { return parseInt(document.querySelector('#sample-quantity').value); },
-          get quantityX() { return parseInt(document.querySelector('#sample-quantity-x').value); },
-          get quantityY() { return parseInt(document.querySelector('#sample-quantity-y').value); },
-          get quantityZ() { return parseInt(document.querySelector('#sample-quantity-z').value); },
           get color() { return this.colorTypes[this.colorType]; }
         };
       })
@@ -525,12 +469,12 @@
         }
 
         function buildCylindricalGrid(_setting, group) {
-          const radialSteps = _setting.quantityX; // 半径方向
-          const layers = _setting.quantityY;  // 高さ方向
-          const segments = _setting.quantityZ; // 円周方向
+          const radialSteps = _setting.color.x.quantity; // 半径方向
+          const layers = _setting.color.y.quantity;  // 高さ方向
+          const segments = _setting.color.z.quantity; // 円周方向
 
-          const radius = _setting.size * _setting.quantityX * 2; // 間隔を少し調整
-          const height = _setting.size * _setting.quantityY * 2; // 高さを増加
+          const radius = _setting.size * radialSteps * 2;
+          const height = _setting.size * layers * 2;
 
           const cubeGeo = new THREE.BoxGeometry(_setting.size, _setting.size, _setting.size);
 
@@ -604,11 +548,11 @@
               this.fov = 45;
               this.lookAt(0, 0, 0);
           }
-          this.updateProjectionMatrix();
         };
 
         // 初期位置設定
         me.adjustPosition(_setting);
+        me.updateProjectionMatrix();
 
         return me;
       })
@@ -625,7 +569,7 @@
       // addEventListener
       window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
-        camera.adjustPosition(colorCubeSetting.colorType);
+        camera.adjustPosition(colorCubeSetting);
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
       });
@@ -711,32 +655,8 @@
       });
 
       document.querySelector('#sample-quantity').addEventListener('change', (_changeEvent) => {
-        document.querySelector('#sample-quantity-x').value = _changeEvent.target.value;
-        document.querySelector('#sample-quantity-y').value = _changeEvent.target.value;
-        document.querySelector('#sample-quantity-z').value = _changeEvent.target.value;
         colorCubeSetting.color.x.quantity = _changeEvent.target.value;
         colorCubeSetting.color.y.quantity = _changeEvent.target.value;
-        colorCubeSetting.color.z.quantity = _changeEvent.target.value;
-
-        scene.clear();
-        scene.buildColorModel(colorCubeSetting);
-      });
-
-      document.querySelector('#sample-quantity-x').addEventListener('change', (_changeEvent) => {
-        colorCubeSetting.color.x.quantity = _changeEvent.target.value;
-
-        scene.clear();
-        scene.buildColorModel(colorCubeSetting);
-      });
-
-      document.querySelector('#sample-quantity-y').addEventListener('change', (_changeEvent) => {
-        colorCubeSetting.color.y.quantity = _changeEvent.target.value;
-
-        scene.clear();
-        scene.buildColorModel(colorCubeSetting);
-      });
-
-      document.querySelector('#sample-quantity-z').addEventListener('change', (_changeEvent) => {
         colorCubeSetting.color.z.quantity = _changeEvent.target.value;
 
         scene.clear();
