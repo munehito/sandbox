@@ -55,7 +55,9 @@
       width: 4rem;
     }
 
-    #color-code {
+    #color-code,
+    #sample-bg-color-code,
+    #sample-fg-color-code {
       width: 4rem;
     }
 
@@ -85,6 +87,18 @@
 <body>
   <div id="display">
     <span comment="setting">
+      <span comment="Sample">
+        <div>
+          <label>BG</label>
+          <input id="sample-bg-color" type="color" value="#000000">
+          <input id="sample-bg-color-code" type="text" value="#000000">
+        </div>
+        <div>
+          <label>FG</label>
+          <input id="sample-fg-color" type="color" value="#ffffff">
+          <input id="sample-fg-color-code" type="text" value="#ffffff">
+        </div>
+      </span>
       <span comment="Sample">
         <label>sample</label>
         <div>
@@ -375,6 +389,7 @@
         });
         me.setPixelRatio(window.devicePixelRatio);
         me.setSize(window.innerWidth, window.innerHeight);
+        me.setClearColor(document.querySelector('#sample-bg-color').value, 1.0);
         return me;
       })
         ();
@@ -652,6 +667,24 @@
           scene.buildColorModel(colorCubeSetting);
         });
       }
+
+      document.querySelector('#sample-bg-color').addEventListener('input', (e) => {
+        document.querySelector('#sample-bg-color-code').value = e.target.value;
+        renderer.setClearColor(e.target.value, 1.0);
+      });
+      document.querySelector('#sample-bg-color-code').addEventListener('input', (e) => {
+        document.querySelector('#sample-bg-color').value = e.target.value;
+        renderer.setClearColor(e.target.value, 1.0);
+      });
+
+      document.querySelector('#sample-fg-color').addEventListener('input', (e) => {
+        document.querySelector('#sample-fg-color-code').value = e.target.value;
+        document.body.style.color = e.target.value;
+      });
+      document.querySelector('#sample-fg-color-code').addEventListener('input', (e) => {
+        document.querySelector('#sample-fg-color').value = e.target.value;
+        document.body.style.color = e.target.value;
+      });
 
       document.querySelector('#sample-quantity').addEventListener('change', (_changeEvent) => {
         document.querySelector('#sample-quantity-x').value = _changeEvent.target.value;
