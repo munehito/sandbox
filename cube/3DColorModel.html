@@ -58,6 +58,18 @@
     #color-code {
       width: 4rem;
     }
+
+    #credits {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      z-index: 200;
+      color: #ccc;
+      font-size: small;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
   </style>
   <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
   <script type="importmap">
@@ -280,10 +292,10 @@
       </div>
     </span>
   </div>
+  <canvas id="render-target" width="2000" height="2000"></canvas>
   <div id="credits">
     Powered by <a href="https://threejs.org/">Three.js</a> (MIT License)
   </div>
-  <canvas id="render-target" width="2000" height="2000"></canvas>
 
   <script type="module">
     import * as THREE from 'three';
