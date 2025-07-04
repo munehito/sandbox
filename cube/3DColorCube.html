@@ -467,7 +467,7 @@
         scene.buildColorModel(colorCubeSetting);
       });
 
-      document.querySelectorAll('input[name="sampleColoerType"]').forEach((radio) => {
+      document.querySelectorAll('input[name="sampleColorType"]').forEach((radio) => {
         radio.addEventListener('change', (e) => {
           colorCubeSetting.colorType = e.target.value;
           scene.clear();
