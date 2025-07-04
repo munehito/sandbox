@@ -352,7 +352,7 @@
         };
 
         return {
-          colorType: "rgb",
+          get colorType() { return document.querySelector('input[name="sampleColorType"]:checked').value; },
           colorTypes: {
             rgb: _createColorModel('rgb', quantitys),
             hsv: _createColorModel('hsv', quantitys),
@@ -688,7 +688,6 @@
 
       document.querySelectorAll('input[name="sampleColorType"]').forEach((radio) => {
         radio.addEventListener('change', (e) => {
-          colorCubeSetting.colorType = e.target.value;
           scene.clear();
           scene.buildColorModel(colorCubeSetting);
         });
