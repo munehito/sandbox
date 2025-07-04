@@ -65,6 +65,113 @@
       }
     }
   </script>
+</head>
+
+<body>
+  <div id="display">
+    <span comment="setting">
+      <span comment="Sample">
+        <label>sample</label>
+        <div>
+          <label>size</label>
+          <input id="sample-size" type="number" value="30">
+        </div>
+        <div>
+          <label>interval</label>
+          <input id="sample-interval" type="number" value="100">
+        </div>
+        <div>
+          <label>quantity</label>
+          <input id="sample-quantity" type="number" min="2" max="16" value="5">
+        </div>
+      </span>
+      <span id="color-type-rgb" comment="Color range">
+        <span>
+          <label>color type RGB</label>
+          <div>
+            <label>R</label>
+            (
+            <input id="sample-color-rgb-r-range-min" class="color-rgb" type="number" min="0" max="255" value="0">
+            <label>-</label>
+            <input id="sample-color-rgb-r-range-max" class="color-rgb" type="number" min="0" max="255" value="255">
+            ) /
+            <input id="sample-color-rgb-r-quantity" class="color-quantity" type="number" min="2" max="16">
+            <!-- <input id="sample-color-rgb-r-quantity-range" type="range"  min="2" max="16"> -->
+          </div>
+          <div>
+            <label>G</label>
+            (
+            <input id="sample-color-rgb-g-range-min" class="color-rgb" type="number" min="0" max="255" value="0">
+            <label>-</label>
+            <input id="sample-color-rgb-g-range-max" class="color-rgb" type="number" min="0" max="255" value="255">
+            ) /
+            <input id="sample-color-rgb-g-quantity" class="color-quantity" type="number" min="2" max="16">
+          </div>
+          <div>
+            <label>B</label>
+            (
+            <input id="sample-color-rgb-b-range-min" class="color-rgb" type="number" min="0" max="255" value="0">
+            <label>-</label>
+            <input id="sample-color-rgb-b-range-max" class="color-rgb" type="number" min="0" max="255" value="255">
+            ) /
+            <input id="sample-color-rgb-b-quantity" class="color-quantity" type="number" min="2" max="16">
+          </div>
+        </span>
+      </span>
+    </span>
+    <span comment="Color">
+      <span>
+        <div>
+          <label>Color</label>
+        </div>
+        <div>
+          <input id="color" type="color" disabled>
+        </div>
+        <div>
+          <input id="color-code" type="text" disabled>
+        </div>
+      </span>
+      <span>
+        <div>
+          <label>RGB</label>
+        </div>
+        <div>
+          <label>R</label>
+          <input id="point-color-rgb-r" class="point-color" type="text" disabled>
+        </div>
+        <div>
+          <label>G</label>
+          <input id="point-color-rgb-g" class="point-color" type="text" disabled>
+        </div>
+        <div>
+          <label>B</label>
+          <input id="point-color-rgb-b" class="point-color" type="text" disabled>
+        </div>
+      </span>
+    </span>
+    <span comment="CameraPosition">
+      <div>
+        <label>CameraPosition</label>
+      </div>
+      <div>
+        <label>X</label>
+        <input id="camera-position-x" type="number">
+      </div>
+      <div>
+        <label>Y</label>
+        <input id="camera-position-y" type="number">
+      </div>
+      <div>
+        <label>Z</label>
+        <input id="camera-position-z" type="number">
+      </div>
+    </span>
+  </div>
+  <div id="credits">
+    Powered by <a href="https://threejs.org/">Three.js</a> (MIT License)
+  </div>
+  <canvas id="render-target" width="2000" height="2000"></canvas>
+
   <script type="module">
     import * as THREE from 'three';
     import { OrbitControls } from 'OrbitControls';
@@ -401,112 +508,6 @@
 
     });
   </script>
-</head>
-
-<body>
-  <div id="display">
-    <span comment="setting">
-      <span comment="Sample">
-        <label>sample</label>
-        <div>
-          <label>size</label>
-          <input id="sample-size" type="number" value="30">
-        </div>
-        <div>
-          <label>interval</label>
-          <input id="sample-interval" type="number" value="100">
-        </div>
-        <div>
-          <label>quantity</label>
-          <input id="sample-quantity" type="number" min="2" max="16" value="5">
-        </div>
-      </span>
-      <span id="color-type-rgb" comment="Color range">
-        <span>
-          <label>color type RGB</label>
-          <div>
-            <label>R</label>
-            (
-            <input id="sample-color-rgb-r-range-min" class="color-rgb" type="number" min="0" max="255" value="0">
-            <label>-</label>
-            <input id="sample-color-rgb-r-range-max" class="color-rgb" type="number" min="0" max="255" value="255">
-            ) /
-            <input id="sample-color-rgb-r-quantity" class="color-quantity" type="number" min="2" max="16">
-            <!-- <input id="sample-color-rgb-r-quantity-range" type="range"  min="2" max="16"> -->
-          </div>
-          <div>
-            <label>G</label>
-            (
-            <input id="sample-color-rgb-g-range-min" class="color-rgb" type="number" min="0" max="255" value="0">
-            <label>-</label>
-            <input id="sample-color-rgb-g-range-max" class="color-rgb" type="number" min="0" max="255" value="255">
-            ) /
-            <input id="sample-color-rgb-g-quantity" class="color-quantity" type="number" min="2" max="16">
-          </div>
-          <div>
-            <label>B</label>
-            (
-            <input id="sample-color-rgb-b-range-min" class="color-rgb" type="number" min="0" max="255" value="0">
-            <label>-</label>
-            <input id="sample-color-rgb-b-range-max" class="color-rgb" type="number" min="0" max="255" value="255">
-            ) /
-            <input id="sample-color-rgb-b-quantity" class="color-quantity" type="number" min="2" max="16">
-          </div>
-        </span>
-      </span>
-    </span>
-    <span comment="Color">
-      <span>
-        <div>
-          <label>Color</label>
-        </div>
-        <div>
-          <input id="color" type="color" disabled>
-        </div>
-        <div>
-          <input id="color-code" type="text" disabled>
-        </div>
-      </span>
-      <span>
-        <div>
-          <label>RGB</label>
-        </div>
-        <div>
-          <label>R</label>
-          <input id="point-color-rgb-r" class="point-color" type="text" disabled>
-        </div>
-        <div>
-          <label>G</label>
-          <input id="point-color-rgb-g" class="point-color" type="text" disabled>
-        </div>
-        <div>
-          <label>B</label>
-          <input id="point-color-rgb-b" class="point-color" type="text" disabled>
-        </div>
-      </span>
-    </span>
-    <span comment="CameraPosition">
-      <div>
-        <label>CameraPosition</label>
-      </div>
-      <div>
-        <label>X</label>
-        <input id="camera-position-x" type="number">
-      </div>
-      <div>
-        <label>Y</label>
-        <input id="camera-position-y" type="number">
-      </div>
-      <div>
-        <label>Z</label>
-        <input id="camera-position-z" type="number">
-      </div>
-    </span>
-  </div>
-  <div id="credits">
-    Powered by <a href="https://threejs.org/">Three.js</a> (MIT License)
-  </div>
-  <canvas id="render-target" width="2000" height="2000"></canvas>
 </body>
 
 </html>
