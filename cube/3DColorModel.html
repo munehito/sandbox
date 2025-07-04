@@ -145,7 +145,7 @@
       </span>
       <span id="color-type-rgb" comment="Color range">
         <span>
-          <label>color type RGB</label>
+          <label>RGB</label>
           <div>
             <label>R</label>
             (
@@ -153,7 +153,7 @@
             <label>-</label>
             <input id="sample-color-rgb-r-range-max" class="color-rgb" type="number" min="0" max="255" value="255">
             ) /
-            <input id="sample-color-rgb-r-quantity" class="color-quantity" type="number" min="2" max="16">
+            <input id="sample-color-rgb-r-quantity" class="color-quantity" type="number" min="2" max="16" value="5">
           </div>
           <div>
             <label>G</label>
@@ -162,7 +162,7 @@
             <label>-</label>
             <input id="sample-color-rgb-g-range-max" class="color-rgb" type="number" min="0" max="255" value="255">
             ) /
-            <input id="sample-color-rgb-g-quantity" class="color-quantity" type="number" min="2" max="16">
+            <input id="sample-color-rgb-g-quantity" class="color-quantity" type="number" min="2" max="16" value="5">
           </div>
           <div>
             <label>B</label>
@@ -171,7 +171,7 @@
             <label>-</label>
             <input id="sample-color-rgb-b-range-max" class="color-rgb" type="number" min="0" max="255" value="255">
             ) /
-            <input id="sample-color-rgb-b-quantity" class="color-quantity" type="number" min="2" max="16">
+            <input id="sample-color-rgb-b-quantity" class="color-quantity" type="number" min="2" max="16" value="5">
           </div>
         </span>
       </span>
@@ -367,7 +367,32 @@
         return {
           get colorType() { return document.querySelector('input[name="sampleColorType"]:checked').value; },
           colorTypes: {
-            rgb: _createColorModel('rgb', quantitys),
+            rgb: (
+              () => {
+              const defineAxis = (_axis) => {
+                const minId = `#sample-color-rgb-${_axis}-range-min`;
+                const maxId = `#sample-color-rgb-${_axis}-range-max`;
+                const quantityId = `#sample-color-rgb-${_axis}-quantity`;
+                return {
+                  range: {
+                    get min() { return parseInt(document.querySelector(minId).value); },
+                    set min(value) { document.querySelector(minId).value = value; },
+                    get max() { return parseInt(document.querySelector(maxId).value); },
+                    set max(value) { document.querySelector(maxId).value = value; },
+                  },
+                  get quantity() { return parseInt(document.querySelector(quantityId).value); },
+                  set quantity(value) { document.querySelector(quantityId).value = value; }
+                };
+              };
+
+              return {
+                x: defineAxis('r'),
+                y: defineAxis('g'),
+                z: defineAxis('b'),
+                colorCode: (r, g, b) => r * 0x10000 + g * 0x100 + b,
+              };
+            })
+              (),
             hsv: _createColorModel('hsv', quantitys),
             hsl: _createColorModel('hsl', quantitys),
           },
