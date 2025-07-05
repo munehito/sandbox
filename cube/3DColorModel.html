@@ -180,7 +180,7 @@
             <label>-</label>
             <input id="sample-color-hsv-h-range-max" class="color-hsv" type="number" min="0" max="360" value="360">
             ) /
-            <input id="sample-color-hsv-h-quantity" class="color-quantity" type="number" min="2" max="16" value="5">
+            <input id="sample-color-hsv-h-quantity" class="color-quantity" type="number" min="2" max="16" value="12">
           </div>
           <div>
             <label>S</label>
@@ -198,7 +198,7 @@
             <label>-</label>
             <input id="sample-color-hsv-v-range-max" class="color-hsv" type="number" min="0" max="100" value="100">
             ) /
-            <input id="sample-color-hsv-v-quantity" class="color-quantity" type="number" min="2" max="16" value="12">
+            <input id="sample-color-hsv-v-quantity" class="color-quantity" type="number" min="2" max="16" value="5">
           </div>
         </span>
       </span>
@@ -212,7 +212,7 @@
             <label>-</label>
             <input id="sample-color-hsl-h-range-max" class="color-hsl" type="number" min="0" max="360" value="360">
             ) /
-            <input id="sample-color-hsl-h-quantity" class="color-quantity" type="number" min="2" max="16" value="5">
+            <input id="sample-color-hsl-h-quantity" class="color-quantity" type="number" min="2" max="16" value="12">
           </div>
           <div>
             <label>S</label>
@@ -230,7 +230,7 @@
             <label>-</label>
             <input id="sample-color-hsl-l-range-max" class="color-hsl" type="number" min="0" max="100" value="100">
             ) /
-            <input id="sample-color-hsl-l-quantity" class="color-quantity" type="number" min="2" max="16" value="12">
+            <input id="sample-color-hsl-l-quantity" class="color-quantity" type="number" min="2" max="16" value="5">
           </div>
         </span>
       </span>
@@ -469,12 +469,12 @@
             case 'hsv':
             case 'hsl':
               (function buildCylindricalGrid(_setting, group) {
-                const radialSteps = _setting.color.x.quantity; // 半径方向
+                const segments = _setting.color.x.quantity; // 円周方向
                 const layers = _setting.color.y.quantity;  // 高さ方向
-                const segments = _setting.color.z.quantity; // 円周方向
+                const radialSteps = _setting.color.z.quantity; // 半径方向
 
-                const radius = _setting.size * radialSteps * 2;
                 const height = _setting.size * layers * 2;
+                const radius = _setting.size * radialSteps * 2;
 
                 const cubeGeo = new THREE.BoxGeometry(_setting.size, _setting.size, _setting.size);
 
