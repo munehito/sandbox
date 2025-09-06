@@ -13,7 +13,7 @@
     "https://www.av01.tv/*"
   ],
   "background": {
-    "scripts": ["background.js"]
+    "service_worker": "background.js"
   },
   "icons": {
     "16": "icons/av01_16.png",
