@@ -13,7 +13,7 @@ chrome.runtime.onInstalled.addListener(() => {
 
 // メニューがクリックされた時の処理
 chrome.contextMenus.onClicked.addListener((info, tab) => {
-  let searchResultsUrl = "https://www.av01.tv/jp/search?q=" + info.pageUrl.split('/').filter(Boolean).pop().replace(/-/g, '+') + "&s=seeders&o=desc"
+  let searchResultsUrl = "https://www.av01.tv/jp/search?q=" + info.pageUrl.split('/').filter(Boolean).pop().replace(/-/g, '+');
   chrome.tabs.create({
     openerTabId: tab.id,
     url: searchResultsUrl,
