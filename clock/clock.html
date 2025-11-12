@@ -60,6 +60,7 @@
       text-align: center;
       font-weight: bold;
       white-space: nowrap;
+      color: #aaa;
       /* border: 1pt gray solid; */
     }
 
@@ -69,7 +70,6 @@
 
     .status {
       font-size: 1.5vw;
-      color: #aaa;
       margin-top: 10px;
     }
   </style>
@@ -199,9 +199,9 @@
       onclick="document.getElementById('correction-milliseconds').stepUp(-20);raiseEvent('correction-milliseconds', 'change');">
     <input class="big-text" type="button" value="+200"
       onclick="document.getElementById('correction-milliseconds').stepUp(20);raiseEvent('correction-milliseconds', 'change');">
+    <label id="sync-status" class="status">同期中...</label>
   </div>
 
-  <div id="sync-status" class="status">同期中...</div>
 
   <!-- <div>m1:  <span id="m1"></span></div>
   <div>m2:  <span id="m2"></span></div>
@@ -329,12 +329,12 @@
               this.tds[index].classList.add('now');
 
               this.text = [
-                '0___________',
-                '0_1_________',
-                '0_1_2_______',
-                '0_1_2_3_____',
-                '0_1_2_3_4___',
-                '0_1_2_3_4_5_',
+                '0______',
+                '01_____',
+                '012____',
+                '0123___',
+                '01234__',
+                '012345_',
               ][Math.trunc(now.getSeconds() / 10)];
               if (this.id == 'progress15') this.text = Math.trunc(now.getSeconds() / 10).toString().padEnd(2, '_');
             } else {
