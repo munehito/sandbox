@@ -45,8 +45,8 @@ def convert_jpx_xlsx_to_csv(xlsx_path: str, csv_path: str | None = None) -> str:
   else:
     raise ValueError("決算発表予定日の列が見つかりませんでした")
 
-  return str(csv_path), earnings_dates
+  return csv_path, earnings_dates
 
 if __name__ == "__main__":
-  out, earnings_dates = convert_jpx_xlsx_to_csv("kessan.xlsx")
-  print("saved:", out)
+  csv_path, earnings_dates = convert_jpx_xlsx_to_csv("kessan.xlsx")
+  print("saved:", csv_path)
