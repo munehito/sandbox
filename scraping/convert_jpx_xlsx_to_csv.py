@@ -33,6 +33,18 @@ def convert_jpx_xlsx_to_csv(xlsx_path: str, csv_path: str | None = None) -> str:
   # CSVとして保存（UTF-8 BOM付きにしたいなら encoding="utf-8-sig"）
   df.to_csv(csv_path, index=False, encoding="utf-8-sig")
 
+  # 決算発表予定日の列を探す（改行入りセルでも判定可）
+  date_cols = [c for c in df.columns if "決算発表予定日" in str(c)]
+  if date_cols:
+    date_col = date_cols[0]
+    unique_dates = df[date_col].unique()
+
+    print("\n決算発表予定日：")
+    for d in unique_dates:
+      print(f" - {d}")
+  else:
+    raise ValueError("決算発表予定日の列が見つかりませんでした")
+
   return str(csv_path)
 
 if __name__ == "__main__":
