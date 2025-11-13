@@ -42,11 +42,16 @@ def convert_jpx_xlsx_to_csv(xlsx_path: str, csv_path: str | None = None) -> str:
     print("決算発表予定日：")
     for d in earnings_dates:
       print(f" - {d}")
+
+    if len(earnings_dates) != 1:
+      raise ValueError(
+          f"決算発表予定日が複数あります（直前の一覧を確認してください）"
+      )
   else:
     raise ValueError("決算発表予定日の列が見つかりませんでした")
 
-  return csv_path, earnings_dates
+  return csv_path, earnings_dates[0]
 
 if __name__ == "__main__":
-  csv_path, earnings_dates = convert_jpx_xlsx_to_csv("kessan.xlsx")
+  csv_path, earnings_date = convert_jpx_xlsx_to_csv("kessan.xlsx")
   print("saved:", csv_path)
