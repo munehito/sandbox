@@ -37,16 +37,16 @@ def convert_jpx_xlsx_to_csv(xlsx_path: str, csv_path: str | None = None) -> str:
   date_cols = [c for c in df.columns if "決算発表予定日" in str(c)]
   if date_cols:
     date_col = date_cols[0]
-    unique_dates = df[date_col].unique()
+    earnings_dates = df[date_col].unique()
 
-    print("\n決算発表予定日：")
-    for d in unique_dates:
+    print("決算発表予定日：")
+    for d in earnings_dates:
       print(f" - {d}")
   else:
     raise ValueError("決算発表予定日の列が見つかりませんでした")
 
-  return str(csv_path)
+  return str(csv_path), earnings_dates
 
 if __name__ == "__main__":
-  out = convert_jpx_xlsx_to_csv("kessan.xlsx")
+  out, earnings_dates = convert_jpx_xlsx_to_csv("kessan.xlsx")
   print("saved:", out)
