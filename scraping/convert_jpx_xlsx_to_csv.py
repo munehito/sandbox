@@ -1,5 +1,6 @@
 import pandas as pd
 from pathlib import Path
+import shutil
 
 def convert_jpx_xlsx_to_csv(xlsx_path: str, csv_path: str | None = None) -> str:
   xlsx_path = Path(xlsx_path)
@@ -50,8 +51,28 @@ def convert_jpx_xlsx_to_csv(xlsx_path: str, csv_path: str | None = None) -> str:
   else:
     raise ValueError("決算発表予定日の列が見つかりませんでした")
 
-  return csv_path, earnings_dates[0]
+  formatted_date = pd.Timestamp(earnings_dates[0]).strftime('%Y-%m-%d')
+  return csv_path, formatted_date
+
+def move_to_data_dir(date_str: str, *file_paths: str | Path) -> None:
+  data_dir = Path("data")
+  data_dir.mkdir(exist_ok=True)
+
+  for f in file_paths:
+    f = Path(f)
+    if not f.exists():
+      print(f"⚠ ファイルが存在しません: {f}")
+      continue
+
+    new_name = f"{date_str}{f.suffix}"
+    dest = data_dir / new_name
+
+    shutil.move(str(f), str(dest))
+    print(f"moved: {f} → {dest}")
+
 
 if __name__ == "__main__":
-  csv_path, earnings_date = convert_jpx_xlsx_to_csv("kessan.xlsx")
+  xlsx = "kessan.xlsx"
+  csv_path, earnings_date = convert_jpx_xlsx_to_csv(xlsx)
   print("saved:", csv_path)
+  move_to_data_dir(earnings_date, xlsx, csv_path)
