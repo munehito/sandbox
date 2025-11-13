@@ -54,6 +54,7 @@ def convert_jpx_xlsx_to_csv(xlsx_path: str, csv_path: str | None = None) -> str:
   formatted_date = pd.Timestamp(earnings_dates[0]).strftime('%Y-%m-%d')
   return csv_path, formatted_date
 
+
 def move_to_data_dir(date_str: str, *file_paths: str | Path) -> None:
   data_dir = Path("data")
   data_dir.mkdir(exist_ok=True)
