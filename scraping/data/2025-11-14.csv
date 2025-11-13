@@ -1,0 +1,415 @@
+﻿"決算発表予定日
+Scheduled Dates for Earnings Announcements","コード
+Code",会社名,Issue Name,"決算期末
+Fiscal Year-end",業種名,Industry,種別,Fiscal Year/Quarter,市場区分,Market Segment
+2025-11-14 00:00:00,1379,ホクト,HOKUTO CORPORATION,2026-03-31 00:00:00,水産・農林業,"Fishery, Agriculture & Forestry",第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,1380,秋川牧園,"AKIKAWA FOODS & FARMS CO.,LTD.",2026-03-31 00:00:00,水産・農林業,"Fishery, Agriculture & Forestry",第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,142A,ジンジブ,"JINJIB Co.,Ltd.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,1438,岐阜造園,"Gifu landscape architect Co.,Ltd.",2025-09-30 00:00:00,建設業,Construction,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,143A,イシン,"Ishin Co.,Ltd.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,1443,技研ホールディングス,"Giken Holdings Co.,Ltd.",2026-03-31 00:00:00,建設業,Construction,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,1447,ＳＡＡＦホールディングス,"SAAF Holdings Co.,Ltd.",2026-03-31 00:00:00,建設業,Construction,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,160A,アズパートナーズ,"As Partners CO.,LTD.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,1711,ＳＤＳホールディングス,"SDS HOLDINGS Co.,Ltd.",2026-03-31 00:00:00,建設業,Construction,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,173A,ハンモック,Hammock Inc.,2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,1783,ｆａｎｔａｓｉｓｔａ,"Fantasista Co.,Ltd.",2025-09-30 00:00:00,不動産業,Real Estate,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,1795,マサル,MASARU CORPORATION,2025-09-30 00:00:00,建設業,Construction,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,1799,第一建設工業,DAIICHI KENSETSU CORPORATION,2026-03-31 00:00:00,建設業,Construction,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,1821,三井住友建設,"Sumitomo Mitsui Construction Co., Ltd.",2026-03-31 00:00:00,建設業,Construction,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,1822,大豊建設,DAIHO CORPORATION,2026-03-31 00:00:00,建設業,Construction,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,1848,富士ピー・エス,FUJI P.S CORPORATION,2026-03-31 00:00:00,建設業,Construction,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,1879,新日本建設,SHINNIHON CORPORATION,2026-03-31 00:00:00,建設業,Construction,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,1921,巴コーポレーション,TOMOE CORPORATION,2026-03-31 00:00:00,建設業,Construction,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,195A,ＭＵＳＣＡＴ　ＧＲＯＵＰ,MUSCAT GROUP Inc.,2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,1961,三機工業,"SANKI ENGINEERING CO.,LTD.",2026-03-31 00:00:00,建設業,Construction,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,1968,太平電業,"TAIHEI DENGYO KAISHA,LTD.",2026-03-31 00:00:00,建設業,Construction,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,1969,高砂熱学工業,"Takasago Thermal Engineering Co.,Ltd.",2026-03-31 00:00:00,建設業,Construction,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,206A,ＰＲＩＳＭ　ＢｉｏＬａｂ,"PRISM BioLab Co.,LTD",2025-09-30 00:00:00,医薬品,Pharmaceutical,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,2121,ＭＩＸＩ,"MIXI,Inc.",2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,2134,北浜キャピタルパートナーズ,"Kitahama Capital Partners Co.,Ltd.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,2158,ＦＲＯＮＴＥＯ,"FRONTEO,Inc.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,2183,リニカル,"Linical Co.,Ltd.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,2196,エスクリ,ESCRIT INC.,2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,2267,ヤクルト本社,"YAKULT HONSHA CO.,LTD.",2026-03-31 00:00:00,食料品,Foods,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,2270,雪印メグミルク,"MEGMILK SNOW BRAND Co.,Ltd.",2026-03-31 00:00:00,食料品,Foods,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,2286,林兼産業,"Hayashikane Sangyo Co.,Ltd.",2026-03-31 00:00:00,食料品,Foods,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,2329,東北新社,TOHOKUSHINSHA FILM CORPORATION,2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,2332,クエスト,"Quest Co.,Ltd.",2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,2334,イオレ,eole Inc.,2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,2340,極楽湯ホールディングス,"GOKURAKUYU HOLDINGS CO.,LTD. ",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,2351,ＡＳＪ,ASJ INC.,2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,2388,ウェッジホールディングス,"Wedge Holdings CO.,LTD.",2025-09-30 00:00:00,その他金融業,Other Financing Business,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,2415,ヒューマンホールディングス,"Human Holdings Co.,Ltd.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,2464,Ａｏｂａ‐ＢＢＴ,"Aoba-BBT,Inc.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,247A,Ａｉロボティクス,Ai ROBOTICS INC.,2026-03-31 00:00:00,化学,Chemicals,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,2488,ＪＴＰ,"JTP CO.,LTD.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,2498,オリエンタルコンサルタンツホールディングス,Oriental Consultants Holdings Company Limited,2025-09-30 00:00:00,サービス業,Services,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,253A,ＥＴＳグループ,"ETS Group Co.,Ltd.",2025-09-30 00:00:00,建設業,Construction,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,254A,ＡＩフュージョンキャピタルグループ,AI FUSION CAPITAL GROUP CORP.,2026-03-31 00:00:00,証券、商品先物取引業,Securities & Commodity Futures,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,2594,キーコーヒー,KEY COFFEE INC,2026-03-31 00:00:00,食料品,Foods,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,264A,Ｓｃｈｏｏ,"Schoo,inc.",2025-09-30 00:00:00,サービス業,Services,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,2652,まんだらけ,MANDARAKE INC.,2025-09-30 00:00:00,小売業,Retail Trade,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,2654,アスモ,ASMO CORPORATION,2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,2656,ベクターホールディングス,Vector HOLDINGS Inc.,2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,2667,イメージ　ワン,"ImageONE Co.,Ltd.",2025-09-30 00:00:00,卸売業,Wholesale Trade,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,2673,夢みつけ隊,"YUMEMITSUKETAI Co.,Ltd.",2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,2750,石光商事,"S.ISHIMITSU&CO.,LTD.",2026-03-31 00:00:00,卸売業,Wholesale Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,2764,ひらまつ,Hiramatsu Inc.,2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,2813,和弘食品,"Wakou Shokuhin Co.,Ltd.",2026-03-31 00:00:00,食料品,Foods,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,2818,ピエトロ,"PIETRO Co.,Ltd.",2026-03-31 00:00:00,食料品,Foods,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,2876,デルソーレ,Delsole Corporation,2026-03-31 00:00:00,食料品,Foods,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,2915,ケンコーマヨネーズ,"KENKO Mayonnaise Co.,Ltd.",2026-03-31 00:00:00,食料品,Foods,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,2916,仙波糖化工業,"Semba Tohka Industries Co.,Ltd",2026-03-31 00:00:00,食料品,Foods,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,2984,ヤマイチエステート,"Yamaichi Real Estate Co.,Ltd",2026-03-31 00:00:00,不動産業,Real Estate,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,2998,クリアル,CREAL Inc.,2026-03-31 00:00:00,不動産業,Real Estate,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,3020,アプライド,"Applied Co.,Ltd.",2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,302A,ビースタイルホールディングス,"b-style holdings,Inc.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,3042,セキュアヴェイル,SecuAvail Inc.,2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,3058,三洋堂ホールディングス,Sanyodo Holdings Inc.,2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,3077,ホリイフードサービス,"Horiifoodservice Co.,Ltd.",2025-11-30 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,3096,オーシャンシステム,OCEAN SYSTEM CORPORATION,2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,3133,海帆,"kaihan co.,Ltd.",2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,3151,バイタルケーエスケー・ホールディングス,"VITAL KSK HOLDINGS,INC.",2026-03-31 00:00:00,卸売業,Wholesale Trade,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,3173,Ｃｏｍｉｎｉｘ,"Cominix Co.,Ltd.",2026-03-31 00:00:00,卸売業,Wholesale Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,3175,エー・ピーホールディングス,"AP HOLDINGS CO.,LTD.",2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,3184,ＩＣＤＡホールディングス,"International Conglomerate of Distribution for Automobile Holdings Co.,Ltd.",2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,3187,ミラタップ,miratap inc.,2025-09-30 00:00:00,小売業,Retail Trade,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,3224,ゼネラル・オイスター,"General Oyster,Inc.",2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,3237,イントランス,"INTRANCE CO.,LTD.",2026-03-31 00:00:00,不動産業,Real Estate,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,3238,セントラル総合開発,"CENTRAL GENERAL DEVELOPMENT CO.,LTD.",2026-03-31 00:00:00,不動産業,Real Estate,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,3245,ディア・ライフ,"DEAR LIFE CO.,LTD.",2025-09-30 00:00:00,不動産業,Real Estate,本決算,Fiscal year,プライム,Prime
+2025-11-14 00:00:00,3284,フージャースホールディングス,"Hoosiers Holdings Co.,Ltd.",2026-03-31 00:00:00,不動産業,Real Estate,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,3288,オープンハウスグループ,"Open House Group Co.,Ltd.",2025-09-30 00:00:00,不動産業,Real Estate,本決算,Fiscal year,プライム,Prime
+2025-11-14 00:00:00,3293,アズマハウス,"AZUMA HOUSE Co.,Ltd.",2026-03-31 00:00:00,不動産業,Real Estate,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,3358,ワイエスフード,"Y.S.FOOD CO.,LTD.",2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,3359,ｃｏｔｔａ,"cotta CO.,LTD",2025-09-30 00:00:00,卸売業,Wholesale Trade,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,335A,ミライロ,Mirairo Inc.,2025-09-30 00:00:00,情報・通信業,Information & Communication,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,3370,フジタコーポレーション,"FUJITA CORPORATION Co.,Ltd.",2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,3372,関門海,"KANMONKAI Co.,Ltd.",2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,3397,トリドールホールディングス,TORIDOLL Holdings Corporation,2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,3402,東レ,"TORAY INDUSTRIES,INC.",2026-03-31 00:00:00,繊維製品,Textiles & Apparels,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,3409,北紡,"KITABO CO.,LTD",2026-03-31 00:00:00,繊維製品,Textiles & Apparels,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,3461,パルマ,"Palma Co.,Ltd.",2025-09-30 00:00:00,不動産業,Real Estate,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,3489,フェイスネットワーク,"FaithNetwork Co.,Ltd",2026-03-31 00:00:00,不動産業,Real Estate,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,3495,香陵住販,"Koryojyuhan Co.,Ltd.",2025-09-30 00:00:00,不動産業,Real Estate,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,3513,イチカワ,"ICHIKAWA CO.,LTD.",2026-03-31 00:00:00,繊維製品,Textiles & Apparels,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,352A,ＬＯＩＶＥ,"LOIVE Co.,Ltd.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,3556,リネットジャパングループ,"RenetJapanGroup,Inc.",2025-09-30 00:00:00,小売業,Retail Trade,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,3598,山喜,"YAMAKI CO.,LTD.",2026-03-31 00:00:00,繊維製品,Textiles & Apparels,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,3661,エムアップホールディングス,"m-up holdings,Inc.",2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,366A,ウェルネス・コミュニケーションズ,Wellness Communications Corporation,2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,3674,オークファン,"Aucfan Co.,Ltd.",2025-09-30 00:00:00,情報・通信業,Information & Communication,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,3686,ディー・エル・イー,DLE Inc.,2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,3687,フィックスターズ,Fixstars Corporation,2025-09-30 00:00:00,情報・通信業,Information & Communication,本決算,Fiscal year,プライム,Prime
+2025-11-14 00:00:00,3691,デジタルプラス,"DIGITAL PLUS,Inc.",2025-09-30 00:00:00,情報・通信業,Information & Communication,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,3694,オプティム,OPTiM CORPORATION,2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,3726,フォーシーズＨＤ,"4Cs HD Co.,Ltd.",2025-09-30 00:00:00,小売業,Retail Trade,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,3747,インタートレード,"INTERTRADE Co.,Ltd.",2025-09-30 00:00:00,情報・通信業,Information & Communication,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,3750,ＡＤＲ１２０Ｓ,"ADR120S,Inc.",2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,3753,フライトソリューションズ,FLIGHT SOLUTIONS Inc.,2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,3763,プロシップ,Pro-Ship Incorporated,2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,3825,リミックスポイント,"Remixpoint,inc.",2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,3845,アイフリークモバイル,I-FREEK MOBILE INC.,2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,3851,日本一ソフトウェア,"Nippon Ichi Software,Inc.",2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,3856,Ａｂａｌａｎｃｅ,Abalance Corporation,2026-03-31 00:00:00,電気機器,Electronic Appliances,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,3858,ユビキタスＡＩ,Ubiquitous AI Corporation ,2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,3865,北越コーポレーション,Hokuetsu Corporation,2026-03-31 00:00:00,パルプ・紙,Pulp & Paper,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,3880,大王製紙,Daio Paper Corporation,2026-03-31 00:00:00,パルプ・紙,Pulp & Paper,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,3900,クラウドワークス,CrowdWorks Inc.,2025-09-30 00:00:00,情報・通信業,Information & Communication,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,3905,データセクション,Datasection Inc.,2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,3923,ラクス,"RAKUS Co.,Ltd.",2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,3927,フーバーブレイン,Fuva Brain Limited,2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,3929,ソーシャルワイヤー,"SOCIALWIRE CO.,LTD.",2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,3933,チエル,"CHIeru Co.,Ltd.",2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,3936,グローバルウェイ,"Globalway,Inc.",2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,3979,うるる,"ULURU.CO.,LTD.",2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,3989,シェアリングテクノロジー,SHARINGTECHNOLOGY.INC,2025-09-30 00:00:00,情報・通信業,Information & Communication,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,4031,片倉コープアグリ,Katakura & Co-op Agri Corporation,2026-03-31 00:00:00,化学,Chemicals,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,4071,プラスアルファ・コンサルティング,"Plus Alpha Consulting Co.,LTD.",2025-09-30 00:00:00,情報・通信業,Information & Communication,本決算,Fiscal year,プライム,Prime
+2025-11-14 00:00:00,4088,エア・ウォーター,AIR WATER INC.,2026-03-31 00:00:00,化学,Chemicals,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,4097,高圧ガス工業,"KOATSU GAS KOGYO CO.,LTD.",2026-03-31 00:00:00,化学,Chemicals,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,4098,チタン工業,"Titan Kogyo ,Ltd.",2026-03-31 00:00:00,化学,Chemicals,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,4119,日本ピグメントホールディングス,Nippon Pigment Holdings Company Limited,2026-03-31 00:00:00,化学,Chemicals,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,4124,大阪油化工業,OSAKA YUKA INDUSTRY LTD.,2025-09-30 00:00:00,化学,Chemicals,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,4167,ココペリ,Kokopelli Inc.,2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,4177,ｉ‐ｐｌｕｇ,"i-plug,Inc.",2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,4179,ジーネクスト,G-NEXT Inc.,2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,4234,サンエー化研,"Sun A.Kaken Company,Limited",2026-03-31 00:00:00,化学,Chemicals,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,423A,ライオン事務器,LION OFFICE PRODUCTS CORP.,2025-09-30 00:00:00,卸売業,Wholesale Trade,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,4240,クラスターテクノロジー,"CLUSTER TECHNOLOGY CO.,LTD.",2026-03-31 00:00:00,化学,Chemicals,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,4241,アテクト,atect corporation,2026-03-31 00:00:00,化学,Chemicals,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,4260,ハイブリッドテクノロジーズ,"Hybrid Technologies Co.,Ltd.",2025-09-30 00:00:00,情報・通信業,Information & Communication,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,4265,Ｉｎｓｔｉｔｕｔｉｏｎ　ｆｏｒ　ａ　Ｇｌｏｂａｌ　Ｓｏｃｉｅｔｙ,Institution for a Global Society Corporation,2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,4301,アミューズ,AMUSE INC.,2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,4346,ＮＥＸＹＺ．Ｇｒｏｕｐ,NEXYZ.Group Corporation,2025-09-30 00:00:00,その他金融業,Other Financing Business,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,4360,マナック・ケミカル・パートナーズ,"MANAC Chemical Partners Co.,Ltd",2026-03-31 00:00:00,化学,Chemicals,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,4365,松本油脂製薬,"MATSUMOTO YUSHI-SEIYAKU CO.,LTD.",2026-03-31 00:00:00,化学,Chemicals,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,4376,くふうカンパニーホールディングス,Kufu Company Holdings Inc.,2025-09-30 00:00:00,情報・通信業,Information & Communication,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,4381,ビープラッツ,"BPLATS,Inc.",2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,4387,ＺＵＵ,"ZUU Co.,Ltd.",2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,4393,バンク・オブ・イノベーション,"Bank of Innovation,Inc.",2025-09-30 00:00:00,情報・通信業,Information & Communication,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,4421,ディ・アイ・システム,"D.I.System Co.,Ltd.",2025-09-30 00:00:00,情報・通信業,Information & Communication,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,4436,ミンカブ・ジ・インフォノイド,"MINKABU THE INFONOID,Inc.",2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,4442,バルテス・ホールディングス,"VALTES HOLDINGS CO.,LTD.",2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,4445,リビン・テクノロジーズ,Living Technologies Inc.,2025-09-30 00:00:00,情報・通信業,Information & Communication,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,4492,ゼネテック,GENETEC CORPORATION,2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,4496,コマースＯｎｅホールディングス,Commerce One Holdings Inc.,2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,4499,Ｓｐｅｅｅ,"Speee,Inc.",2025-09-30 00:00:00,情報・通信業,Information & Communication,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,4516,日本新薬,"Nippon Shinyaku Co.,Ltd.",2026-03-31 00:00:00,医薬品,Pharmaceutical,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,4571,ＮＡＮＯ　ＭＲＮＡ,"NANO MRNA Co.,Ltd.",2026-03-31 00:00:00,医薬品,Pharmaceutical,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,4594,ブライトパス・バイオ,"BrightPath Biotherapeutics Co.,Ltd.",2026-03-31 00:00:00,医薬品,Pharmaceutical,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,4598,Ｄｅｌｔａ－Ｆｌｙ　Ｐｈａｒｍａ,"Delta-Fly Pharma,Inc.",2026-03-31 00:00:00,医薬品,Pharmaceutical,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,4651,サニックスホールディングス,SANIX HOLDINGS INCORPORATED,2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,4662,フォーカスシステムズ,Focus Systems Corporation,2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,4664,アール・エス・シー,JAPAN RELIANCE SERVICE CORPORATION,2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,4691,ワシントンホテル,WASHINGTON HOTEL CORPORATION,2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,4751,サイバーエージェント,"CyberAgent,Inc.",2025-09-30 00:00:00,サービス業,Services,本決算,Fiscal year,プライム,Prime
+2025-11-14 00:00:00,4754,トスネット,TOSNET CORPORATION,2025-09-30 00:00:00,サービス業,Services,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,4814,ネクストウェア,Nextware Ltd.,2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,4833,Ｄｅｆ　ｃｏｎｓｕｌｔｉｎｇ,"Def consulting,inc.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,4882,ペルセウスプロテオミクス,Perseus Proteomics Inc.,2026-03-31 00:00:00,医薬品,Pharmaceutical,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,4887,サワイグループホールディングス,"SAWAI GROUP HOLDINGS Co.,Ltd.",2026-03-31 00:00:00,医薬品,Pharmaceutical,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,4925,ハーバー研究所,"HABA LABORATORIES,INC.",2026-03-31 00:00:00,化学,Chemicals,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,4932,アルマード,"ALMADO,INC.",2026-03-31 00:00:00,化学,Chemicals,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,4990,昭和化学工業,"Showa Chemical Industry Co.,Ltd.",2026-03-31 00:00:00,化学,Chemicals,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,5033,ヌーラボ,Nulab Inc.,2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,5076,インフロニア・ホールディングス,INFRONEER Holdings Inc.,2026-03-31 00:00:00,建設業,Construction,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,5133,テリロジーホールディングス,Terilogy Holdings Corporation,2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,5194,相模ゴム工業,"SAGAMI RUBBER INDUSTRIES CO.,LTD.",2026-03-31 00:00:00,ゴム製品,Rubber Products,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,5252,日本ナレッジ,"Nihon Knowledge Co,Ltd.",2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,5259,ＢＢＤイニシアティブ,BBD Initiative Inc.,2025-09-30 00:00:00,情報・通信業,Information & Communication,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,5269,日本コンクリート工業,"NIPPON CONCRETE INDUSTRIES CO.,LTD.",2026-03-31 00:00:00,ガラス・土石製品,Glass & Ceramics Products,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,5356,美濃窯業,"MINO CERAMIC CO.,LTD.",2026-03-31 00:00:00,ガラス・土石製品,Glass & Ceramics Products,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,5363,東京窯業,TYK CORPORATION,2026-03-31 00:00:00,ガラス・土石製品,Glass & Ceramics Products,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,5381,マイポックス,Mipox Corporation,2026-03-31 00:00:00,ガラス・土石製品,Glass & Ceramics Products,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,5535,ミガロホールディングス,MIGALO HOLDINGS Inc.,2026-03-31 00:00:00,不動産業,Real Estate,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,5571,エキサイトホールディングス,"Excite Holdings Co.,Ltd.",2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,5587,インバウンドプラットフォーム,Inbound Platform Corp.,2025-09-30 00:00:00,情報・通信業,Information & Communication,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,5592,くすりの窓口,"Kusurinomadoguchi,Inc.",2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,5621,ヒューマンテクノロジーズ,"Human Technologies,Inc.",2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,5721,エス・サイエンス,"S･Science Company,Ltd.",2026-03-31 00:00:00,非鉄金属,Nonferrous Metals,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,5724,アサカ理研,"Asaka Riken Co.,Ltd.",2025-09-30 00:00:00,非鉄金属,Nonferrous Metals,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,5832,ちゅうぎんフィナンシャルグループ,"Chugin Financial Group,Inc.",2026-03-31 00:00:00,銀行業,Banks,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,5843,ニッポンインシュア,"Nippon Insure Co.,Ltd.",2025-09-30 00:00:00,その他金融業,Other Financing Business,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,5844,京都フィナンシャルグループ,"Kyoto Financial Group,Inc.",2026-03-31 00:00:00,銀行業,Banks,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,5845,全保連,"ZENHOREN CO.,LTD.",2026-03-31 00:00:00,その他金融業,Other Financing Business,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,5856,エルアイイーエイチ,"Life Intelligent Enterprise Holdings Co.,Ltd.",2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,5869,早稲田学習研究会,"WASEDA GAKUSHUKENKYUKAI CO.,LTD.",2026-05-31 00:00:00,サービス業,Services,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,5870,ナルネットコミュニケーションズ,Nalnet Communications Inc.,2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,5918,瀧上工業,"The Takigami Steel Construction Co.,Ltd.",2026-03-31 00:00:00,金属製品,Metal Products,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,5921,川岸工業,"Kawagishi Bridge Works Co.,Ltd.",2025-09-30 00:00:00,金属製品,Metal Products,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,5966,京都機械工具,"KYOTO TOOL CO.,LTD.",2026-03-31 00:00:00,金属製品,Metal Products,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,5975,東プレ,Topre Corporation,2026-03-31 00:00:00,金属製品,Metal Products,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,5985,サンコール,SUNCALL CORPORATION,2026-03-31 00:00:00,金属製品,Metal Products,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,5998,アドバネクス,Advanex Inc.,2026-03-31 00:00:00,金属製品,Metal Products,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,6045,レントラックス,"Rentracks CO.,LTD.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,6069,トレンダーズ,"Trenders,Inc.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,6070,キャリアリンク,"CAREERLINK CO.,LTD.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,6074,ジェイエスエス,JSS CORPORATION,2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,6082,ライドオンエクスプレスホールディングス,"RIDE ON EXPRESS HOLDINGS Co.,Ltd.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,6087,アビスト,"ABIST Co.,Ltd.",2025-09-30 00:00:00,サービス業,Services,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,6092,エンバイオ・ホールディングス,"EnBio Holdings,Inc",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,6094,フリークアウト・ホールディングス,"FreakOut Holdings,inc.",2025-09-30 00:00:00,サービス業,Services,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,6096,レアジョブ,"RareJob,Inc.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,6118,アイダエンジニアリング,"AIDA ENGINEERING,LTD.",2026-03-31 00:00:00,機械,Machinery,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,6144,西部電機,"Seibu Electric & Machinery Co.,Ltd.",2026-03-31 00:00:00,機械,Machinery,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,6145,ＮＩＴＴＯＫＵ,"NITTOKU CO.,LTD.",2026-03-31 00:00:00,機械,Machinery,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,6166,中村超硬,"NAKAMURA CHOUKOU CO.,LTD.",2026-03-31 00:00:00,機械,Machinery,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,6167,冨士ダイス,"Fuji Die Co.,Ltd.",2026-03-31 00:00:00,機械,Machinery,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,6176,ブランジスタ,Brangista Inc.,2025-09-30 00:00:00,サービス業,Services,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,6178,日本郵政,"JAPAN POST HOLDINGS Co.,Ltd.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,6190,フェニックスバイオ,"PhoenixBio Co.,Ltd.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,6195,ホープ,"HOPE,INC.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,6198,キャリア,"CAREER CO.,LTD.",2025-09-30 00:00:00,サービス業,Services,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,6203,豊和工業,"Howa Machinery,Ltd.",2026-03-31 00:00:00,機械,Machinery,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,6209,リケンＮＰＲ,NPR-RIKEN CORPORATION,2026-03-31 00:00:00,機械,Machinery,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,6229,オーケーエム,OKUMURA ENGINEERING corp.,2026-03-31 00:00:00,機械,Machinery,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,6231,木村工機,"KIMURA KOHKI Co.,Ltd.",2026-03-31 00:00:00,機械,Machinery,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,6233,ＫＬＡＳＳ,KLASS Corporation,2025-09-30 00:00:00,機械,Machinery,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,6237,イワキ,"IWAKI CO.,LTD.",2026-03-31 00:00:00,機械,Machinery,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,6245,ヒラノテクシード,"HIRANO TECSEED CO.,LTD.",2026-03-31 00:00:00,機械,Machinery,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,6247,日阪製作所,"HISAKA WORKS,LTD.",2026-03-31 00:00:00,機械,Machinery,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,6254,野村マイクロ・サイエンス,"Nomura Micro Science Co.,Ltd.",2026-03-31 00:00:00,機械,Machinery,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,6293,日精樹脂工業,"NISSEI PLASTIC INDUSTRIAL CO.,LTD.",2026-03-31 00:00:00,機械,Machinery,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,6316,丸山製作所,"MARUYAMA MFG.CO.,INC.",2025-09-30 00:00:00,機械,Machinery,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,6343,フリージア・マクロス,FREESIA MACROSS CORPORATION,2026-03-31 00:00:00,機械,Machinery,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,6347,プラコー,"PLACO CO.,LTD.",2026-03-31 00:00:00,機械,Machinery,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,6365,電業社機械製作所,DMW CORPORATION,2026-03-31 00:00:00,機械,Machinery,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,6405,鈴茂器工,"Suzumo Machinery Co.,Ltd.",2026-03-31 00:00:00,機械,Machinery,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,6407,ＣＫＤ,CKD Corporation,2026-03-31 00:00:00,機械,Machinery,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,6424,高見沢サイバネティックス,"TAKAMISAWA CYBERNETICS COMPANY,LTD.",2026-03-31 00:00:00,機械,Machinery,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,6430,ダイコク電機,"DAIKOKU DENKI CO.,LTD.",2026-03-31 00:00:00,機械,Machinery,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,6445,ジャノメ,JANOME Corporation,2026-03-31 00:00:00,機械,Machinery,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,6482,ＹＵＳＨＩＮ,Yushin Company,2026-03-31 00:00:00,機械,Machinery,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,6494,ＮＦＫホールディングス,"NFK HOLDINGS CO.,Ltd",2026-03-31 00:00:00,機械,Machinery,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,6545,インターネットインフィニティー,internet infinity INC.,2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,6554,エスユーエス,"SUS Co.,Ltd.",2025-09-30 00:00:00,サービス業,Services,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,6562,ジーニー,"Geniee,Inc.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,6563,みらいワークス,Mirai Works Inc.,2025-09-30 00:00:00,サービス業,Services,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,6564,ミダックホールディングス,"MIDAC HOLDINGS CO.,LTD.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,6566,要興業,"KANAME KOGYO CO.,LTD.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,6568,神戸天然物化学,"KNC Laboratories Co.,Ltd.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,6580,ライトアップ,"Writeup Co.,Ltd.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,6584,三櫻工業,"Sanoh Industrial Co.,Ltd.",2026-03-31 00:00:00,輸送用機器,Transportation Equipment,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,6594,ニデック,NIDEC CORPORATION,2026-03-31 00:00:00,電気機器,Electronic Appliances,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,6614,シキノハイテック,"Shikino High-Tech CO.,LTD.",2026-03-31 00:00:00,電気機器,Electronic Appliances,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,6616,トレックス・セミコンダクター,TOREX SEMICONDUCTOR LTD.,2026-03-31 00:00:00,電気機器,Electronic Appliances,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,6699,ダイヤモンドエレクトリックホールディングス,"DIAMOND ELECTRIC HOLDINGS Co.,Ltd.",2026-03-31 00:00:00,電気機器,Electronic Appliances,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,6706,電気興業,"DKK Co.,Ltd.",2026-03-31 00:00:00,電気機器,Electronic Appliances,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,6731,ピクセラ,PIXELA CORPORATION,2025-09-30 00:00:00,電気機器,Electronic Appliances,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,6736,サン電子,SUNCORPORATION,2026-03-31 00:00:00,電気機器,Electronic Appliances,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,6742,京三製作所,"Kyosan Electric Manufacturing Co.,Ltd.",2026-03-31 00:00:00,電気機器,Electronic Appliances,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,6824,新コスモス電機,"NEW COSMOS ELECTRIC CO.,LTD.",2026-03-31 00:00:00,電気機器,Electronic Appliances,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,6837,京写,"KYOSHA CO.,LTD.",2026-03-31 00:00:00,電気機器,Electronic Appliances,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,6890,フェローテック,Ferrotec Corporation,2026-03-31 00:00:00,電気機器,Electronic Appliances,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,6942,ソフィアホールディングス,"SOPHIA HOLDINGS CO.,LTD.",2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,6951,日本電子,JEOL Ltd.,2026-03-31 00:00:00,電気機器,Electronic Appliances,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,7031,インバウンドテック,Inbound Tech Inc.,2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,7041,ＣＲＧホールディングス,"CRG HOLDINGS CO.,LTD.",2025-09-30 00:00:00,サービス業,Services,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,7042,アクセスグループ・ホールディングス,"ACCESS GROUP HOLDINGS CO.,LTD.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7057,エヌ・シー・エヌ,"New Constructor's Network Co.,Ltd.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7058,共栄セキュリティーサービス,"Kyoei Security Service Co.,Ltd.",2026-07-31 00:00:00,サービス業,Services,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7059,コプロ・ホールディングス,"COPRO-HOLDINGS.Co.,Ltd.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,7062,フレアス,"Fureasu Co.,Ltd.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,7067,ブランディングテクノロジー,Branding Technology Inc.,2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,7072,インティメート・マージャー,"Intimate Merger,Inc.",2025-09-30 00:00:00,サービス業,Services,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,7075,ＱＬＳホールディングス,"QLS Holdings Co.,Ltd",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,7078,ＩＮＣＬＵＳＩＶＥ　Ｈｏｌｄｉｎｇｓ,INCLUSIVE Holdings Inc.,2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,7084,Ｓｍｉｌｅ　Ｈｏｌｄｉｎｇｓ,Smile Holdings Inc.,2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,7091,リビングプラットフォーム,"Living Platform,Ltd.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,7092,Ｆａｓｔ　Ｆｉｔｎｅｓｓ　Ｊａｐａｎ,Fast Fitness Japan Incorporated,2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,7111,ＩＮＥＳＴ,"INEST,Inc.",2026-03-31 00:00:00,卸売業,Wholesale Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7114,フーディソン,"Foodison,Inc.",2026-03-31 00:00:00,卸売業,Wholesale Trade,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,7116,ダイワ通信,"DAIWA TSUSHIN Co.,Ltd",2026-03-31 00:00:00,卸売業,Wholesale Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7119,ハルメクホールディングス,"halmek holdings Co.,Ltd.",2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,7133,ＨＹＵＧＡ　ＰＲＩＭＡＲＹ　ＣＡＲＥ,"HYUGA PRIMARY CARE Co.,Ltd.",2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,7150,島根銀行,"THE SHIMANE BANK,LTD.",2026-03-31 00:00:00,銀行業,Banks,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7180,九州フィナンシャルグループ,"Kyushu Financial Group,Inc.",2026-03-31 00:00:00,銀行業,Banks,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,7181,かんぽ生命保険,"JAPAN POST INSURANCE Co.,Ltd.",2026-03-31 00:00:00,保険業,Insurance,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,7182,ゆうちょ銀行,"JAPAN POST BANK Co.,Ltd.",2026-03-31 00:00:00,銀行業,Banks,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,7199,プレミアグループ,"Premium Group Co.,Ltd.",2026-03-31 00:00:00,その他金融業,Other Financing Business,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,7214,ＧＭＢ,GMB CORPORATION,2026-03-31 00:00:00,輸送用機器,Transportation Equipment,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7217,テイン,"TEIN,INC.",2026-03-31 00:00:00,輸送用機器,Transportation Equipment,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7238,曙ブレーキ工業,"AKEBONO BRAKE INDUSTRY CO.,LTD.",2026-03-31 00:00:00,輸送用機器,Transportation Equipment,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,7239,タチエス,"TACHI-S CO.,LTD.",2026-03-31 00:00:00,輸送用機器,Transportation Equipment,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,7254,ユニバンス,UNIVANCE CORPORATION,2026-03-31 00:00:00,輸送用機器,Transportation Equipment,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7256,河西工業,"KASAI KOGYO CO.,LTD.",2026-03-31 00:00:00,輸送用機器,Transportation Equipment,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7264,ムロコーポレーション,MURO CORPORATION,2026-03-31 00:00:00,輸送用機器,Transportation Equipment,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7266,今仙電機製作所,"Imasen Electric Industrial Co.,Ltd.",2026-03-31 00:00:00,輸送用機器,Transportation Equipment,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7271,安永,YASUNAGA CORPORATION,2026-03-31 00:00:00,輸送用機器,Transportation Equipment,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7273,イクヨ,"IKUYO CO.,LTD.",2026-03-31 00:00:00,輸送用機器,Transportation Equipment,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7313,テイ・エス　テック,"TS TECH CO.,LTD.",2026-03-31 00:00:00,輸送用機器,Transportation Equipment,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,7345,アイ・パートナーズフィナンシャル,Ai Partners Financial Inc.,2026-03-31 00:00:00,その他金融業,Other Financing Business,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,7361,ヒューマンクリエイションホールディングス,"Human Creation Holdings,Inc.",2025-09-30 00:00:00,サービス業,Services,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,7376,ＢＣＣ,"BCC Co.,Ltd.",2025-09-30 00:00:00,サービス業,Services,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,7383,ネットプロテクションズホールディングス,"Net Protections Holdings,Inc.",2026-03-31 00:00:00,その他金融業,Other Financing Business,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,7384,プロクレアホールディングス,"Procrea Holdings,Inc.",2026-03-31 00:00:00,銀行業,Banks,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,7389,あいちフィナンシャルグループ,"Aichi Financial Group,Inc.",2026-03-31 00:00:00,銀行業,Banks,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,7413,創健社,"Sokensha Co.,Ltd.",2026-03-31 00:00:00,卸売業,Wholesale Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7416,はるやまホールディングス,Haruyama Holdings Inc.,2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7444,ハリマ共和物産,"Harima-Kyowa Co.,LTD.",2026-03-31 00:00:00,卸売業,Wholesale Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7446,東北化学薬品,"TOHOKU CHEMICAL Co.,LTD.",2025-09-30 00:00:00,卸売業,Wholesale Trade,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,7467,萩原電気ホールディングス,"HAGIWARA ELECTRIC HOLDINGS CO.,LTD. ",2026-03-31 00:00:00,卸売業,Wholesale Trade,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,7494,コナカ,"KONAKA CO.,LTD.",2025-09-30 00:00:00,小売業,Retail Trade,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,7524,マルシェ,MARCHE CORPORATION,2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7527,システムソフト,SystemSoft Corporation,2025-09-30 00:00:00,情報・通信業,Information & Communication,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,7555,大田花き,"Ota Floriculture Auction Co.,Ltd.",2026-03-31 00:00:00,卸売業,Wholesale Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7578,ニチリョク,"NICHIRYOKU CO.,LTD.",2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7593,ＶＴホールディングス,"VT HOLDINGS CO.,LTD.",2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,7596,魚力,"UORIKI CO.,LTD.",2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,7638,ＮＥＷ　ＡＲＴ　ＨＯＬＤＩＮＧＳ,"NEW ART HOLDINGS Co.,Ltd.",2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7643,ダイイチ,"DAIICHI CO.,LTD.",2025-09-30 00:00:00,小売業,Retail Trade,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,7677,ヤシマキザイ,"Yashima & Co.,Ltd.",2026-03-31 00:00:00,卸売業,Wholesale Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7681,レオクラン,"LEOCLAN Co.,Ltd.",2025-09-30 00:00:00,卸売業,Wholesale Trade,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,7694,いつも,itsumo.inc.,2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,7695,交換できるくん,"Koukandekirukun,Inc.",2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,7727,オーバル,OVAL Corporation,2026-03-31 00:00:00,精密機器,Precision Instruments,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7746,岡本硝子,"OKAMOTO GLASS CO.,LTD.",2026-03-31 00:00:00,精密機器,Precision Instruments,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7771,日本精密,"Nihon Seimitsu Co.,Ltd.",2026-03-31 00:00:00,精密機器,Precision Instruments,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7780,メニコン,"Menicon Co.,Ltd.",2026-03-31 00:00:00,精密機器,Precision Instruments,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,7800,アミファ,"Amifa Co.,Ltd.",2025-09-30 00:00:00,その他製品,Other Products,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,7820,ニホンフラッシュ,"NIHON FLUSH CO.,LTD.",2026-03-31 00:00:00,その他製品,Other Products,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,7836,アビックス,"AVIX,Inc.",2026-03-31 00:00:00,その他製品,Other Products,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7837,アールシーコア,"R.C.CORE CO.,LTD.",2026-03-31 00:00:00,その他製品,Other Products,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7839,ＳＨＯＥＩ,"SHOEI CO.,LTD.",2025-09-30 00:00:00,その他製品,Other Products,本決算,Fiscal year,プライム,Prime
+2025-11-14 00:00:00,7871,フクビ化学工業,"FUKUVI CHEMICAL INDUSTRY CO.,LTD.",2026-03-31 00:00:00,化学,Chemicals,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7872,エステールホールディングス,"ESTELLE HOLDINGS CO.,LTD.",2026-03-31 00:00:00,その他製品,Other Products,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7874,レック,"LEC,INC.",2026-03-31 00:00:00,化学,Chemicals,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,7886,ヤマト　モビリティ　＆　Ｍｆｇ．,"YAMATO Mobility & Mfg. Co.,Ltd.",2026-03-31 00:00:00,化学,Chemicals,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7912,大日本印刷,"Dai Nippon Printing Co.,Ltd.",2026-03-31 00:00:00,その他製品,Other Products,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,7922,三光産業,"SANKO SANGYO CO.,LTD.",2026-03-31 00:00:00,その他製品,Other Products,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7923,トーイン,TOIN CORPORATION,2026-03-31 00:00:00,その他製品,Other Products,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,7999,ＭＵＴＯＨホールディングス,"MUTOH HOLDINGS CO.,LTD.",2026-03-31 00:00:00,電気機器,Electronic Appliances,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,8025,ツカモトコーポレーション,"TSUKAMOTO CORPORATION CO.,LTD.",2026-03-31 00:00:00,卸売業,Wholesale Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,8039,築地魚市場,"TSUKIJI UOICHIBA COMPANY,LIMITED",2026-03-31 00:00:00,卸売業,Wholesale Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,8066,三谷商事,MITANI CORPORATION,2026-03-31 00:00:00,卸売業,Wholesale Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,8070,東京産業,"TOKYO SANGYO CO.,LTD.",2026-03-31 00:00:00,卸売業,Wholesale Trade,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,8074,ユアサ商事,"YUASA TRADING CO.,LTD.",2026-03-31 00:00:00,卸売業,Wholesale Trade,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,8115,ムーンバット,"MOONBAT Co.,Ltd.",2026-03-31 00:00:00,卸売業,Wholesale Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,8147,トミタ,TOMITA CO.LTD.,2026-03-31 00:00:00,卸売業,Wholesale Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,8253,クレディセゾン,"Credit Saison Co.,Ltd.",2026-03-31 00:00:00,その他金融業,Other Financing Business,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,8281,ゼビオホールディングス,"XEBIO holdings CO.,LTD. ",2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,8291,日産東京販売ホールディングス,"NISSAN TOKYO SALES HOLDINGS CO.,LTD.",2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,8306,三菱ＵＦＪフィナンシャル・グループ,"Mitsubishi UFJ Financial Group,Inc.",2026-03-31 00:00:00,銀行業,Banks,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,8316,三井住友フィナンシャルグループ,"Sumitomo Mitsui Financial Group,Inc.",2026-03-31 00:00:00,銀行業,Banks,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,8341,七十七銀行,"The 77 Bank,Ltd.",2026-03-31 00:00:00,銀行業,Banks,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,8344,山形銀行,"The Yamagata Bank,Ltd.",2026-03-31 00:00:00,銀行業,Banks,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,8345,岩手銀行,"The Bank of Iwate,Ltd.",2026-03-31 00:00:00,銀行業,Banks,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,8349,東北銀行,"THE TOHOKU BANK,LTD.",2026-03-31 00:00:00,銀行業,Banks,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,8360,山梨中央銀行,"The Yamanashi Chuo Bank,Ltd.",2026-03-31 00:00:00,銀行業,Banks,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,8362,福井銀行,"The Fukui Bank,Ltd.",2026-03-31 00:00:00,銀行業,Banks,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,8366,滋賀銀行,"THE SHIGA BANK,LTD.",2026-03-31 00:00:00,銀行業,Banks,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,8388,阿波銀行,"The Awa Bank,Ltd.",2026-03-31 00:00:00,銀行業,Banks,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,8411,みずほフィナンシャルグループ,"Mizuho Financial Group,Inc.",2026-03-31 00:00:00,銀行業,Banks,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,8418,山口フィナンシャルグループ,"Yamaguchi Financial Group,Inc.",2026-03-31 00:00:00,銀行業,Banks,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,8518,日本アジア投資,"Japan Asia Investment Company,Limited",2026-03-31 00:00:00,証券、商品先物取引業,Securities & Commodity Futures,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,8522,名古屋銀行,"The Bank of Nagoya,Ltd.",2026-03-31 00:00:00,銀行業,Banks,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,8563,大東銀行,"THE DAITO BANK,LTD.",2026-03-31 00:00:00,銀行業,Banks,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,8593,三菱ＨＣキャピタル,Mitsubishi HC Capital Inc.,2026-03-31 00:00:00,その他金融業,Other Financing Business,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,8713,フィデアホールディングス,FIDEA Holdings Co.Ltd.,2026-03-31 00:00:00,銀行業,Banks,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,8714,池田泉州ホールディングス,"Senshu Ikeda Holdings,Inc.",2026-03-31 00:00:00,銀行業,Banks,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,8729,ソニーフィナンシャルグループ,Sony Financial Group Inc.,2026-03-31 00:00:00,保険業,Insurance,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,8737,あかつき本社,Akatsuki Corp.,2026-03-31 00:00:00,証券、商品先物取引業,Securities & Commodity Futures,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,8746,ｕｎｂａｎｋｅｄ,unbanked inc.,2026-03-31 00:00:00,証券、商品先物取引業,Securities & Commodity Futures,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,8750,第一生命ホールディングス,"Dai-ichi Life Holdings,Inc.",2026-03-31 00:00:00,保険業,Insurance,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,8795,Ｔ＆Ｄホールディングス,"T&D Holdings, Inc.",2026-03-31 00:00:00,保険業,Insurance,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,8798,アドバンスクリエイト,"Advance Create Co.,Ltd.",2025-09-30 00:00:00,保険業,Insurance,本決算,Fiscal year,プライム,Prime
+2025-11-14 00:00:00,8836,ＲＩＳＥ,RISE Inc.,2026-03-31 00:00:00,不動産業,Real Estate,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,8848,レオパレス２１,LEOPALACE21 CORPORATION,2026-03-31 00:00:00,不動産業,Real Estate,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,8938,グローム・ホールディングス,"GLOME Holdings,Inc.",2026-03-31 00:00:00,不動産業,Real Estate,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,8944,ランドビジネス,"LAND BUSINESS  CO.,LTD.",2025-09-30 00:00:00,不動産業,Real Estate,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,9025,鴻池運輸,"Konoike Transport Co.,Ltd.",2026-03-31 00:00:00,陸運業,Land Transportation,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,9033,広島電鉄,"Hiroshima Electric Railway Co.,Ltd.",2026-03-31 00:00:00,陸運業,Land Transportation,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,9041,近鉄グループホールディングス,"Kintetsu Group Holdings Co.,Ltd.",2026-03-31 00:00:00,陸運業,Land Transportation,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,9212,Ｇｒｅｅｎ　Ｅａｒｔｈ　Ｉｎｓｔｉｔｕｔｅ,"Green Earth Institute Co.,Ltd.",2025-09-30 00:00:00,サービス業,Services,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,9220,エフビー介護サービス,"FB CARE SERVICE CO.,LTD.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,9223,ＡＳＮＯＶＡ,"ASNOVA Co.,Ltd.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,9225,ブリッジコンサルティンググループ,Bridge Consulting Group Inc.,2025-09-30 00:00:00,サービス業,Services,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,9229,サンウェルズ,"SUNWELS Co.,Ltd.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,9233,アジア航測,"Asia Air Survey Co.,Ltd.",2025-09-30 00:00:00,空運業,Air Transportation,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,9244,デジタリフト,DIGITALIFT Inc.,2025-09-30 00:00:00,サービス業,Services,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,9247,ＴＲＥホールディングス,TRE HOLDINGS CORPORATION,2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,9248,人・夢・技術グループ,"People, Dreams & Technologies Group Co.,Ltd.",2025-09-30 00:00:00,サービス業,Services,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,9249,日本エコシステム,"Japan Ecosystem Co.,Ltd.",2025-09-30 00:00:00,サービス業,Services,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,9258,ＣＳ－Ｃ,"CS-C.Co.,Ltd.",2025-09-30 00:00:00,サービス業,Services,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,9268,オプティマスグループ,OPTIMUS GROUP COMPANY LIMITED,2026-03-31 00:00:00,卸売業,Wholesale Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,9274,ＫＰＰグループホールディングス,"KPP GROUP HOLDINGS CO.,LTD.",2026-03-31 00:00:00,卸売業,Wholesale Trade,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,9330,揚羽,AGEHA Inc.,2025-09-30 00:00:00,サービス業,Services,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,9348,ｉｓｐａｃｅ,"ispace,inc.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,グロース,Growth
+2025-11-14 00:00:00,9466,アイドママーケティングコミュニケーション,Aidma Marketing Communication Corporation,2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,9553,マイクロアド,"MicroAd,Inc.",2025-09-30 00:00:00,サービス業,Services,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,9554,ＡＶｉＣ,"AViC Co.,Ltd.",2025-09-30 00:00:00,サービス業,Services,本決算,Fiscal year,グロース,Growth
+2025-11-14 00:00:00,9605,東映,"TOEI COMPANY,LTD.",2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,9610,ウィルソン・ラーニング　ワールドワイド,WILSON LEARNING WORLDWIDE INC.,2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,9628,燦ホールディングス,"SAN HOLDINGS,INC.",2026-08-31 00:00:00,サービス業,Services,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,9713,ロイヤルホテル,"THE ROYAL HOTEL,LIMITED",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,9760,進学会ホールディングス,"SHINGAKUKAI HOLDINGS CO.,LTD.",2026-03-31 00:00:00,サービス業,Services,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,9790,福井コンピュータホールディングス,"Fukui Computer Holdings,Inc.",2026-03-31 00:00:00,情報・通信業,Information & Communication,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,9823,マミーマートホールディングス,Mammy Mart Holdings Corporation,2025-09-30 00:00:00,小売業,Retail Trade,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,9895,コンセック,CONSEC CORPORATION,2026-03-31 00:00:00,卸売業,Wholesale Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,9927,ワットマン,"WATT MANN CO.,LTD.",2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,9930,北沢産業,"KITAZAWA SANGYO CO.,LTD.",2026-03-31 00:00:00,卸売業,Wholesale Trade,第２四半期,Second quarter,スタンダード,Standard
+2025-11-14 00:00:00,9941,太洋物産,"TAIYO BUSSAN KAISHA,LTD.",2025-09-30 00:00:00,卸売業,Wholesale Trade,本決算,Fiscal year,スタンダード,Standard
+2025-11-14 00:00:00,9956,バローホールディングス,"VALOR HOLDINGS CO.,LTD.",2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,9989,サンドラッグ,"SUNDRUG CO.,LTD.",2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,プライム,Prime
+2025-11-14 00:00:00,9994,やまや,YAMAYA CORPORATION,2026-03-31 00:00:00,小売業,Retail Trade,第２四半期,Second quarter,スタンダード,Standard
