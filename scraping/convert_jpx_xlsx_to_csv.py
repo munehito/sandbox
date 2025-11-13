@@ -2,6 +2,34 @@ import pandas as pd
 from pathlib import Path
 import shutil
 
+def fetch_kessan_from_downloads(
+  filename: str = "kessan.xlsx",
+  downloads_dir: Path | None = None,
+) -> Path:
+  """
+  WindowsのDownloadsにある kessan.xlsx を
+  カレントディレクトリ直下に move する。
+  すでにカレントにあれば何もしない。
+  """
+  target = Path(filename)
+
+  if target.exists():
+    print(f"[info] {target} は既に存在しています。Downloads からの移動はスキップします。")
+    return target
+
+  if downloads_dir is None:
+    downloads_dir = Path("/mnt/c/Users/mk/Downloads")
+
+  src = downloads_dir / filename
+  if not src.exists():
+    raise FileNotFoundError(f"{downloads_dir} に {filename} が見つかりません")
+
+  shutil.move(str(src), str(target))
+  print(f"moved: {src} → {target}")
+
+  return target
+
+
 def convert_jpx_xlsx_to_csv(xlsx_path: str, csv_path: str | None = None) -> str:
   xlsx_path = Path(xlsx_path)
   if csv_path is None:
@@ -73,7 +101,7 @@ def move_to_data_dir(date_str: str, *file_paths: str | Path) -> None:
 
 
 if __name__ == "__main__":
-  xlsx = "kessan.xlsx"
+  xlsx = fetch_kessan_from_downloads("kessan.xlsx")
   csv_path, earnings_date = convert_jpx_xlsx_to_csv(xlsx)
   print("saved:", csv_path)
   move_to_data_dir(earnings_date, xlsx, csv_path)
